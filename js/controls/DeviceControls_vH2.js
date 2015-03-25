@@ -15,6 +15,7 @@
  *
  * Based on 
  * 		THREE.PointerLockControls by mrdoob
+ * 		THREE.PointerLockControls by mrdoob
  * 		OculusRiftControls by benvanik
  * 		DeviceOrientationControls by	richt / http://richt.me
  * 										WestLangley / http://github.com/WestLangley
@@ -33,6 +34,8 @@ var eyeFinalQ2 = new THREE.Quaternion();		// for others
 // Copper sticker!
 var stickers = [];
 
+var up = new THREE.Vector3(0, 1, 0);
+var v0 = new THREE.Vector3(0, 0, 0);
 
 function onDeviceOrientationChangeEvent(evt) {
 deviceOrientation = evt;
@@ -74,16 +77,41 @@ var betaRecordings=[], gammaRecordings=[], alphaRecordings=[];
 var thisIsTouchDevice = false;
 if( isTouchDevice() ) thisIsTouchDevice = true;
 
-var myStartX = Math.random()*20, myStartZ = Math.random()*50;
+var myStartX = 0, myStartY = 1, myStartZ = 0;
 
 THREE.DeviceControls = function ( camera ) {
+
+	if(whoIamInHive>5){
+		myStartX = 0;
+		myStartZ = 0;
+	} else if (whoIamInHive==1) {
+		myStartX = -20;
+		myStartY = 22;
+		myStartZ = 35;
+	} else if (whoIamInHive==2) {
+		myStartX = -40;
+		myStartY = 0;
+		myStartZ = -13;
+	} else if (whoIamInHive==3) {
+		myStartX = -14;
+		myStartY = 26;
+		myStartZ = -40;
+	} else if (whoIamInHive==4) {
+		myStartX = 34.6;
+		myStartY = 6;
+		myStartZ = -24.6;
+	} else if (whoIamInHive==5) {
+		myStartX = 28;
+		myStartY = -2;
+		myStartZ = 28;
+	}
 
 	// Use the method of THREE.PointerLockControls
 	var pitchObject = new THREE.Object3D();
 	pitchObject.add( camera );
 
 	var yawObject = new THREE.Object3D();
-	yawObject.position.y = 1;
+	yawObject.position.y = myStartY;
 	yawObject.position.x = myStartX;
 	yawObject.position.z = myStartZ;
 	yawObject.add( pitchObject );
@@ -96,16 +124,18 @@ THREE.DeviceControls = function ( camera ) {
 	var center = new THREE.Vector3(0,yawObject.position.y,0);
 	m1.lookAt( yawObject.position, center, yawObject.up );
 
-	if(thisIsTouchDevice)
+	if(thisIsTouchDevice) {
 		this.lookAtCenterQ.setFromRotationMatrix( m1 );
-	else
+	}
+	else {
 		yawObject.quaternion.setFromRotationMatrix( m1 );
 
+		var checkQ = Math.abs( Math.sin( yawObject.rotation.y / 2 ) - yawObject.quaternion.y );
+		if( checkQ > 0.001 )
+			quaternionChanged = true;
+	}
 
-	var checkQ = Math.abs( Math.sin( yawObject.rotation.y / 2 ) - yawObject.quaternion.y );
-	
-	if( checkQ > 0.001 )
-		quaternionChanged = true;
+	var playerStartRotY = yawObject.rotation.y;
 
 	//
 
@@ -148,7 +178,9 @@ THREE.DeviceControls = function ( camera ) {
 	this.orient = 0;
 
 	this.alignQuaternion = new THREE.Quaternion();
+	var alignQuaternionPublic = new THREE.Quaternion();
 	this.orientationQuaternion = new THREE.Quaternion();
+	var orientationQuaternionPublic = new THREE.Quaternion();
 	this.finalQ = new THREE.Quaternion();
 
 	// for rotate things other than eyeScreen
@@ -166,8 +198,7 @@ THREE.DeviceControls = function ( camera ) {
 	var tempQuaternion = new THREE.Quaternion();
 
 	var zee = new THREE.Vector3(0, 0, 1);
-	var up = new THREE.Vector3(0, 1, 0);
-	var v0 = new THREE.Vector3(0, 0, 0);
+	// var up = new THREE.Vector3(0, 1, 0);
 	var euler = new THREE.Euler();
 	var euler2 = new THREE.Euler();
 	var screenTransform = new THREE.Quaternion();
@@ -198,18 +229,18 @@ THREE.DeviceControls = function ( camera ) {
 		quaternionLerp.slerp(quaternion, 0.5); // interpolate
 
 		// orient the device
-		if (this.autoAlign) this.orientationQuaternion.copy(quaternion); // interpolation breaks the auto alignment
-		else this.orientationQuaternion.copy(quaternionLerp);
+		if (this.autoAlign) orientationQuaternionPublic.copy(quaternion); // interpolation breaks the auto alignment
+		else orientationQuaternionPublic.copy(quaternionLerp);
 
 		// camera looks out the back of the device, not the top
-		this.orientationQuaternion.multiply(worldTransform);
+		orientationQuaternionPublic.multiply(worldTransform);
 
 		// adjust for screen orientation
-		this.orientationQuaternion.multiply(screenTransform.setFromAxisAngle(zee, - this.orient));
+		orientationQuaternionPublic.multiply(screenTransform.setFromAxisAngle(zee, - this.orient));
 
 		// this.finalQ.copy(this.lookAtCenterQ);
-		this.finalQ.copy(this.alignQuaternion);
-		this.finalQ.multiply(this.orientationQuaternion);
+		this.finalQ.copy( alignQuaternionPublic );
+		this.finalQ.multiply( orientationQuaternionPublic );
 
 		////////////
 		////////////
@@ -220,29 +251,37 @@ THREE.DeviceControls = function ( camera ) {
 		quaternion2.setFromEuler(euler2);
 		quaternionLerp2.slerp(quaternion2, 0.5); // interpolate
 
-		if (this.autoAlign) this.orientationQuaternion.copy(quaternion2); // interpolation breaks the auto alignment
-		else this.orientationQuaternion.copy(quaternionLerp2);
+		if (this.autoAlign) orientationQuaternionPublic.copy(quaternion2); // interpolation breaks the auto alignment
+		else orientationQuaternionPublic.copy(quaternionLerp2);
 
-		this.orientationQuaternion.multiply(worldTransform2);
-		this.orientationQuaternion.multiply(screenTransform.setFromAxisAngle(zee, - this.orient));
-		this.finalQ2.copy(this.alignQuaternion);
-		this.finalQ2.multiply(this.orientationQuaternion);
+		orientationQuaternionPublic.multiply(worldTransform2);
+		orientationQuaternionPublic.multiply(screenTransform.setFromAxisAngle(zee, - this.orient));
+		this.finalQ2.copy( alignQuaternionPublic );
+		this.finalQ2.multiply( orientationQuaternionPublic );
 
+		//
+
+		// orientationQuaternionPublic.copy( this.orientationQuaternion );
+		// alignQuaternionPublic.copy( this.alignQuaternion );
 
 		// console.log( this.finalQ );
 		
 		if (this.autoAlign && this.alpha !== 0) {
 				this.autoAlign = false;
-				this.align();
+				align();		
 	 	}
 	};
 
-	this.align = function() {
+	// this.align = function() {
+	var align = function() {
+		
+		tempQuaternion = new THREE.Quaternion();
 
-		// tempVector3.set(0, 0, -1).applyQuaternion( tempQuaternion.copy(this.orientationQuaternion).inverse(), 'ZXY' );
-		tempVector3.copy(yawObject.position).applyQuaternion( tempQuaternion.copy(this.orientationQuaternion).inverse(), 'ZXY' );
+		// tempVector3.set(0, 0, 1).applyQuaternion( tempQuaternion.copy(this.orientationQuaternion).inverse(), 'ZXY' );
+		tempVector3.set(yawObject.position.x, yawObject.position.y, yawObject.position.z).applyQuaternion( tempQuaternion.copy( orientationQuaternionPublic ).inverse(), 'ZXY' );
 		
 		// yawObject.position, center
+		tempMatrix4 = new THREE.Matrix4();
 
 		tempEuler.setFromQuaternion(
 			tempQuaternion.setFromRotationMatrix(
@@ -250,21 +289,25 @@ THREE.DeviceControls = function ( camera ) {
 			)
 		);
 
-		tempEuler.set(0, tempEuler.y, 0);
-		this.alignQuaternion.setFromEuler(tempEuler);
+		var ttt = tempEuler.y + Math.PI;
+		tempEuler.set(0, ttt, 0);
+		alignQuaternionPublic.setFromEuler(tempEuler);
+
+		console.log(ttt);
+		console.log("aligneddd!");
 	};
 
 	//
-	if( thisIsTouchDevice ) {
-		// calculate the Quaternion
-		this.calQ();
+	// if( thisIsTouchDevice ) {
+	// 	// calculate the Quaternion
+	// 	this.calQ();
 		
-		if (this.autoAlign && this.alpha !== 0) {
-			this.autoAlign = false;
-			this.align();
-			console.log("aligned!");
- 		}
- 	}
+	// 	if (this.autoAlign && this.alpha !== 0) {
+	// 		this.autoAlign = false;
+	// 		this.align();
+	// 		console.log("aligned!");
+ // 		}
+ // 	}
 
 	//
 
@@ -279,7 +322,13 @@ THREE.DeviceControls = function ( camera ) {
 		mousemove = true;
 		mouseActive = true;
 
-		yawObject.rotation.y -= movementX * 0.001;
+		// yawObject.rotation.y -= movementX * 0.001;
+
+		if( quaternionChanged )
+			yawObject.rotation.y += movementX * 0.001;
+		else
+			yawObject.rotation.y -= movementX * 0.001;
+
 		pitchObject.rotation.x -= movementY * 0.001;
 		pitchObject.rotation.x = Math.max( - PI_2, Math.min( PI_2, pitchObject.rotation.x ) );
 
@@ -291,7 +340,7 @@ THREE.DeviceControls = function ( camera ) {
 			tempEuler.set(pitchObject.rotation.x, yawObject.rotation.y, 0, 'YXZ');
 			eyeFinalQ.setFromEuler(tempEuler);
 
-			tempEuler.set(-pitchObject.rotation.x, yawObject.rotation.y, 0, 'YXZ');
+			tempEuler.set(pitchObject.rotation.x, -yawObject.rotation.y, 0, 'YXZ');
 			eyeFinalQ2.setFromEuler(tempEuler);
 		}
 
@@ -420,6 +469,9 @@ THREE.DeviceControls = function ( camera ) {
 
 			// touch2ndStartLoc.set(touch2nd.clientX, touch2nd.clientY);
 		}
+
+		//
+		align();
 	};
 
 
@@ -702,7 +754,7 @@ THREE.DeviceControls = function ( camera ) {
 		yawObject.translateX( velocity.x );
 		yawObject.translateZ( velocity.z );
 
-		yawObject.position.y = 1;
+		yawObject.position.y = myStartY;
 
 		// if ( yawObject.position.y < 1 ) {
 		// 	velocity.y = 0;
@@ -713,20 +765,19 @@ THREE.DeviceControls = function ( camera ) {
 		////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////////////
 		//WEB_SOCKET
+			// var msg = {
+			// 	'type': 'updatePlayer',
+			// 	'index': whoIamInHive,
+			// 	'playerLocX': yawObject.position.x,
+			// 	'playerLocZ': yawObject.position.z,
+			// 	'playerRotY': yawObject.rotation.y,
+			// 	'playerQ' : eyeFinalQ2,
+			// };
 
-			var msg = {
-				'type': 'updatePlayer',
-				'index': whoIamInMask,
-				'playerLocX': yawObject.position.x,
-				'playerLocZ': yawObject.position.z,
-				'playerRotY': yawObject.rotation.y,
-				'playerQ' : eyeFinalQ2,
-			};
-
-			if(ws){
-				sendMessage( JSON.stringify(msg) );
-				// console.log('A msg sent by DeviceControls when updating.');
-			}
+			// if(ws){
+			// 	sendMessage( JSON.stringify(msg) );
+			// 	// console.log('A msg sent by DeviceControls when updating.');
+			// }
 		////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////////////
 	};

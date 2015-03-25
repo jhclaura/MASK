@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<title>cam feed_test02_cv_brightness</title>
+		<title>duet</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>		
@@ -12,23 +12,12 @@
 
 			<div id="render-canvas"></div>
 
+			<!-- cam -->
 			<p id="errorMessage" style="display:none"></p>
 
-			<!-- cam -->
 			<video id="video" autoplay loop width="480" height="320" style="display:none"></video>
 			<canvas id="videoImage" width="480" height="320" style="display:none"></canvas>
 
-			<!-- <video id="remoteVideo_1" autoplay loop width="480" height="320" style="display:none"></video>
-			<canvas id="remoteVideoImage_1" width="480" height="320" style="display:none"></canvas>
-
-			<video id="remoteVideo_2" autoplay loop width="480" height="320" style="display:none"></video>
-			<canvas id="remoteVideoImage_2" width="480" height="320" style="display:none"></canvas>
-
-			<video id="remoteVideo_3" autoplay loop width="480" height="320" style="display:none"></video>
-			<canvas id="remoteVideoImage_3" width="480" height="320" style="display:none"></canvas>
-
-			<video id="remoteVideo_4" autoplay loop width="480" height="320" style="display:none"></video>
-			<canvas id="remoteVideoImage_4" width="480" height="320" style="display:none"></canvas> -->
 
 
 			<script type="text/javascript">
@@ -58,7 +47,7 @@
 				var oldPlayerNum = 0, newPlayerNum = 0;
 				var newPlayerJoined = false;
 
-				var whoIamInHive = -1, initEnvironment = false;
+				var whoIamInMask = -1, initEnvironment = false;
 
 				//----------------------------------------------------
 
@@ -69,17 +58,10 @@
 				var video = document.getElementById('video');
 				var videoImage = document.getElementById('videoImage');
 
-				// var remote = document.getElementById('remoteVideo');
-				// var remoteImage = document.getElementById('remoteVideoImage');
 				var remotes = [], remoteImages = [];
 
 				// dynamically create all the remote videos and canvases
-				for(var i=1; i<15; i++){
-					// var remote = document.getElementById('remoteVideo_' + i);
-					// var remoteImage = document.getElementById('remoteVideoImage_' + i);
-
-					// remotes.push( remote );
-					// remoteImages.push( remoteImage );
+				for(var i=1; i<4; i++){
 
 					// create VIDEO @ DOM
 						var massVideoElement = document.createElement('video');
@@ -88,7 +70,6 @@
 						massVideoElement.style.width="480";
 						massVideoElement.style.height="320";
 						document.body.appendChild(massVideoElement);
-						// massVideoElement.play();
 
 					// create CANVAS @ DOM
 						var massCanvas = document.createElement('canvas');
@@ -103,8 +84,8 @@
 					remoteImages.push( massCanvas );
 				}
 
-				//
 				var massRemotes = [], massRemoteImages = [];
+
 				//
 				var currentVidAmount = 0;
 
@@ -193,25 +174,33 @@
 						console.log("Got a call!");
 
 						incoming_call.answer(my_stream); // Answer the call with an A/V stream.
-
 						
+						// get the history!
+						// only apply for the second opened browser
+						// for showing the first opened browser
+						// if(currentVidAmount==1){
+						// 	incoming_call.on('stream', function(remoteStream) {
+
+						// 		remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+						// 		remote.play();
+						// 	});
+						// }
+
 						// if you're not the first one, get the history!
 						if( currentVidAmount>=1 ) {
 
-							// for all the cells
-							// if ( currentVidAmount<5 ) {
-								incoming_call.on('stream', function(remoteStream) {
+							incoming_call.on('stream', function(remoteStream) {
 
-									var ahhhhhhIndex = currentVidAmount-1;
+								var ahhhhhhIndex = currentVidAmount-1;
 
-									remotes[ ahhhhhhIndex ].src = window.URL.createObjectURL(remoteStream) || remoteStream;
-									remotes[ ahhhhhhIndex ].play();
+								remotes[ ahhhhhhIndex ].src = window.URL.createObjectURL(remoteStream) || remoteStream;
+								remotes[ ahhhhhhIndex ].play();
 
-									currentVidAmount ++;
+								currentVidAmount ++;
 
-								});
-							// }
+							});
 						}
+
 
 					});
 				};
@@ -263,7 +252,6 @@
 						// }
 
 						if(data.type == 'addNewPlayer'){
-
 							//NEW_PLAYER_JOIN
 							//EVERY_NEW_WINDOW_OPEN
 							if(peer_id!=data.id && data.npID>0){
@@ -281,52 +269,65 @@
 
 										currentVidAmount++;
 									});
+								}		
 
-								}
-								// else if ( currentVidAmount < 15 ) {
-								// 	call.on('stream', function(remoteStream) {
-								// 		console.log("Got remote stream, for mass cell!");
-
-								// 		// create VIDEO @ DOM
-								// 			var massVideoElement = document.createElement('video');
-								// 			massVideoElement.setAttribute("autoplay", "true");
-								// 			massVideoElement.id = "massRemoteVideo_" + (currentVidAmount-5);
-								// 			massVideoElement.style.width="480";
-								// 			massVideoElement.style.height="320";
-								// 			massVideoElement.src = window.URL.createObjectURL(remoteStream) || remoteStream;
-								// 			document.body.appendChild(massVideoElement);
-								// 			massVideoElement.play();
-
-								// 		// create CANVAS @ DOM
-								// 			var massCanvas = document.createElement('canvas');
-								// 			massCanvas.id = "massRemoteVideoImage_" + (currentVidAmount-5);
-								// 			massCanvas.width = 480;
-								// 			massCanvas.height = 320;
-								// 			massCanvas.style.display = "none";
-								// 			document.body.appendChild(massCanvas);
-
-								// 		//
-								// 		massRemotes.push( massVideoElement );
-								// 		massRemoteImages.push( massCanvas );
-								// 		//
-								// 		currentVidAmount++;
-
-								// 		// e.g. currentVidAmount == 6
-								// 		updateSmallCellTexture( currentVidAmount );
-								// 	});
-								// }
 							}
 						}
 
+						// if(data.type == 'index'){
+						// 	whoIamInMask = data.index;
+						// 	console.log("I'm " + whoIamInMask + " in the Duet.");
+						// }
 						if(data.type == 'index'){
 
 							if(!initEnvironment) {
-								whoIamInHive = data.index;
-								console.log("I'm " + whoIamInHive + " in the Hive.");
+								whoIamInMask = data.index;
+								console.log("I'm " + whoIamInMask + " in the Hive.");
 
 								init();
 								initEnvironment = true;
 							}							
+						}
+
+						
+						//UPDATE_PLAYER
+						if(data.type == 'updatePlayer'){
+
+							// console.log(data.playerQ);
+
+							var playerLocX = data.playerLocX;
+							var playerLocZ = data.playerLocZ;
+							var playerRotY = data.playerRotY;
+							var playerQ = new THREE.Quaternion( data.playerQ._x, data.playerQ._y, data.playerQ._z, data.playerQ._w );
+
+							updatePlayer(data.index, playerLocX, playerLocZ, playerRotY, playerQ);
+
+							// console.log('playerQ: ' + playerQ);
+						}
+						
+
+
+						// ADD_PREVIOUS_PLAYERS
+						// ONE_TIME_EVENT
+						if(data.length>0 && !updatePreviousPlayer){
+							for(var i=0; i<data.length; i++){
+								
+								if(whoIamInMask > data[i].index){
+									console.log('!');
+
+									var ahhhhhhIndex = data[i].index-1;
+
+									var call = peer.call(data.id, my_stream);
+
+									// call.on('stream', function(remoteStream) {
+									// 	console.log("Got remote stream!");
+									// 	remotes[ ahhhhhhIndex ].src = window.URL.createObjectURL(remoteStream) || remoteStream;
+									// 	remotes[ ahhhhhhIndex ].play();
+									// });
+									console.log('create! ID: ' + data[i].index);
+								}							
+							}
+							updatePreviousPlayer = true;
 						}
 
 						// physical input from Arduinio
@@ -356,26 +357,15 @@
 
 						// ADD_PREVIOUS_PLAYERS
 						// ONE_TIME_EVENT
-						if(data.length>0 && !updatePreviousPlayer){
-							for(var i=0; i<data.length; i++){
-								
-								if(whoIamInHive > data[i].index){
-									console.log('!');
-
-									var ahhhhhhIndex = data[i].index-1;
-
-									var call = peer.call(data.id, my_stream);
-
-									// call.on('stream', function(remoteStream) {
-									// 	console.log("Got remote stream!");
-									// 	remotes[ ahhhhhhIndex ].src = window.URL.createObjectURL(remoteStream) || remoteStream;
-									// 	remotes[ ahhhhhhIndex ].play();
-									// });
-									console.log('create! ID: ' + data[i].index);
-								}							
-							}
-							updatePreviousPlayer = true;
-						}
+						// if(data.length>0 && !updatePreviousPlayer){
+						// 	for(var i=0; i<data.length; i++){
+						// 		// console.log('!');
+						// 		if(peer_id > data[i].id){
+						// 			console.log('create! ID: ' + data[i].id);
+						// 		}							
+						// 	}
+						// 	updatePreviousPlayer = true;
+						// }
 
 						//REMOVE_PLAYER
 						if(data.type == 'removePlayer'){
@@ -387,8 +377,10 @@
 					}
 
 					//
+					
+					
+
 				    socketOpened = true;
-					// init();				   
 				};
 
 				//SYNCING_ISSUE
@@ -425,7 +417,7 @@
 
 
 			<script src="js/StereoEffect.js"></script>
-  			<script src="js/controls/DeviceControls_vH.js"></script>
+  			<script src="js/controls/DeviceControls_vD.js"></script>
   			<script type="text/javascript" src="js/BufferLoader.js"></script>
 			<script type="text/javascript" src="js/Detector.js"></script>
 			<script type="text/javascript" src="js/KeyboardState.js"></script>
@@ -434,6 +426,6 @@
 			<script type="text/javascript" src="js/wave.js"></script>
 			<script type="text/javascript" src="js/sample.js"></script>
 			<script type="text/javascript" src="js/jsfeat-min.js"></script>
-			<script type="text/javascript" src="js/script_hive.js"></script>
+			<script type="text/javascript" src="js/script_duet_4p.js"></script>
 	</body>
 </html>

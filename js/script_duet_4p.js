@@ -21,6 +21,9 @@ var devicePixelRatio = nativePixelRatio;
 
 var littleMe, littleMeTex, littleMeTex2;
 var myHead, myBody, myRA, myLA, myRL, myLL;
+var myPosY;
+var myStartX = 0, myStartZ = 0;
+
 
 var banana, bananaCore, bananaGeo, bananaMat, baBone;
 var baBones=[], baPeels=[], bananas=[];
@@ -65,12 +68,14 @@ var dir, step;
 	var eye, eyeGeo, eyeDummy, eyePos;
 	var eyeGeoSmall;
 
+	var remoteImageContext, remoteTexture;
 	var remoteImageContexts = [], remoteTextures = [];
-
 	var otherEye, otherEyeGeo, otherEyeDummy, otherEyePos;
 	var roundEyeGeo;
 
 	var otherEyes=[], otherEyesPos=[], otherEyesRot=[];
+
+	var videoImageScaleUpContext, videoScaleUpTexture, videoScaleMidTexture;
 
 	var windows=[], windowScreens=[];
 	var eyeLid, eyeLashUp, eyeLashDown, blinkInterval = [ 2000, 200, 200, 200, 1000 ];
@@ -87,7 +92,6 @@ var dir, step;
 	var marksArray = [];
 	var lightBugs = [], lightBugsNum = 10, lightBugsFlyStatus = [], lightBugFlyCount = 0;
 
-
 // aniGuy
 	var aniGuy;
 	var duration = 1600;
@@ -98,30 +102,15 @@ var dir, step;
 	var animOffset = 0, standUpOffset = 50, jumpOffset = 100;
 	var standUp = false, jump = false;
 
-
-// Env
 	var trees, terrain, treeMat, terrainMat;
+	var houseLocal, houseRemote, houseLocalMat, houseRemoteMat;
 
-
-// HIVE
-	var bigCellFiles = ["models/hive/mid_hive_1.js", "models/hive/mid_hive_2.js", "models/hive/mid_hive_3.js",
-						"models/hive/mid_hive_4.js", "models/hive/mid_hive_5.js"];
-
-	var smallCellFiles = ["models/hive/mass_hive_1.js", "models/hive/mass_hive_2.js", "models/hive/mass_hive_3.js",
-						  "models/hive/mass_hive_4.js", "models/hive/mass_hive_5.js", "models/hive/mass_hive_6.js",
-						  "models/hive/mass_hive_7.js", "models/hive/mass_hive_8.js", "models/hive/mass_hive_9.js",
-						  "models/hive/mass_hive_10.js"];
-
-	var cellFiles = [ "models/hive/mid_hive_1.js", "models/hive/mid_hive_2.js", "models/hive/mid_hive_3.js",
-					  "models/hive/mid_hive_4.js", "models/hive/mid_hive_5.js", "models/hive/mass_hive_1.js",
-					  "models/hive/mass_hive_2.js", "models/hive/mass_hive_3.js", "models/hive/mass_hive_4.js",
-					  "models/hive/mass_hive_5.js", "models/hive/mass_hive_6.js", "models/hive/mass_hive_7.js",
-					  "models/hive/mass_hive_8.js", "models/hive/mass_hive_9.js", "models/hive/mass_hive_10.js"];
-
-	// var bigCellLocal, bigCellRemotes = [], smallCellRemotes = [];
-	// var localMat, BigRemoteMats = [], smallRemoteMats = [];
-	var cells = [], smallCells = [];
-	var cellMats = [], smallCellMats = [];
+// duet Guys
+	var firstGuy, firstGuyHead, secondGuy, secondGuyHead;
+	var guys = [], guysHeads = [];
+	var QforBodyRotation;
+	var camMats = [];
+	var colors = [ 0xff0000, 0x00ff00, 0x0000ff, 0xffff00 ];
 
 
 
@@ -236,6 +225,8 @@ function init()
 	var tex = THREE.ImageUtils.loadTexture('images/tree.png');
 	treeMat = new THREE.MeshLambertMaterial( {map: tex, color: 0xffff76} );
 	loadmodelTree("models/trees.js", treeMat);
+		
+
 
 	// LIGHTBUG
 		// geo = new THREE.SphereGeometry(2);
@@ -264,6 +255,21 @@ function init()
 		videoTexture.needsUpdate = true;
 
 	// REMOTE_CAMERA
+		//v1
+			// remoteImageContext = remoteImage.getContext('2d');
+			// remoteImageContext.fillStyle = '0xffff00';
+			// remoteImageContext.fillRect(0,0,videoWidth, videoHeight);
+
+			// remoteTexture = new THREE.Texture( remoteImage );
+			// remoteTexture.minFilter = THREE.LinearFilter;
+			// remoteTexture.magFilter = THREE.LinearFilter;
+			// remoteTexture.format = THREE.RGBFormat;
+			// remoteTexture.generateMipmaps = false;
+
+			// remoteTexture.wrapS = remoteTexture.wrapT = THREE.ClampToEdgeWrapping;
+			// remoteTexture.needsUpdate = true;
+
+		//v2
 		for (var i=0; i<remoteImages.length; i++){
 			var rImgContext = remoteImages[i].getContext('2d');
 			rImgContext.fillStyle = '0xffff00';
@@ -283,83 +289,26 @@ function init()
 			remoteTextures.push(rTexture);
 		}
 
-	
-	// v1
-	/*
+
+		//		
+		// tvMat = new THREE.MeshBasicMaterial({map: videoTexture, overdraw: true });
+		// remoteMat = new THREE.MeshBasicMaterial({map: remoteTexture, overdraw: true });
+		//
+
+
 	// Camera Material
+		for (var i=0; i<4; i++){
 
-		// BIG CELLS
-		for (var i=0; i<bigCellFiles.length; i++){
-
-			var myIndex = whoIamInHive-1;
-
-			// if it's local (whoIamInHive-1) --> localCam
-			// e.g. whoIamInHive_#4 --> assign videoTexture --> cellMats_#3
-			if ( i==myIndex ) {
-
-				var rMat = new THREE.MeshBasicMaterial({color: 0xff0000, map: videoTexture, overdraw: true, side: THREE.DoubleSide });
-				cellMats.push(rMat);
-				console.log(i);
-
-			// if it's remote --> remoteCam
-			// if whoIamInHive==5, i here will be 0~3, can safely use remoteTextures
-			} else if ( i<myIndex ) {
-				// console.log("i: " + i);
-
-				var rMat = new THREE.MeshBasicMaterial({map: remoteTextures[i], overdraw: true, side: THREE.DoubleSide });
-				cellMats.push(rMat);
-				console.log(i);
-
-			} else {
-				var ahhhIndex = i-1;
-				var rMat = new THREE.MeshBasicMaterial({map: remoteTextures[ahhhIndex], overdraw: true, side: THREE.DoubleSide });
-				cellMats.push(rMat);
-				console.log(i + 'hmm');
-			}
-		}
-
-		// small cells
-		for (var i=0; i<smallCellFiles.length; i++){
-
-			var myIndex = whoIamInHive-1;
-
-			// e.g. myIndex = 5 --> i shoud be (i+5)
-			if ( (i+5)==myIndex ) {
-				console.log('create smallCellMat #' + i + ', which is whoIamInHive: ' + whoIamInHive);
-				var mat = new THREE.MeshBasicMaterial({color: 0xff0000, map: videoTexture, overdraw: true, side: THREE.DoubleSide });
-				smallCellMats.push(rMat);
-			} else {
-				var mat = new THREE.MeshBasicMaterial({color: 0x69f7df, overdraw: true, side: THREE.DoubleSide });
-				smallCellMats.push(mat);
-			}
-		}
-
-	// HIVES
-		// BIG CELLS
-			for(var i=0; i<bigCellFiles.length; i++){
-				loadModelBCell(bigCellFiles[i], cellMats[i]);
-			}
-
-		// SMALL CELLS
-			for(var i=0; i<smallCellFiles.length; i++){
-				loadModelSCell(smallCellFiles[i], smallCellMats[i]);
-			}
-	*/
-
-	// v2
-	// Hive Material
-		for (var i=0; i<cellFiles.length; i++){
-
-			var myIndex = whoIamInHive-1;
+			var myIndex = whoIamInMask-1;
 
 			// if it's local (whoIamInHive-1) --> localCam
 			// e.g. whoIamInHive_#15 --> assign videoTexture --> cellMats_#14
 			// e.g. whoIamInHive_#4  --> assign videoTexture --> cellMats_#3
 			if ( i==myIndex ) {
 
-				var rMat = new THREE.MeshBasicMaterial({color: 0xff0000, map: videoTexture, overdraw: true, side: THREE.DoubleSide });
-				cellMats.push(rMat);
-				console.log(i);
+				var rMat = new THREE.MeshBasicMaterial({map: videoTexture, overdraw: true, side: THREE.DoubleSide });
+				camMats.push(rMat);
+				// console.log(i);
 
 			// if it's remote --> remoteCam
 			// because remoteTextures.lenght == 14, there's no remoteTextures[14]
@@ -368,23 +317,16 @@ function init()
 				// console.log("i: " + i);
 
 				var rMat = new THREE.MeshBasicMaterial({map: remoteTextures[i], overdraw: true, side: THREE.DoubleSide });
-				cellMats.push(rMat);
-				console.log(i);
+				camMats.push(rMat);
+				// console.log(i);
 
 			} else {
 				var ahhhIndex = i-1;
 				var rMat = new THREE.MeshBasicMaterial({map: remoteTextures[ahhhIndex], overdraw: true, side: THREE.DoubleSide });
-				cellMats.push(rMat);
-				console.log(i + 'hmm');
+				camMats.push(rMat);
+				// console.log(i + 'hmm');
 			}
 		}
-
-	// HIVES
-		// BIG CELLS
-			for(var i=0; i<cellFiles.length; i++){
-				loadModelBCell(cellFiles[i], cellMats[i]);
-			}
-
 
 	var eyeRotMatrix;
 	var eyeRotRadian;
@@ -424,58 +366,64 @@ function init()
 		lamp.position.set(-6,30,-12);
 		scene.add(lamp);
 
-	/*
 	// guys in duet
-		guyTexture = THREE.ImageUtils.loadTexture('images/guyW.png');
-		firstGuy = new THREE.Object3D();
-		firstGuyHead = new THREE.Object3D();
-		secondGuy = new THREE.Object3D();
-		secondGuyHead = new THREE.Object3D();
+		//v1
+			// guyTexture = THREE.ImageUtils.loadTexture('images/guyW.png');
+			// firstGuy = new THREE.Object3D();
+			// firstGuyHead = new THREE.Object3D();
+			// secondGuy = new THREE.Object3D();
+			// secondGuyHead = new THREE.Object3D();
 
-		eyeGeo = new THREE.PlaneGeometry(2, 1.5, 1, 1);
+			// eyeGeo = new THREE.PlaneGeometry(2, 1.5, 1, 1);
 
-		var loader = new THREE.JSONLoader( true );
-		
-		// v1
-			loader.load( "models/Guy.js", function( geometry ) {
+			// var loader = new THREE.JSONLoader( true );
+			// loader.load( "models/Guy.js", function( geometry ) {
 
-				// add body --> children[0]
-				var fGuy = new THREE.Mesh( geometry.clone(), new THREE.MeshBasicMaterial( { map: guyTexture, color: 0xff0000 } ) );				
-				firstGuy.add(fGuy);
+			// 	// add body --> children[0]
+			// 	var fGuy = new THREE.Mesh( geometry.clone(), new THREE.MeshBasicMaterial( { map: guyTexture, color: 0xff0000 } ) );				
+			// 	firstGuy.add(fGuy);
 
-				var sGuy = new THREE.Mesh( geometry.clone(), new THREE.MeshBasicMaterial( { map: guyTexture, color: 0x00ff00 } ) );
-				secondGuy.add(sGuy);
+			// 	var sGuy = new THREE.Mesh( geometry.clone(), new THREE.MeshBasicMaterial( { map: guyTexture, color: 0x00ff00 } ) );
+			// 	secondGuy.add(sGuy);
 				
-			} );
+			// } );
 
-			loader.load( "models/GuyH.js", function( geometryB ) {
+			// loader.load( "models/GuyH.js", function( geometryB ) {
 
-				var fGuy = new THREE.Mesh( geometryB.clone(), new THREE.MeshBasicMaterial( { map: guyTexture, color: 0xff0000 } ) );
-				var eyeScreen = new THREE.Mesh( eyeGeo.clone(), tvMat );
-				eyeScreen.position.y = 1;
-				eyeScreen.position.z = 2;
+			// 	var fGuy = new THREE.Mesh( geometryB.clone(), new THREE.MeshBasicMaterial( { map: guyTexture, color: 0xff0000 } ) );
+			// 	var eyeScreen = new THREE.Mesh( eyeGeo.clone(), tvMat );
+			// 	eyeScreen.position.y = 1;
+			// 	eyeScreen.position.z = 2;
 
-				firstGuyHead.add(fGuy);
-				firstGuyHead.add(eyeScreen);
+			// 	firstGuyHead.add(fGuy);
+			// 	firstGuyHead.add(eyeScreen);
 
-				// add head --> children[1]
-				firstGuy.add(firstGuyHead);
-				firstGuy.position.set(0, 0, -7);
-				scene.add( firstGuy );
+			// 	// add head --> children[1]
+			// 	firstGuy.add(firstGuyHead);
+			// 	firstGuy.position.set(0, 0, -7);
+			// 	scene.add( firstGuy );
 
-				var sGuy = new THREE.Mesh( geometryB.clone(), new THREE.MeshBasicMaterial( { map: guyTexture, color: 0x00ff00 } ) );
-				eyeScreen = new THREE.Mesh( eyeGeo.clone(), remoteMat );
-				eyeScreen.position.y = 1;
-				eyeScreen.position.z = 2;
+			// 	var sGuy = new THREE.Mesh( geometryB.clone(), new THREE.MeshBasicMaterial( { map: guyTexture, color: 0x00ff00 } ) );
+			// 	eyeScreen = new THREE.Mesh( eyeGeo.clone(), remoteMat );
+			// 	eyeScreen.position.y = 1;
+			// 	eyeScreen.position.z = 2;
 
-				secondGuyHead.add(sGuy);
-				secondGuyHead.add(eyeScreen);
+			// 	secondGuyHead.add(sGuy);
+			// 	secondGuyHead.add(eyeScreen);
 
-				secondGuy.add(secondGuyHead);
-				secondGuy.position.set(0, 0, 7);
-				scene.add( secondGuy );
-			} );
-	*/
+			// 	secondGuy.add(secondGuyHead);
+			// 	secondGuy.position.set(0, 0, 7);
+			// 	scene.add( secondGuy );
+			// } );
+
+		//v2
+			guyTexture = THREE.ImageUtils.loadTexture('images/guyW.png');
+			for(var i=0; i<camMats.length; i++){
+				var mmm = new THREE.MeshBasicMaterial( { map: guyTexture, color: colors[i] } );
+				loadModelGuy("models/Guy.js", "models/GuyH.js", mmm, camMats[i], i);
+			}
+
+			
 
 	stats = new Stats();
 	stats.domElement.style.position = 'absolute';
@@ -597,25 +545,111 @@ function loadmodelTree (model, meshMat) {
 	}, "js");
 }
 
-function loadModelBCell (model, meshMat) {
-
+function loadmodelHouse (model, modelB, meshMat, meshMatB) {
 	var loader = new THREE.JSONLoader();
 	loader.load(model, function(geometry){
-		var bCell = new THREE.Mesh(geometry, meshMat);
-		scene.add(bCell);			
-		cells.push(bCell);
+		houseLocal = new THREE.Mesh(geometry, meshMat);
+		houseLocal.position.z = -50;
+		scene.add(houseLocal);			
+	}, "js");
+	loader.load(modelB, function(geometryB){
+		houseRemote = new THREE.Mesh(geometryB, meshMatB);
+		houseRemote.position.z = 50;
+		scene.add(houseRemote);			
 	}, "js");
 }
 
-function loadModelSCell (model, meshMat) {
+function loadModelR (model, meshMat) {
 
 	var loader = new THREE.JSONLoader();
 	loader.load(model, function(geometry){
-		var sCell = new THREE.Mesh(geometry, meshMat);
-		scene.add(sCell);			
-		smallCells.push(sCell);
 
+		rabbit = new THREE.Mesh(geometry, meshMat);
+		// rabbit.scale.set(rabbitScale,rabbitScale,rabbitScale);
+		// rabbit.position.x = 20+60*(i+1);
+		// rabbit.rotation.x = Math.PI/2;
+		rabbit.rotation.y = Math.PI/2;
+
+		rabbits.push(rabbit);
+		scene.add(rabbit);			
 	}, "js");
+}
+
+function loadModelWindow (model, modelB, meshMat, meshMatB) {
+
+	var loader = new THREE.JSONLoader();
+
+	var tWindow = new THREE.Object3D();
+
+	loader.load(model, function(geometry){
+		var tW = new THREE.Mesh(geometry, meshMat);
+		tWindow.add(tW);
+	}, "js");
+
+	loader.load(modelB, function(geometryB){
+		var tW2 = new THREE.Mesh(geometryB, meshMatB);
+		tWindow.add(tW2);
+
+		flyWindows.push(tWindow);
+		scene.add(tWindow);		
+	}, "js");
+}
+
+function loadModelF (model, meshMat) {
+
+	var loader = new THREE.JSONLoader();
+	loader.load(model, function(geometry){
+		windowFrame = new THREE.Mesh(geometry, meshMat);
+		windowFrame.position.set(0,-3.5,-14.5);
+		scene.add(windowFrame);		
+		// mansion.add(windowFrame);	
+	}, "js");
+}
+
+function loadModelF2 (model, model2, meshMat, meshMat2) {
+
+	var loader = new THREE.JSONLoader();
+	loader.load(model, function(geometry){
+		windowFrame2 = new THREE.Mesh(geometry, meshMat);
+		scene.add(windowFrame2);
+		// mansion.add(windowFrame2);		
+	}, "js");
+
+	loader.load(model2, function(geometry){
+		windowFrame2 = new THREE.Mesh(geometry, meshMat2);
+		scene.add(windowFrame2);	
+		// mansion.add(windowFrame2);		
+	}, "js");
+}
+
+function loadModelEye (model, model2, model3, model4, meshMat, meshMat2) {
+
+	var loader = new THREE.JSONLoader();
+	eyeWindow = new THREE.Object3D();
+
+	loader.load(model, function(geometry){
+		eyeLid = new THREE.Mesh(geometry, meshMat);
+		eyeWindow.add(eyeLid);
+	}, "js");
+
+	loader.load(model2, function(geometry){
+		eyeLashUp = new THREE.Mesh(geometry, meshMat);
+		eyeLashUp.position.y = 3;
+		eyeWindow.add(eyeLashUp);		
+	}, "js");
+
+	loader.load(model3, function(geometry){
+		eyeLashDown = new THREE.Mesh(geometry, meshMat);
+		eyeLashDown.position.y = -1;
+		eyeWindow.add(eyeLashDown);		
+	}, "js");
+
+	loader.load(model4, function(geometry){
+		var eyeS = new THREE.Mesh(geometry, meshMat2);
+		eyeWindow.add(eyeS);		
+	}, "js");
+
+	scene.add(eyeWindow);
 }
 
 function loadModelScreen (model, meshMat) {
@@ -629,8 +663,7 @@ function loadModelScreen (model, meshMat) {
 }
 
 
-
-function loadModelGuy (model, modelB, meshMat) {
+function loadModelGuy_v0 (model, modelB, meshMat) {
 
 	var loader = new THREE.JSONLoader();
 
@@ -652,6 +685,48 @@ function loadModelGuy (model, modelB, meshMat) {
 			// mansion.add(guyHead);
 		}, "js");
 	}, "js");
+}
+
+function loadModelGuy (model, modelB, mat, camMat, index) {
+
+	var gguy = new THREE.Object3D();
+	var gguyHead = new THREE.Object3D();
+
+	var eyeGeo = new THREE.PlaneGeometry(2, 1.5, 1, 1);
+
+	var loader = new THREE.JSONLoader();
+
+	loader.load(model, function(geometry){
+		// add body --> children[0]
+		var g = new THREE.Mesh( geometry.clone(), mat );				
+		gguy.add(g);
+	} );
+
+	loader.load(modelB, function( geometryB ) {
+
+		var g = new THREE.Mesh( geometryB.clone(), mat );
+		var eyeScreen = new THREE.Mesh( eyeGeo.clone(), camMat );
+		eyeScreen.position.y = 1;
+		eyeScreen.position.z = 2;
+
+		gguyHead.add(g);
+		gguyHead.add(eyeScreen);
+
+		// add head --> children[1]
+		gguy.add(gguyHead);
+
+		if(index==0)
+			gguy.position.set(0, 0, -7);
+		else if(index==1)
+			gguy.position.set(0, 0, 7);
+		else if(index==2)
+			gguy.position.set(-7, 0, 0);
+		else
+			gguy.position.set(7, 0, 0);
+
+		scene.add( gguy );
+		guys.push(gguy);
+	} );
 }
 
 
@@ -717,8 +792,6 @@ function update()
 				videoTexture.flipY = true;
 				videoTexture.needsUpdate = true;
 			}
-
-			// console.log("update!");
 		}
 
 		for (var i=0; i<remotes.length; i++) {
@@ -732,19 +805,6 @@ function update()
 			}
 		}
 
-		// small cells
-		// for (var i=0; i<massRemotes.length; i++) {
-		// 	if(massRemotes[i].readyState === massRemotes[i].HAVE_ENOUGH_DATA){
-		// 		var newIndex = i+4;
-		// 		remoteImageContexts[newIndex].drawImage(massRemotes[i], 0, 0, videoWidth, videoHeight);
-
-		// 		if(remoteTextures[newIndex]){
-		// 			remoteTextures[newIndex].flipY = true;
-		// 			remoteTextures[newIndex].needsUpdate = true;
-		// 		}
-		// 	}
-		// }
-		
 	controls.update( Date.now() - time );
 	stats.update();
 	var dt = clock.getDelta();
@@ -752,6 +812,7 @@ function update()
 
 	camPos = controls.position().clone();
 	camRot = controls.rotation().clone();
+
 
 	// lamp
 	lamp.rotation.z = sinWave.run()/2;
@@ -788,31 +849,6 @@ function render()
 	effect.render( scene, camera );
 }
 
-function updateSmallCellTexture( vidIndex ) {
-	var vIndex = vidIndex - (bigCellFiles.length + 1);
-
-	var sImgContext = massRemoteImages[vIndex].getContext('2d');
-	sImgContext.fillStyle = '0xffff00';
-	sImgContext.fillRect(0,0,videoWidth, videoHeight);
-
-	remoteImageContexts.push(sImgContext);
-
-	var sTexture = new THREE.Texture(  massRemoteImages[vIndex] );
-	sTexture.minFilter = THREE.LinearFilter;
-	sTexture.magFilter = THREE.LinearFilter;
-	sTexture.format = THREE.RGBFormat;
-	sTexture.generateMipmaps = false;
-
-	sTexture.wrapS = sTexture.wrapT = THREE.ClampToEdgeWrapping;
-	sTexture.needsUpdate = true;
-
-	remoteTextures.push(sTexture);
-
-	smallCellMats[vIndex].map = remoteTextures;
-	smallCellMats[vIndex].map.needsUpdate = true;
-
-}
-
 function updatePlayer(playerIndex, playerLocX, playerLocZ, playerRotY, playerQ){
 
 	// if(playerID<myID)
@@ -820,33 +856,61 @@ function updatePlayer(playerIndex, playerLocX, playerLocZ, playerRotY, playerQ){
 	// else //playerID>myID
 	// 	var index = playerID-2+storkPlayers.length-1;
 
-	if(playerIndex==1){
-		// firstGuy.position.x = playerLocX;
-		// firstGuy.position.z = playerLocZ;
+	var iii = playerIndex-1;
 
-		// head
-		firstGuy.children[1].rotation.setFromQuaternion( playerQ );
-		
-		// body
-		// firstGuy.children[0].rotation.setFromQuaternion( playerQ );
-		// firstGuy.children[0].rotation.x = 0;
-		// firstGuy.children[0].rotation.z = 0;
-		var ahhRotation = new THREE.Euler().setFromQuaternion( playerQ, 'YXZ' );
-		firstGuy.children[0].rotation.y = ahhRotation.y;
+	guys[iii].children[1].rotation.setFromQuaternion( playerQ );
+	var ahhRotation = new THREE.Euler().setFromQuaternion( playerQ, 'YXZ' );
+	guys[iii].children[0].rotation.y = ahhRotation.y;
 
-	}
-	
-	if(playerIndex==2){
-		// secondGuy.position.x = playerLocX;
-		// secondGuy.position.z = playerLocZ;
+}
 
-		//head
-		secondGuy.children[1].rotation.setFromQuaternion( playerQ );
+// reference from http://stackoverflow.com/questions/4436764/rotating-a-quaternion-on-1-axis
+function createFromAxisAngle( _x, _y, _z, _a ) {
 
-		//body
-		var ahhRotation2 = new THREE.Euler().setFromQuaternion( playerQ, 'YXZ' );
-		secondGuy.children[0].rotation.y = ahhRotation2.y;
-	}
+	var result = Math.sin( _a / 2.0 );
+
+    // Calculate the x, y and z of the quaternion
+    var xx = _x * result;
+    var yy = _y * result;
+    var zz = _z * result;
+
+    // Calcualte the w value by cos( theta / 2 )
+    var ww = Math.cos( _a / 2.0 );
+
+    return ( new THREE.Quaternion(xx, yy, zz, ww).normalize() );
+}
+
+function getEulerAngles( q, yaw, pitch, roll ) {
+
+	// var w2 = q.w*q.w;
+ //    var x2 = q.x*q.x;
+ //    var y2 = q.y*q.y;
+ //    var z2 = q.z*q.z;
+ //    var unitLength = w2 + x2 + y2 + z2;    // Normalised == 1, otherwise correction divisor.
+ //    var abcd = q.w*q.x + q.y*q.z;
+ //    var eps = Math.pow(10, -7); 	//1e-7;    // TODO: pick from your math lib instead of hardcoding.
+ //    var pi = Math.PI;   // TODO: pick from your math lib instead of hardcoding.
+
+ //    if (abcd > (0.5-eps)*unitLength)
+ //    {
+ //        yaw = 2 * Math.atan2(q.y, q.w);
+ //        pitch = Math.PI;
+ //        roll = 0;
+ //    }
+ //    else if (abcd < (-0.5+eps)*unitLength)
+ //    {
+ //        yaw = -2 * ::atan2(q.y, q.w);
+ //        pitch = -pi;
+ //        roll = 0;
+ //    }
+ //    else
+ //    {
+ //        const double adbc = q.w*q.z - q.x*q.y;
+ //        const double acbd = q.w*q.y - q.x*q.z;
+ //        yaw = ::atan2(2*adbc, 1 - 2*(z2+x2));
+ //        pitch = ::asin(2*abcd/unitLength);
+ //        roll = ::atan2(2*acbd, 1 - 2*(y2+x2));
+ //    }
 }
 
 // reference from jsfeat

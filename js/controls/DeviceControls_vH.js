@@ -75,9 +75,26 @@ var betaRecordings=[], gammaRecordings=[], alphaRecordings=[];
 var thisIsTouchDevice = false;
 if( isTouchDevice() ) thisIsTouchDevice = true;
 
-var myStartX = 10, myStartY = 1, myStartZ = 100;
+var myStartX = 0, myStartY = 1, myStartZ = 0;
 
 THREE.DeviceControls = function ( camera ) {
+
+	if(whoIamInHive>5){
+		myStartX = 0;
+		myStartZ = 0;
+	} else if (whoIamInHive==1) {
+		myStartX = -20;
+		myStartY = 12;
+		myStartZ = 35;
+	} else if (whoIamInHive==2) {
+		myStartX = -40;
+		myStartY = 0;
+		myStartZ = -13;
+	} else if (whoIamInHive==3) {
+		myStartX = -18;
+		myStartY = 12;
+		myStartZ = -43;
+	}
 
 	// Use the method of THREE.PointerLockControls
 	var pitchObject = new THREE.Object3D();
@@ -97,16 +114,18 @@ THREE.DeviceControls = function ( camera ) {
 	var center = new THREE.Vector3(0,yawObject.position.y,0);
 	m1.lookAt( yawObject.position, center, yawObject.up );
 
-	if(thisIsTouchDevice)
+	if(thisIsTouchDevice) {
 		this.lookAtCenterQ.setFromRotationMatrix( m1 );
-	else
+	}
+	else {
 		yawObject.quaternion.setFromRotationMatrix( m1 );
 
+		var checkQ = Math.abs( Math.sin( yawObject.rotation.y / 2 ) - yawObject.quaternion.y );
+		if( checkQ > 0.001 )
+			quaternionChanged = true;
+	}
 
-	var checkQ = Math.abs( Math.sin( yawObject.rotation.y / 2 ) - yawObject.quaternion.y );
-	
-	if( checkQ > 0.001 )
-		quaternionChanged = true;
+	var playerStartRotY = yawObject.rotation.y;
 
 	//
 
@@ -149,7 +168,9 @@ THREE.DeviceControls = function ( camera ) {
 	this.orient = 0;
 
 	this.alignQuaternion = new THREE.Quaternion();
+	var alignQuaternionPublic = new THREE.Quaternion();
 	this.orientationQuaternion = new THREE.Quaternion();
+	var orientationQuaternionPublic = new THREE.Quaternion();
 	this.finalQ = new THREE.Quaternion();
 
 	// for rotate things other than eyeScreen
@@ -229,21 +250,29 @@ THREE.DeviceControls = function ( camera ) {
 		this.finalQ2.copy(this.alignQuaternion);
 		this.finalQ2.multiply(this.orientationQuaternion);
 
+		//
+
+		orientationQuaternionPublic.copy( this.orientationQuaternion );
+		alignQuaternionPublic.copy( this.alignQuaternion );
 
 		// console.log( this.finalQ );
 		
 		if (this.autoAlign && this.alpha !== 0) {
 				this.autoAlign = false;
-				this.align();
+				align();		
 	 	}
 	};
 
-	this.align = function() {
+	// this.align = function() {
+	var align = function() {
+		
+		tempQuaternion = new THREE.Quaternion();
 
 		// tempVector3.set(0, 0, -1).applyQuaternion( tempQuaternion.copy(this.orientationQuaternion).inverse(), 'ZXY' );
-		tempVector3.copy(yawObject.position).applyQuaternion( tempQuaternion.copy(this.orientationQuaternion).inverse(), 'ZXY' );
+		tempVector3.set(0, 0, 0).applyQuaternion( tempQuaternion.copy( orientationQuaternionPublic ).inverse(), 'ZXY' );
 		
 		// yawObject.position, center
+		tempMatrix4 = new THREE.Matrix4();
 
 		tempEuler.setFromQuaternion(
 			tempQuaternion.setFromRotationMatrix(
@@ -252,20 +281,22 @@ THREE.DeviceControls = function ( camera ) {
 		);
 
 		tempEuler.set(0, tempEuler.y, 0);
-		this.alignQuaternion.setFromEuler(tempEuler);
+		alignQuaternionPublic.setFromEuler(tempEuler);
+
+		console.log("aligneddd!");
 	};
 
 	//
-	if( thisIsTouchDevice ) {
-		// calculate the Quaternion
-		this.calQ();
+	// if( thisIsTouchDevice ) {
+	// 	// calculate the Quaternion
+	// 	this.calQ();
 		
-		if (this.autoAlign && this.alpha !== 0) {
-			this.autoAlign = false;
-			this.align();
-			console.log("aligned!");
- 		}
- 	}
+	// 	if (this.autoAlign && this.alpha !== 0) {
+	// 		this.autoAlign = false;
+	// 		this.align();
+	// 		console.log("aligned!");
+ // 		}
+ // 	}
 
 	//
 
@@ -280,7 +311,13 @@ THREE.DeviceControls = function ( camera ) {
 		mousemove = true;
 		mouseActive = true;
 
-		yawObject.rotation.y -= movementX * 0.001;
+		// yawObject.rotation.y -= movementX * 0.001;
+
+		if( quaternionChanged )
+			yawObject.rotation.y += movementX * 0.001;
+		else
+			yawObject.rotation.y -= movementX * 0.001;
+
 		pitchObject.rotation.x -= movementY * 0.001;
 		pitchObject.rotation.x = Math.max( - PI_2, Math.min( PI_2, pitchObject.rotation.x ) );
 
@@ -292,7 +329,7 @@ THREE.DeviceControls = function ( camera ) {
 			tempEuler.set(pitchObject.rotation.x, yawObject.rotation.y, 0, 'YXZ');
 			eyeFinalQ.setFromEuler(tempEuler);
 
-			tempEuler.set(-pitchObject.rotation.x, yawObject.rotation.y, 0, 'YXZ');
+			tempEuler.set(pitchObject.rotation.x, -yawObject.rotation.y, 0, 'YXZ');
 			eyeFinalQ2.setFromEuler(tempEuler);
 		}
 
@@ -421,6 +458,9 @@ THREE.DeviceControls = function ( camera ) {
 
 			// touch2ndStartLoc.set(touch2nd.clientX, touch2nd.clientY);
 		}
+
+		//
+		align();
 	};
 
 

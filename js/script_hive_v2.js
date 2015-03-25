@@ -104,6 +104,8 @@ var dir, step;
 
 
 // HIVE
+	//v1
+	/*
 	var bigCellFiles = ["models/hive/mid_hive_1.js", "models/hive/mid_hive_2.js", "models/hive/mid_hive_3.js",
 						"models/hive/mid_hive_4.js", "models/hive/mid_hive_5.js"];
 
@@ -117,11 +119,23 @@ var dir, step;
 					  "models/hive/mass_hive_2.js", "models/hive/mass_hive_3.js", "models/hive/mass_hive_4.js",
 					  "models/hive/mass_hive_5.js", "models/hive/mass_hive_6.js", "models/hive/mass_hive_7.js",
 					  "models/hive/mass_hive_8.js", "models/hive/mass_hive_9.js", "models/hive/mass_hive_10.js"];
+	*/
+
+	//v2
+	var cellFiles = [ "models/hive_v3/h_b_0.js", "models/hive_v3/h_b_1.js", "models/hive_v3/h_b_2.js",
+					  "models/hive_v3/h_b_3.js", "models/hive_v3/h_b_4.js", "models/hive_v3/h_m_0.js",
+					  "models/hive_v3/h_m_1.js", "models/hive_v3/h_m_2.js", "models/hive_v3/h_m_3.js",
+					  "models/hive_v3/h_m_4.js", "models/hive_v3/h_m_5.js", "models/hive_v3/h_m_6.js",
+					  "models/hive_v3/h_m_7.js", "models/hive_v3/h_m_8.js", "models/hive_v3/h_m_9.js"];
+
 
 	// var bigCellLocal, bigCellRemotes = [], smallCellRemotes = [];
 	// var localMat, BigRemoteMats = [], smallRemoteMats = [];
 	var cells = [], smallCells = [];
 	var cellMats = [], smallCellMats = [];
+	var beehive, beehiveMat;
+	var bees = [], beeMat, pastBeeLocation = [], futureBeeLocation = [];
+	var beeLightColors = [ 0xffbf00, 0xff6b00, 0xffc000, 0xffea00 ];
 
 
 
@@ -190,23 +204,64 @@ function init()
 	// scene.fog = new THREE.FogExp2( 0xf1f1fb, 0.006 );
 
 	// LIGHT
-	light = new THREE.HemisphereLight( 0xf9ff91, 0x3ac5b9, 1);
-	scene.add(light);
+	// light = new THREE.HemisphereLight( 0xf9ff91, 0x3ac5b9, 1);
+	// scene.add(light);
 
 	// light in the room
 	// light = new THREE.PointLight( 0xff983c, 1.5, 35 );		//old: 0xff673c
 	// light.position.set(0, 20, 0);
 	// scene.add(light);
 
-	// light = new THREE.DirectionalLight(0xffffff);
-	// light.position.set(0, 1, 1);
-	// light.intensity = 0.7;
-	// scene.add(light);
+	light = new THREE.DirectionalLight(0xff8000);
+	light.position.set(0, 1, 1);
+	light.intensity = 0.4;
+	scene.add(light);
 
-	// light = new THREE.DirectionalLight(0xffffff);
-	// light.position.set(0, 1, -1);
-	// light.intensity = 0.7;
-	// scene.add(light);
+	light = new THREE.DirectionalLight(0xffeb00);
+	light.position.set(0, 1, -1);
+	light.intensity = 0.4;
+	scene.add(light);
+
+	// center ball
+		// var sp = new THREE.SphereGeometry( 5, 16, 8 );
+		// var mesh = new THREE.Mesh(sp, new THREE.MeshBasicMaterial( {color: 0x00ffff, shading: THREE.FlatShading} ));
+		// scene.add(mesh);
+	
+	// beeLight
+
+		//v1
+		/*
+		sp = new THREE.SphereGeometry( 0.5, 16, 8 );
+
+		light = new THREE.PointLight(0xffbf00, 2, 20);
+		light.add( new THREE.Mesh(sp, new THREE.MeshBasicMaterial( {color: 0xffbf00, shading: THREE.FlatShading} )) );
+		beeLights.push(light);
+		scene.add(light);
+
+		light = new THREE.PointLight(0xff6b00, 2, 20);
+		light.add( new THREE.Mesh(sp, new THREE.MeshBasicMaterial( {color: 0xff6b00, shading: THREE.FlatShading} )) );
+		beeLights.push(light);
+		scene.add(light);
+
+		light = new THREE.PointLight(0xffc000, 2, 20);
+		light.add( new THREE.Mesh(sp, new THREE.MeshBasicMaterial( {color: 0xffc000, shading: THREE.FlatShading} )) );
+		beeLights.push(light);
+		scene.add(light);
+
+		light = new THREE.PointLight(0xffea00, 2, 20);
+		light.add( new THREE.Mesh(sp, new THREE.MeshBasicMaterial( {color: 0xffea00, shading: THREE.FlatShading} )) );
+		beeLights.push(light);
+		scene.add(light);
+		*/
+
+		//v2
+		var tex = THREE.ImageUtils.loadTexture('images/bee.png');
+		beeMat = new THREE.MeshBasicMaterial( {map: tex, shading: THREE.FlatShading} );
+		for(var i=0; i<8; i++){
+			loadModelBee( 'models/bee.js', beeMat);
+			pastBeeLocation.push( new THREE.Vector3() );
+			futureBeeLocation.push( new THREE.Vector3() );
+		}
 
 	// headLight = new THREE.SpotLight(0xfdf646, 1);
 	// headLight.position.set(2.3, 3, 23);
@@ -233,7 +288,7 @@ function init()
 	// terrainMat = new THREE.MeshLambertMaterial( {color: 0xf1f1fb, shading: THREE.FlatShading} );
 	// loadModelTerrain("models/terrain.js", terrainMat);
 	//TREE
-	var tex = THREE.ImageUtils.loadTexture('images/tree.png');
+	tex = THREE.ImageUtils.loadTexture('images/tree.png');
 	treeMat = new THREE.MeshLambertMaterial( {map: tex, color: 0xffff76} );
 	loadmodelTree("models/trees.js", treeMat);
 
@@ -359,7 +414,7 @@ function init()
 
 				var rMat = new THREE.MeshBasicMaterial({color: 0xff0000, map: videoTexture, overdraw: true, side: THREE.DoubleSide });
 				cellMats.push(rMat);
-				console.log(i);
+				// console.log(i);
 
 			// if it's remote --> remoteCam
 			// because remoteTextures.lenght == 14, there's no remoteTextures[14]
@@ -369,13 +424,13 @@ function init()
 
 				var rMat = new THREE.MeshBasicMaterial({map: remoteTextures[i], overdraw: true, side: THREE.DoubleSide });
 				cellMats.push(rMat);
-				console.log(i);
+				// console.log(i);
 
 			} else {
 				var ahhhIndex = i-1;
 				var rMat = new THREE.MeshBasicMaterial({map: remoteTextures[ahhhIndex], overdraw: true, side: THREE.DoubleSide });
 				cellMats.push(rMat);
-				console.log(i + 'hmm');
+				// console.log(i + 'hmm');
 			}
 		}
 
@@ -384,6 +439,10 @@ function init()
 			for(var i=0; i<cellFiles.length; i++){
 				loadModelBCell(cellFiles[i], cellMats[i]);
 			}
+		// beehive
+			tex = THREE.ImageUtils.loadTexture('images/hive_v3.png');
+			beehiveMat = new THREE.MeshLambertMaterial( {map: tex, transparent: true, alphaTest: 0.5, side:THREE.DoubleSide, color: 0xffff00 } );
+			loadModelHive("models/beehive.js", beehiveMat);
 
 
 	var eyeRotMatrix;
@@ -395,29 +454,35 @@ function init()
 	// LAMP
 		lamp = new THREE.Object3D();
 
-		woodTexture = THREE.ImageUtils.loadTexture('images/wood.png');
-		frameMat = new THREE.MeshLambertMaterial({map: woodTexture});
+		woodTexture = THREE.ImageUtils.loadTexture('images/beeMic.png');
+		frameMat = new THREE.MeshBasicMaterial({map: woodTexture, wireframe: true});
 
-		geo = new THREE.TetrahedronGeometry(1.5);
-		var meshTemp = new THREE.Mesh(geo, frameMat);
-		meshTemp.rotation.x = -35 * Math.PI/180;
-		meshTemp.rotation.z = 30 * Math.PI/180;
-		meshTemp.position.y = -29.3;
+		var loader = new THREE.JSONLoader( true );
+		loader.load( "models/beeMic.js", function( geometry ) {
+			var meshTemp = new THREE.Mesh(geometry, frameMat);
+			meshTemp.scale.set(4,4,4);
+			meshTemp.position.y = -29.6;
+			lamp.add(meshTemp);
+		} );
+
+		// geo = new THREE.BoxGeometry(1,2,1);
+		// var meshTemp = new THREE.Mesh(geo, frameMat);
+		// meshTemp.position.y = -29.6;
+		// lamp.add(meshTemp);
+
+		geo = new THREE.BoxGeometry(0.1,60,0.1);
+		transY(geo, 0.2);
+		meshTemp = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({color: 0xffff00}));
 		lamp.add(meshTemp);
 
-		geo = new THREE.BoxGeometry(0.2,30,0.2);
-		transY(geo, -14.5);
-		meshTemp = new THREE.Mesh(geo, frameMat);
-		lamp.add(meshTemp);
-
-		light = new THREE.PointLight(0xffff00, 1, 15);
+		light = new THREE.PointLight(0xffff00, 1, 30);
 		// geo = new THREE.SphereGeometry(0.2,6,6);
 		// transY(geo, -1);
 			glowTexture = new THREE.ImageUtils.loadTexture('images/glow_edit.png');
 			mat = new THREE.SpriteMaterial({map: glowTexture, color: 0xffef3b, transparent: false, blending: THREE.AdditiveBlending});
 			meshTemp = new THREE.Sprite(mat);
 			// meshTemp.position.y = -15;
-			meshTemp.scale.set(2,2,2);	//big
+			meshTemp.scale.set(4,4,4);	//big
 		light.add(meshTemp);
 		light.position.y = -30;
 		lamp.add(light);
@@ -602,19 +667,38 @@ function loadModelBCell (model, meshMat) {
 	var loader = new THREE.JSONLoader();
 	loader.load(model, function(geometry){
 		var bCell = new THREE.Mesh(geometry, meshMat);
+		bCell.position.y += 15;
 		scene.add(bCell);			
 		cells.push(bCell);
 	}, "js");
 }
 
-function loadModelSCell (model, meshMat) {
+function loadModelHive (model, meshMat) {
 
 	var loader = new THREE.JSONLoader();
 	loader.load(model, function(geometry){
-		var sCell = new THREE.Mesh(geometry, meshMat);
-		scene.add(sCell);			
-		smallCells.push(sCell);
+		beehive = new THREE.Mesh(geometry, meshMat);
+		beehive.position.y += 15;
+		scene.add(beehive);			
+		// scene.add(mayaScreen);
+	}, "js");
+}
 
+
+function loadModelBee (model, meshMat) {
+
+	var loader = new THREE.JSONLoader();
+	loader.load(model, function(geometry){
+		var bb = new THREE.Object3D();
+		var bLight = new THREE.PointLight( beeLightColors[i], 2, 20);
+		var bbM = new THREE.Mesh(geometry, meshMat);
+		bbM.scale.set(4,4,4);
+		// bbM.rotation.y = Math.PI;
+		bb.add(bLight);
+		bb.add(bbM);
+
+		scene.add(bb);			
+		bees.push(bb);
 	}, "js");
 }
 
@@ -755,6 +839,7 @@ function update()
 
 	// lamp
 	lamp.rotation.z = sinWave.run()/2;
+	lamp.children[1].position.y = -29+lamp.rotation.z*40;
 
 
 	// firstGuy.rotation.setFromQuaternion( eyeFinalQ );
@@ -776,6 +861,18 @@ function update()
 		// headLight.position.y = camPos.y - 5*(Math.sin(camRot.x));
 		// headLight.target.position.y = camPos.y;
 
+	// beeLight
+		for(var i=0; i<bees.length; i++){
+			bees[i].position.x = Math.sin( time*(4-i/2)*0.7*0.0004 ) *40;
+			bees[i].position.y = Math.cos( time*  i  *0.5*0.0004 ) *30;
+			bees[i].position.z = Math.cos( time*(i/2+4)*0.3*0.0004 ) *40;
+
+			futureBeeLocation[i].x = Math.sin( (time+30)*(4-i/2)*0.7*0.0004 ) *40;
+			futureBeeLocation[i].y = Math.cos( (time+30)*  i  *0.5*0.0004 ) *30;
+			futureBeeLocation[i].z = Math.cos( (time+30)*(i/2+4)*0.3*0.0004 ) *40;
+
+			bees[i].lookAt( futureBeeLocation[i] );
+		}
 
 	//
 	time = Date.now();

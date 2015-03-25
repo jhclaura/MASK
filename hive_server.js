@@ -8,7 +8,7 @@ var util = require('util');
 var http = require('http');
 var server = http.createServer(app);
 
-var port = process.env.PORT || 8000;
+var port = process.env.PORT || 7000;
 
 //VARIABLES
 var players = [];

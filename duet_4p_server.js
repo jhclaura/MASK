@@ -43,18 +43,19 @@ var mySocket = undefined;
 
 wss.on('connection', function(ws){
 
-	mySocket = ws;
+	// mySocket = ws;
 
 	thisId++;
 	clientIds.push(thisId);
 
+	ws.index = thisId;
+
 	allSockets.push(ws);
 	console.log('new player #%d connected!', thisId);
 
-	if(mySocket){
-		duetIndex.index = thisId;
-		mySocket.send( JSON.stringify(duetIndex) );
-	}
+	duetIndex.index = thisId;
+	socketHandlers(ws, duetIndex);
+	console.log("index sent!");
 
 	ws.on('message', function(data){
 		
@@ -82,7 +83,7 @@ wss.on('connection', function(ws){
 				break;
 			}
 		}
-		mySocket = undefined;
+		// mySocket = undefined;
 	});
 
 });
@@ -92,7 +93,7 @@ wss.on('connection', function(ws){
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
-
+/*
 var serialport = require('serialport'),// include the library
     SerialPort = serialport.SerialPort, // make a local instance of it
     portName = '/dev/tty.usbmodemfd121'; 
@@ -141,7 +142,7 @@ function showError(error){
 	console.log('Serial port error: ' + error);
 }
 
-
+*/
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
@@ -155,7 +156,23 @@ var socketHandlers = function(socket,msg){
 	for(var i=0; i<allSockets.length; i++){
 		try{
 			// ADD_ID_INFO
-			// msg.myID = socket.id;
+			msg.index = socket.index;
+
+			//
+			var maskIndex = undefined;
+
+			if(msg.type=='index'){
+				//GENERATE_ALL_MASKPLAYERS_ONLY_ONCE
+				if(msg.camID==0){
+					msg.npID = 100;
+					// socket.id = msg.id;	// save id
+					console.log('NewPlayerID --> ' + msg.id);
+					msg.camID++;
+
+					maskPlayer.push(msg);
+				}
+			}
+			//
 
 			if(msg.type=='addNewPlayer'){
 				//GENERATE_ALL_MASKPLAYERS_ONLY_ONCE
