@@ -1,5 +1,5 @@
-MASK. A collection of virtual reality wearables.
-
+#MASK
+##A collection of virtual reality wearables.
 ============
 ![Screenshot](http://www.jhclaura.com/MASK/mask.jpg)
 
