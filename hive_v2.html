@@ -147,7 +147,7 @@
 				}
 
 				if (typeof MediaStreamTrack.getSources === 'undefined'){
-				  alert('This browser does not support MediaStreamTrack.\n\nTry Chrome Canary.');
+				  alert('This browser does not support MediaStreamTrack.\n\nPlease try Chrome Browser.');
 				} else {
 				  MediaStreamTrack.getSources(gotSources);
 				}
@@ -274,6 +274,10 @@
 								if ( currentVidAmount<5 ){
 									call.on('stream', function(remoteStream) {
 										console.log("Got remote stream, for mid cell!");
+
+										//
+										// remoteStream.getAudioTracks()[0].enabled = false;
+										//
 
 										remotes[ currentVidAmount-1 ].src = window.URL.createObjectURL(remoteStream) || remoteStream;
 										// document.body.appendChild(remoteElement);
@@ -434,6 +438,6 @@
 			<script type="text/javascript" src="js/wave.js"></script>
 			<script type="text/javascript" src="js/sample.js"></script>
 			<script type="text/javascript" src="js/jsfeat-min.js"></script>
-			<script type="text/javascript" src="js/script_hive_v2.js"></script>
+			<script type="text/javascript" src="js/script_hive_v3.js"></script>
 	</body>
 </html>

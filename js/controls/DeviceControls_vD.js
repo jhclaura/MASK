@@ -74,7 +74,6 @@ var betaRecordings=[], gammaRecordings=[], alphaRecordings=[];
 var thisIsTouchDevice = false;
 if( isTouchDevice() ) thisIsTouchDevice = true;
 
-var myStartX = Math.random()*20, myStartZ = Math.random()*50;
 
 THREE.DeviceControls = function ( camera ) {
 

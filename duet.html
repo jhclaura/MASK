@@ -49,7 +49,7 @@
 				var oldPlayerNum = 0, newPlayerNum = 0;
 				var newPlayerJoined = false;
 
-				var whoIamInDuet = -1;
+				var whoIamInMask = -1, initEnvironment = false;
 
 				//----------------------------------------------------
 
@@ -230,8 +230,19 @@
 						}
 
 						if(data.type == 'index'){
-							whoIamInDuet = data.index;
-							console.log("I'm " + whoIamInDuet + " in the Duet.");
+
+							if(!initEnvironment) {
+								whoIamInMask = data.index;
+								console.log("I'm " + whoIamInMask + " in the Duet.");
+
+								if(whoIamInMask==1){
+									myStartZ = 2;
+								} else {
+									myStartZ = -2;
+								}
+								init();
+								initEnvironment = true;
+							}		
 						}
 
 						//UPDATE_PLAYER
@@ -244,8 +255,10 @@
 							var playerRotY = data.playerRotY;
 							var playerQ = new THREE.Quaternion( data.playerQ._x, data.playerQ._y, data.playerQ._z, data.playerQ._w );
 
-							updatePlayer(data.index, playerLocX, playerLocZ, playerRotY, playerQ);
+							if(firstGuy.children && secondGuy.children)
+								updatePlayer(data.index, playerLocX, playerLocZ, playerRotY, playerQ);
 
+							
 							// console.log('playerQ: ' + playerQ);
 						}
 
@@ -328,15 +341,17 @@
 
 
 			<script src="js/StereoEffect.js"></script>
-  			<script src="js/controls/DeviceControls_vD.js"></script>
+  			<script src="js/controls/DeviceControls_vD_2.js"></script>
   			<script type="text/javascript" src="js/BufferLoader.js"></script>
 			<script type="text/javascript" src="js/Detector.js"></script>
 			<script type="text/javascript" src="js/KeyboardState.js"></script>
 			<script type="text/javascript" src="js/lib/tween.min.js"></script>
 			<script type="text/javascript" src="js/stats.min.js"></script>
 			<script type="text/javascript" src="js/wave.js"></script>
+			<script type="text/javascript" src="js/DS.js"></script>
 			<script type="text/javascript" src="js/sample.js"></script>
+			<script type="text/javascript" src="js/ImprovedNoise.js"></script>
 			<script type="text/javascript" src="js/jsfeat-min.js"></script>
-			<script type="text/javascript" src="js/script_duet.js"></script>
+			<script type="text/javascript" src="js/script_duet_v5.js"></script>
 	</body>
 </html>

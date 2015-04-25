@@ -111,30 +111,48 @@ THREE.DeviceControls = function ( camera ) {
 	pitchObject.add( camera );
 
 	var yawObject = new THREE.Object3D();
+	var yawObjectOriginal = new THREE.Object3D();
+
 	yawObject.position.y = myStartY;
 	yawObject.position.x = myStartX;
 	yawObject.position.z = myStartZ;
 	yawObject.add( pitchObject );
 
+	yawObjectOriginal.position.copy(yawObject.position);
+
+
 	//
 	this.lookAtCenterQ = new THREE.Quaternion();
 
 	//LOOKAT_CENTER_TWEAK SO HARD!
-	var m1 = new THREE.Matrix4();
-	var center = new THREE.Vector3(0,yawObject.position.y,0);
-	m1.lookAt( yawObject.position, center, yawObject.up );
+		var m1 = new THREE.Matrix4();
+		var center = new THREE.Vector3(0,0,0);
+		m1.lookAt( yawObject.position, center, yawObject.up );
 
-	if(thisIsTouchDevice) {
-		this.lookAtCenterQ.setFromRotationMatrix( m1 );
-	}
-	else {
-		yawObject.quaternion.setFromRotationMatrix( m1 );
+		if(thisIsTouchDevice) {
+			this.lookAtCenterQ.setFromRotationMatrix( m1 );
+		}
+		else {
+			var tmpQ = new THREE.Quaternion();
+			tmpQ.setFromRotationMatrix(m1);
+			var tmpE = new THREE.Euler(0, 0, 0, 'YXZ');
+			tmpE.setFromQuaternion(tmpQ);
 
-		var checkQ = Math.abs( Math.sin( yawObject.rotation.y / 2 ) - yawObject.quaternion.y );
-		if( checkQ > 0.001 )
-			quaternionChanged = true;
-	}
+			tmpE.set(0, tmpE.y, 0);
+			yawObject.rotation.copy(tmpE);
+			console.log(yawObject.rotation);
 
+			//
+
+			// yawObject.quaternion.setFromRotationMatrix( m1 );
+			// yawObjectOriginal.quaternion.setFromRotationMatrix( m1 );
+
+			// var checkQ = Math.abs( Math.sin( yawObject.rotation.y / 2 ) - yawObject.quaternion.y );
+			// if( checkQ > 0.001 )
+			// 	quaternionChanged = true;
+		}
+
+	//
 	var playerStartRotY = yawObject.rotation.y;
 
 	//
@@ -278,13 +296,15 @@ THREE.DeviceControls = function ( camera ) {
 		tempQuaternion = new THREE.Quaternion();
 
 		// tempVector3.set(0, 0, 1).applyQuaternion( tempQuaternion.copy(this.orientationQuaternion).inverse(), 'ZXY' );
-		tempVector3.set(yawObject.position.x, yawObject.position.y, yawObject.position.z).applyQuaternion( tempQuaternion.copy( orientationQuaternionPublic ).inverse(), 'ZXY' );
-		
+		// tempVector3.set(yawObject.position.x, yawObject.position.y, yawObject.position.z).applyQuaternion( tempQuaternion.copy( orientationQuaternionPublic ).inverse(), 'ZXY' );
+		tempVector3.copy(yawObject.position).applyQuaternion( tempQuaternion.copy( orientationQuaternionPublic ).inverse(), 'ZXY' );
+
 		// yawObject.position, center
 		tempMatrix4 = new THREE.Matrix4();
 
 		tempEuler.setFromQuaternion(
 			tempQuaternion.setFromRotationMatrix(
+				// look at center v0
 				tempMatrix4.lookAt(tempVector3, v0, up)
 			)
 		);
@@ -323,11 +343,14 @@ THREE.DeviceControls = function ( camera ) {
 		mouseActive = true;
 
 		// yawObject.rotation.y -= movementX * 0.001;
+		yawObjectOriginal.rotation.y -= movementX * 0.001;
 
 		if( quaternionChanged )
 			yawObject.rotation.y += movementX * 0.001;
 		else
 			yawObject.rotation.y -= movementX * 0.001;
+
+		// console.log("yawObject.rotation.y: " + yawObject.rotation.y + ", yawObjectOriginal.rotation.y: " + yawObjectOriginal.rotation.y);
 
 		pitchObject.rotation.x -= movementY * 0.001;
 		pitchObject.rotation.x = Math.max( - PI_2, Math.min( PI_2, pitchObject.rotation.x ) );
@@ -601,6 +624,7 @@ THREE.DeviceControls = function ( camera ) {
 				rotation.set( yawObject.rotation.x, yawObject.rotation.y, 0 );
 			else
 				rotation.set( pitchObject.rotation.x, yawObject.rotation.y, 0 );
+			
 			v.copy( direction ).applyEuler( rotation );
 
 			return v;

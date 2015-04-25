@@ -264,6 +264,8 @@ THREE.DeviceControls = function ( camera ) {
 			eyeFinalQ.setFromEuler(tempEuler);
 		}
 
+		// console.log(movementX);
+		
 		//TIMEOUT_detect mouse stop
 			clearTimeout(mouseTimeOut);
 			mouseTimeOut = setTimeout(function(){

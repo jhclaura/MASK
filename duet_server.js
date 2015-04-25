@@ -8,7 +8,7 @@ var util = require('util');
 var http = require('http');
 var server = http.createServer(app);
 
-var port = process.env.PORT || 8800;
+var port = process.env.PORT || 7000;
 
 //VARIABLES
 var players = [];
@@ -93,6 +93,7 @@ wss.on('connection', function(ws){
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 
+/*
 var serialport = require('serialport'),// include the library
     SerialPort = serialport.SerialPort, // make a local instance of it
     portName = '/dev/tty.usbmodemfd121'; 
@@ -140,7 +141,7 @@ function showPortClose(){
 function showError(error){
 	console.log('Serial port error: ' + error);
 }
-
+*/
 
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
