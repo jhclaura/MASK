@@ -25,7 +25,7 @@ body {
 	background: #ffffff; 
 	margin: 0; 
 	height: 100%; 
-	color: #384452;
+	color: #24b572;
 	font-family: 'Lato', sans-serif;
 	font-weight: 400;
 	}
@@ -42,7 +42,7 @@ p {
 	font-weight: 400;
 	font-size: 14px; 
 	line-height: 24px;
-	color: #384452; 
+	color: #24b572; 
 	margin-top: 10px; 
 }
 
@@ -62,7 +62,7 @@ ol {
 }
 
 a { 
-    color:#428bca;
+    color:#92c1bb;
     padding: 0;
 	margin: 0;
 	text-decoration: none; 
@@ -75,18 +75,18 @@ a {
 a:hover,
 a:focus {
   text-decoration: none;
-  color:#01b2fe;
+  color:#66c1b5;
 }
 
 ::-moz-selection  {
 	color: #fff;
 	text-shadow:none;
-	background:#384452;
+	background:#24b572;
 }
 ::selection {
 	color: #fff;
 	text-shadow:none;
-	background:#384452;
+	background:#24b572;
 }
 
 .centered {
@@ -118,21 +118,21 @@ a:focus {
 }
 
 .navbar-default .navbar-nav > li > a:hover {
-	color: #00b3fe;
+	color: #fef28e;
 }
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-	color: #00b3fe;
+	color: #fef28e;
 	background-color: transparent;
 }
 
 .navbar-default {
-	background-color: #384452;
+	background-color: #24b572;
 	border-color: transparent;
 }
 
 .dropdown-menu {
-	background: #384452;
+	background: #24b572;
 }
 
 .dropdown-menu > li > a {
@@ -143,8 +143,8 @@ a:focus {
 
 .btn-theme {
   color: #fff;
-  background-color: #384452;
-  border-color: #384452;
+  background-color: #24b572;
+  border-color: #24b572;
   margin: 4px;
 }
 .btn-theme:hover,
@@ -153,8 +153,8 @@ a:focus {
 .btn-theme.active,
 .open .dropdown-toggle.btn-theme {
   color: #fff;
-  background-color: #00b3fe;
-  border-color: #00b3fe;
+  background-color: #fef28e;
+  border-color: #fef28e;
 }
 
 .dmbutton:hover,
@@ -204,7 +204,7 @@ a:focus {
 }
 
 .hline {
-	border-bottom: 2px solid #384452;
+	border-bottom: 2px solid #24b572;
 }
 
 .hline-w {
@@ -216,7 +216,7 @@ a:focus {
 ################################################################# */
 
 #headerwrap {
-	background-color: #00b3fe;
+	background-color: #fef28e;
 	min-height: 0px;
 	padding-top: 100px;
 	padding-bottom: 50px;
@@ -244,7 +244,7 @@ a:focus {
 }
 
 #service i {
-	color: #00b3fe;
+	color: #fef28e;
 	font-size: 60px;
 	padding: 15px;
 }
@@ -292,15 +292,15 @@ a:focus {
 {
 	height:100%;
 	width:100%;
-	background-color:#00b3fe;
-	background-color:rgba(0,179,254,.9);
+	background-color:#fef28e;
+	background-color:rgba(254,242,142,.9);
 	text-align:center;
 }
 
 /* Testimonials Wrap */
 #twrapback {
-    background-color: #00b3fe;
-    background-color:rgba(0,179,254,.8);
+    background-color: #fef28e;
+    background-color:rgba(254,242,142,.8);
     position: absolute;
     top: 0;
     left: 0;
@@ -358,7 +358,7 @@ a:focus {
 #footerwrap {
 	padding-top: 60px;
 	padding-bottom: 60px;
-	background: #384452;
+	background: #24b572;
 }
 
 #footerwrap p {
@@ -376,7 +376,7 @@ a:focus {
 }
 
 #footerwrap i:hover {
-	color: #00b3fe
+	color: #fef28e
 }
 
 /*	################################################################
@@ -385,7 +385,7 @@ a:focus {
 /* General Tweaks */
 
 #blue {
-	background: #00b3fe;
+	background: #fef28e;
 	margin-top: 60px;
 	margin-bottom: 60px;
 	padding-top: 25px;
@@ -420,7 +420,7 @@ a:focus {
 }
 
 .ctitle {
-	color: #00b3fe;
+	color: #fef28e;
 	font-weight: 700;
 	margin-bottom: 15px;
 }
@@ -436,7 +436,7 @@ csmall {
 }
 
 .badge-theme {
-	background: #00b3fe;
+	background: #fef28e;
 }
 
 /* Contact Page */
