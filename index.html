@@ -1,50 +1,59 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Mask by jhclaura</title>
+---
+layout: index
+title: Home
+permalink: /
+---
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>Mask</h1>
-        <p>A collection of virtual reality wearables to help overcoming difficulties.</p>
+<div id="service">
+    <div class="container">
+        <div class="row centered">
+            <div class="col-md-4">
+                <i class="fa fa-heart-o"></i>
+                <h4>Mask Crafting</h4>
+                <p>How to make your own mask.</p>
+                <p><br/><a href="#" class="btn btn-theme">More Info</a></p>
+            </div>
+            <div class="col-md-4">
+                <i class="fa fa-flask"></i>
+                <h4>Codes</h4>
+                <p>Template and examples to easily create your own World.</p>
+                <p><br/><a href="#" class="btn btn-theme">More Info</a></p>
+            </div>
+            <div class="col-md-4">
+                <i class="fa fa-trophy"></i>
+                <h4>Links</h4>
+                <p>Useful resources.</p>
+                <p><br/><a href="#" class="btn btn-theme">More Info</a></p>
+            </div>		 				
+        </div>
+    </div><! --/container -->
+</div><! --/service -->
 
-        <p class="view"><a href="https://github.com/jhclaura/MASK">View the Project on GitHub <small>jhclaura/MASK</small></a></p>
+{% include portfolio.html title="LATEST MASKS" limit=10 %}
 
+<div class="container mtb">
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-1">
+            <h4>About MASK crafter</h4>
+            <p>{{ site.about }}</p>
+            <p><br/><a href="{{ "/about/" | prepend: site.baseurl }}" class="btn btn-theme">More Info</a></p>
+        </div>
 
-        <ul>
-          <li><a href="https://github.com/jhclaura/MASK/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/jhclaura/MASK/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/jhclaura/MASK">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h1>
-<a id="with-visual-and-physical-manipulation-of-a-mask-how-can-we-shift-identity-by-changing-ours-and-others-perspective-will-it-change-the-way-we-connect-to-each-other" class="anchor" href="#with-visual-and-physical-manipulation-of-a-mask-how-can-we-shift-identity-by-changing-ours-and-others-perspective-will-it-change-the-way-we-connect-to-each-other" aria-hidden="true"><span class="octicon octicon-link"></span></a>With visual and physical manipulation of a MASK, how can we shift identity by changing ours and others' perspective? Will it change the way we connect to each other?</h1>
+        <div class="col-lg-3">
+            <h4>Frequently Asked</h4>
+            <div class="hline"></div>
+            {% for post in site.categories['question'] %} 
+                <p><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a></p>
+            {% endfor %}
+        </div>
 
-<p><img src="http://www.jhclaura.com/MASK/mask.jpg" alt=""></p>
+        <div class="col-lg-3">
+            <h4>Latest Posts</h4>
+            <div class="hline"></div>
+            {% for post in site.categories['blog'] limit:5 %} 
+                <p><a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}.</a></p>
+            {% endfor %} 
+        </div>
 
-<h3>
-<a id="using-mobile-phones-google-cardboard-and-customized-masks-mask-explores-identity-through-experiences-in-both-the-virtual-and-real-world-users-can-interact-with-the-people-that-inhabit-both-worlds-to-overcome-social-anxiety-distance-and-isolation" class="anchor" href="#using-mobile-phones-google-cardboard-and-customized-masks-mask-explores-identity-through-experiences-in-both-the-virtual-and-real-world-users-can-interact-with-the-people-that-inhabit-both-worlds-to-overcome-social-anxiety-distance-and-isolation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Using mobile phones, Google Cardboard, and customized masks, MASK explores identity through experiences in both the virtual and real world. Users can interact with the people that inhabit both worlds to overcome social anxiety, distance, and isolation.</h3>
-
-<h3>
-<a id="with-the-house-mask-a-user-can-see-the-world-through-the-windows-of-a-virtual-house-one-of-which-is-a-web-live-stream-of-their-own-home-inside-hive-a-honeycomb-mask-users-virtually-work-live-and-share-as-a-community-with-other-hive-users-puppet-a-piggyback-mask-socializes-for-users-in-the-real-world-while-letting-users-escape-into-a-virtual-world" class="anchor" href="#with-the-house-mask-a-user-can-see-the-world-through-the-windows-of-a-virtual-house-one-of-which-is-a-web-live-stream-of-their-own-home-inside-hive-a-honeycomb-mask-users-virtually-work-live-and-share-as-a-community-with-other-hive-users-puppet-a-piggyback-mask-socializes-for-users-in-the-real-world-while-letting-users-escape-into-a-virtual-world" aria-hidden="true"><span class="octicon octicon-link"></span></a>With the "House" MASK, a user can see the world through the windows of a virtual house, one of which is a web live stream of their own home. Inside “Hive”, a honeycomb mask, users virtually work, live, and share as a community with other “Hive” users. "Puppet", a piggyback mask socializes for users in the real world, while letting users escape into a virtual world.</h3>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/jhclaura">jhclaura</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
-  </body>
-</html>
+    </div><! --/row -->
+</div><! --/container -->
