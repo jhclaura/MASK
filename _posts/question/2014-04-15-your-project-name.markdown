@@ -1,9 +1,9 @@
 ---
 layout: question
-title:  "Why did the Chicken cross the road?"
+title:  "Why do you make mask?"
 date:   2014-04-25 16:54:46
-author: Marcel Newman
+author: You
 categories:
 - question
 ---
-To get to the other side.
+Because I like masks.

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>MASK</title>
-    <description>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</description>
-    <link>http://www.jhclaura.com/</link>
-    <atom:link href="http://www.jhclaura.com/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sat, 25 Apr 2015 12:28:59 -0400</pubDate>
-    <lastBuildDate>Sat, 25 Apr 2015 12:28:59 -0400</lastBuildDate>
+    <title>M A S K</title>
+    <description>MASK is a collection of virtual reality wearables that help overcoming difficulties. Here you can find all the resource to create your own MASK and World.</description>
+    <link>http://www.jhclaura.com/MASK/</link>
+    <atom:link href="http://www.jhclaura.com/MASK/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Sun, 26 Apr 2015 12:22:03 -0400</pubDate>
+    <lastBuildDate>Sun, 26 Apr 2015 12:22:03 -0400</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
-        <title>Question: Why did the Chicken cross the road?</title>
-        <description>&lt;p&gt;To get to the other side.&lt;/p&gt;
+        <title>Question: Why do you make mask?</title>
+        <description>&lt;p&gt;Because I like masks.&lt;/p&gt;
 </description>
         <pubDate>Fri, 25 Apr 2014 12:54:46 -0400</pubDate>
-        <link>http://www.jhclaura.com/question/your-project-name</link>
-        <guid isPermaLink="true">http://www.jhclaura.com/question/your-project-name</guid>
+        <link>http://www.jhclaura.com/MASK/question/your-project-name</link>
+        <guid isPermaLink="true">http://www.jhclaura.com/MASK/question/your-project-name</guid>
         
         
         <category>question</category>
@@ -31,8 +31,8 @@
 &lt;p&gt;It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
 </description>
         <pubDate>Fri, 25 Apr 2014 12:54:46 -0400</pubDate>
-        <link>http://www.jhclaura.com/project/your-project-name</link>
-        <guid isPermaLink="true">http://www.jhclaura.com/project/your-project-name</guid>
+        <link>http://www.jhclaura.com/MASK/project/your-project-name</link>
+        <guid isPermaLink="true">http://www.jhclaura.com/MASK/project/your-project-name</guid>
         
         
         <category>project</category>
@@ -48,8 +48,8 @@
 &lt;p&gt;It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
 </description>
         <pubDate>Fri, 25 Apr 2014 12:54:46 -0400</pubDate>
-        <link>http://www.jhclaura.com/project/your-project-name</link>
-        <guid isPermaLink="true">http://www.jhclaura.com/project/your-project-name</guid>
+        <link>http://www.jhclaura.com/MASK/project/your-project-name</link>
+        <guid isPermaLink="true">http://www.jhclaura.com/MASK/project/your-project-name</guid>
         
         
         <category>project</category>
@@ -65,8 +65,8 @@
 &lt;p&gt;It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
 </description>
         <pubDate>Fri, 25 Apr 2014 12:54:46 -0400</pubDate>
-        <link>http://www.jhclaura.com/project/your-project-name</link>
-        <guid isPermaLink="true">http://www.jhclaura.com/project/your-project-name</guid>
+        <link>http://www.jhclaura.com/MASK/project/your-project-name</link>
+        <guid isPermaLink="true">http://www.jhclaura.com/MASK/project/your-project-name</guid>
         
         
         <category>project</category>
@@ -82,8 +82,8 @@
 &lt;p&gt;It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
 </description>
         <pubDate>Fri, 25 Apr 2014 12:54:46 -0400</pubDate>
-        <link>http://www.jhclaura.com/project/your-project-name</link>
-        <guid isPermaLink="true">http://www.jhclaura.com/project/your-project-name</guid>
+        <link>http://www.jhclaura.com/MASK/project/your-project-name</link>
+        <guid isPermaLink="true">http://www.jhclaura.com/MASK/project/your-project-name</guid>
         
         
         <category>project</category>
@@ -99,8 +99,8 @@
 &lt;p&gt;It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
 </description>
         <pubDate>Fri, 25 Apr 2014 12:54:46 -0400</pubDate>
-        <link>http://www.jhclaura.com/project/your-project-name</link>
-        <guid isPermaLink="true">http://www.jhclaura.com/project/your-project-name</guid>
+        <link>http://www.jhclaura.com/MASK/project/your-project-name</link>
+        <guid isPermaLink="true">http://www.jhclaura.com/MASK/project/your-project-name</guid>
         
         
         <category>project</category>
@@ -108,70 +108,104 @@
       </item>
     
       <item>
-        <title>Project: YOUR PROJECT NAME</title>
-        <description>&lt;h4 id=&quot;your-project-name&quot;&gt;YOUR PROJECT NAME&lt;/h4&gt;
-&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.&lt;/p&gt;
+        <title>Blog: Time to change your apps</title>
+        <description>&lt;p&gt;&lt;b&gt;Lorem Ipsum&lt;/b&gt; is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.&lt;/p&gt;
 
-&lt;h4 id=&quot;our-proposal&quot;&gt;Our Proposal&lt;/h4&gt;
-&lt;p&gt;It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
+&lt;p&gt;It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. &lt;!--more--&gt;
+It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
+
+&lt;p&gt;Contrary to popular belief, &lt;b&gt;Lorem Ipsum is not simply random text&lt;/b&gt;. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Hampden-Sydney College&lt;/a&gt; in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.&amp;lt;&lt;/p&gt;
+
+&lt;p&gt;Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of “de Finibus Bonorum et Malorum” (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, “Lorem ipsum dolor sit amet..”, comes from a line in section 1.10.32.&lt;/p&gt;
+
+&lt;h4 id=&quot;why-do-we-use-it&quot;&gt;Why do we use it?&lt;/h4&gt;
+&lt;p&gt;It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ‘Content here, content here’, making it look like readable English.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ‘lorem ipsum’ will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable.&lt;/p&gt;
+
 </description>
         <pubDate>Fri, 25 Apr 2014 12:54:46 -0400</pubDate>
-        <link>http://www.jhclaura.com/project/your-project-name</link>
-        <guid isPermaLink="true">http://www.jhclaura.com/project/your-project-name</guid>
+        <link>http://www.jhclaura.com/MASK/blog/wordpress/photoshop/time-to-change-your-apps</link>
+        <guid isPermaLink="true">http://www.jhclaura.com/MASK/blog/wordpress/photoshop/time-to-change-your-apps</guid>
         
         
-        <category>project</category>
+        <category>blog</category>
+        
+        <category>wordpress</category>
+        
+        <category>photoshop</category>
         
       </item>
     
       <item>
-        <title>Project: YOUR PROJECT NAME</title>
-        <description>&lt;h4 id=&quot;your-project-name&quot;&gt;YOUR PROJECT NAME&lt;/h4&gt;
-&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.&lt;/p&gt;
+        <title>Blog: Our new logo is here</title>
+        <description>&lt;p&gt;&lt;b&gt;Lorem Ipsum&lt;/b&gt; is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.&lt;/p&gt;
 
-&lt;h4 id=&quot;our-proposal&quot;&gt;Our Proposal&lt;/h4&gt;
-&lt;p&gt;It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
+&lt;p&gt;It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. &lt;!--more--&gt;
+It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
+
+&lt;p&gt;Contrary to popular belief, &lt;b&gt;Lorem Ipsum is not simply random text&lt;/b&gt;. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Hampden-Sydney College&lt;/a&gt; in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.&amp;lt;&lt;/p&gt;
+
+&lt;p&gt;Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of “de Finibus Bonorum et Malorum” (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, “Lorem ipsum dolor sit amet..”, comes from a line in section 1.10.32.&lt;/p&gt;
+
+&lt;h4 id=&quot;why-do-we-use-it&quot;&gt;Why do we use it?&lt;/h4&gt;
+&lt;p&gt;It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ‘Content here, content here’, making it look like readable English.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ‘lorem ipsum’ will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable.&lt;/p&gt;
+
 </description>
         <pubDate>Fri, 25 Apr 2014 12:54:46 -0400</pubDate>
-        <link>http://www.jhclaura.com/project/your-project-name</link>
-        <guid isPermaLink="true">http://www.jhclaura.com/project/your-project-name</guid>
+        <link>http://www.jhclaura.com/MASK/blog/web-design/development/our-new-logo-is-here</link>
+        <guid isPermaLink="true">http://www.jhclaura.com/MASK/blog/web-design/development/our-new-logo-is-here</guid>
         
         
-        <category>project</category>
+        <category>blog</category>
+        
+        <category>web-design</category>
+        
+        <category>development</category>
         
       </item>
     
       <item>
-        <title>Project: YOUR PROJECT NAME</title>
-        <description>&lt;h4 id=&quot;your-project-name&quot;&gt;YOUR PROJECT NAME&lt;/h4&gt;
-&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.&lt;/p&gt;
+        <title>Blog: Logo design contest starts now</title>
+        <description>&lt;p&gt;&lt;b&gt;Lorem Ipsum&lt;/b&gt; is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.&lt;/p&gt;
 
-&lt;h4 id=&quot;our-proposal&quot;&gt;Our Proposal&lt;/h4&gt;
-&lt;p&gt;It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
+&lt;p&gt;It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. &lt;!--more--&gt;
+It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
+
+&lt;p&gt;Contrary to popular belief, &lt;b&gt;Lorem Ipsum is not simply random text&lt;/b&gt;. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at &lt;a href=&quot;https://github.com/jekyll/jekyll&quot;&gt;Hampden-Sydney College&lt;/a&gt; in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.&amp;lt;&lt;/p&gt;
+
+&lt;p&gt;Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of “de Finibus Bonorum et Malorum” (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, “Lorem ipsum dolor sit amet..”, comes from a line in section 1.10.32.&lt;/p&gt;
+
+&lt;h4 id=&quot;why-do-we-use-it&quot;&gt;Why do we use it?&lt;/h4&gt;
+&lt;p&gt;It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ‘Content here, content here’, making it look like readable English.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for ‘lorem ipsum’ will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable.&lt;/p&gt;
+
 </description>
         <pubDate>Fri, 25 Apr 2014 12:54:46 -0400</pubDate>
-        <link>http://www.jhclaura.com/project/your-project-name</link>
-        <guid isPermaLink="true">http://www.jhclaura.com/project/your-project-name</guid>
+        <link>http://www.jhclaura.com/MASK/blog/tips&tricks/code-snippets/logo-design-contest-starts-now</link>
+        <guid isPermaLink="true">http://www.jhclaura.com/MASK/blog/tips&tricks/code-snippets/logo-design-contest-starts-now</guid>
         
         
-        <category>project</category>
+        <category>blog</category>
         
-      </item>
-    
-      <item>
-        <title>Project: YOUR PROJECT NAME</title>
-        <description>&lt;h4 id=&quot;your-project-name&quot;&gt;YOUR PROJECT NAME&lt;/h4&gt;
-&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.&lt;/p&gt;
-
-&lt;h4 id=&quot;our-proposal&quot;&gt;Our Proposal&lt;/h4&gt;
-&lt;p&gt;It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
-</description>
-        <pubDate>Fri, 25 Apr 2014 12:54:46 -0400</pubDate>
-        <link>http://www.jhclaura.com/project/your-project-name</link>
-        <guid isPermaLink="true">http://www.jhclaura.com/project/your-project-name</guid>
+        <category>tips&amp;tricks</category>
         
-        
-        <category>project</category>
+        <category>code-snippets</category>
         
       </item>
     

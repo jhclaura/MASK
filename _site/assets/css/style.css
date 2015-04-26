@@ -31,7 +31,7 @@ body {
 	}
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Ubuntu Mono', sans-serif;
 	font-weight: 700;
 }
 
@@ -75,7 +75,7 @@ a {
 a:hover,
 a:focus {
   text-decoration: none;
-  color:#66c1b5;
+  color:#4ab6a7;
 }
 
 ::-moz-selection  {
@@ -103,18 +103,20 @@ a:focus {
 }
 
 .navbar-brand {
-	font-family: 'Raleway', sans-serif;
+	font-family: 'Ubuntu Mono', sans-serif;
 	font-weight: 900;
 }
 
 .navbar-header .navbar-brand {
 	color: white;
+	font-size: 28px;
 }
 
 .navbar-default .navbar-nav > li > a {
+	font-family: 'Ubuntu Mono', sans-serif;
 	color: white;
 	font-weight: 700;
-	font-size: 12px;
+	font-size: 20px;
 }
 
 .navbar-default .navbar-nav > li > a:hover {
@@ -224,12 +226,12 @@ a:focus {
 }
 
 #headerwrap h3, h5 {
-	color: white;
+	color: #24b572;
 	font-weight: 400;
 }
 
 #headerwrap h1 {
-	color: white;
+	color: #24b572;
 	margin-bottom: 25px;
 }
 
@@ -362,7 +364,7 @@ a:focus {
 }
 
 #footerwrap p {
-	color: #bfc9d3;
+	color: #fffbda;
 }
 
 #footerwrap h4 {
@@ -371,7 +373,7 @@ a:focus {
 
 #footerwrap i {
 	font-size: 30px;
-	color: #bfc9d3;
+	color: #fffbda;
 	padding-right: 25px;
 }
 

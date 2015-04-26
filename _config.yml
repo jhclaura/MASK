@@ -1,9 +1,9 @@
 ### GENERAL SETTINGS ###
 
 # Site settings
-title: MASK
-description: "Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description."
-analytics: #Google analytics code in the format XX-nnnnnnnn-n
+title: M A S K
+description: "MASK is a collection of virtual reality wearables that help overcoming difficulties. Here you can find all the resource to create your own MASK and World."
+analytics: UA-47735603-8
 baseurl: "/MASK" #important: start with /
 url: "http://www.jhclaura.com"
 
@@ -17,25 +17,25 @@ colors:  #in hex code if not noted else
   primary_rgb: "254,242,142" #"247,0,49" #rgb of the primary. Needed in some places for the transparency effect.  
   secondary: "#24b572" #"#33004D"
   link: "#92c1bb"
-  link_hover: "#66c1b5"
+  link_hover: "#4ab6a7"
   footer_heading: "#ffffff"
-  footer_content: "#bfc9d3"
+  footer_content: "#19e7ca"
   
   
 ### CONTACT SETTINGS ###
 
 # Social networks usernames. Many more available: google-plus, flickr, linkedin, etc). Shown in footer.
 social:
-  - title: dribbble
-    url:
-  - title: facebook
-    url:
+  # - title: dribbble
+  #   url:
+  # - title: facebook
+  #   url:
   - title: twitter
-    url: 
+    url: http://twitter.com/jhclaura
   - title: instagram
-    url: 
+    url: http://instagram.com/jhclaura
   - title: tumblr
-    url: 
+    url: http://lauracollection.tumblr.com/
     
 # Postal address (add as many lines as necessary). Shown in footer and on Contact page.
 address:
@@ -49,54 +49,54 @@ tel: +1 626-905-9397
 ### GENERAL DATA FOR VARIOUS LOCATIONS ###
     
 # Members information. Shown on About page.
-members:
-  - name: Laura Chen
-    position: CEO
-    text: Hello!
-    img: me.jpg
-    social:
-      - title: envelope #use for email address
-        url: mailto:jhclaura@gmail.com
-      - title: twitter
-        url: http://twitter.com/jhclaura
-  - name: Paul Jameson
-    position: Lead Designer
-    text: Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-    img: team02.jpg
-    social:
-      - title: envelope #use for email address
-        url: mailto:name@domain.com
-      - title: twitter
-        url: http://twitter.com/handle
-  - name: Laura Sommers
-    position: Lead Developer
-    text: Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-    img: team03.jpg
-    social:
-      - title: envelope #use for email address
-        url: mailto:name@domain.com
-      - title: twitter
-        url: http://twitter.com/handle
-  - name: Martin Blunt
-    position: Marketing
-    text: Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-    img: team04.jpg
-    social:
-      - title: envelope #use for email address
-        url: mailto:name@domain.com
-      - title: twitter
-        url: http://twitter.com/handle
+# members:
+#   - name: Laura Chen
+#     position: Lead
+#     text: Let's use mask to change the world!
+#     img: me.jpg
+#     social:
+#       - title: envelope #use for email address
+#         url: mailto:jhclaura@gmail.com
+#       - title: twitter
+#         url: http://twitter.com/jhclaura
+#   - name: Paul Jameson
+#     position: Lead Designer
+#     text: Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+#     img: team02.jpg
+#     social:
+#       - title: envelope #use for email address
+#         url: mailto:name@domain.com
+#       - title: twitter
+#         url: http://twitter.com/handle
+#   - name: Laura Sommers
+#     position: Lead Developer
+#     text: Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+#     img: team03.jpg
+#     social:
+#       - title: envelope #use for email address
+#         url: mailto:name@domain.com
+#       - title: twitter
+#         url: http://twitter.com/handle
+#   - name: Martin Blunt
+#     position: Marketing
+#     text: Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+#     img: team04.jpg
+#     social:
+#       - title: envelope #use for email address
+#         url: mailto:name@domain.com
+#       - title: twitter
+#         url: http://twitter.com/handle
     
 # Clients information. Shown on Home and About pages.
-clients:
-  - name: dribbble
-    img: client01.png
+# clients:
+#   - name: dribbble
+#     img: client01.png
     
 # Short text about your company. Shown in footer on every page and also separately on Home and Contact page.
-about: "Laura Chen is Laura Chen."
+about: "MASK - You see and you believe."
 
 # Testimonial content. Shown on Home and About page. 
-testimonial:
-    message: "..."
-    author: ...
-    position: ...
+# testimonial:
+#     message: "..."
+#     author: ...
+#     position: ...
