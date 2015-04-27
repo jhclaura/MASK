@@ -246,7 +246,8 @@ a:focus {
 }
 
 #service i {
-	color: {{ site.colors.primary }};
+	/*color: {{ site.colors.primary }};*/
+	color: #FEE43A;
 	font-size: 60px;
 	padding: 15px;
 }
