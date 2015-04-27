@@ -62,7 +62,7 @@ ol {
 }
 
 a { 
-    color:#92c1bb;
+    color:#da4571;
     padding: 0;
 	margin: 0;
 	text-decoration: none; 
@@ -364,7 +364,7 @@ a:focus {
 }
 
 #footerwrap p {
-	color: #fffbda;
+	color: #19e7ca;
 }
 
 #footerwrap h4 {
@@ -373,7 +373,7 @@ a:focus {
 
 #footerwrap i {
 	font-size: 30px;
-	color: #fffbda;
+	color: #19e7ca;
 	padding-right: 25px;
 }
 
@@ -395,7 +395,7 @@ a:focus {
 }
 
 #blue h3 {
-	color: white;
+	color: #24b572;
 	margin-left: 15px;
 }
 
@@ -422,7 +422,8 @@ a:focus {
 }
 
 .ctitle {
-	color: #fef28e;
+	/*color: #fef28e;*/
+	color: #24b572;
 	font-weight: 700;
 	margin-bottom: 15px;
 }

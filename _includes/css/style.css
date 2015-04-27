@@ -395,7 +395,7 @@ a:focus {
 }
 
 #blue h3 {
-	color: white;
+	color: #24b572;
 	margin-left: 15px;
 }
 
@@ -422,7 +422,8 @@ a:focus {
 }
 
 .ctitle {
-	color: {{ site.colors.primary }};
+	/*color: {{ site.colors.primary }};*/
+	color: #24b572;
 	font-weight: 700;
 	margin-bottom: 15px;
 }

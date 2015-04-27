@@ -16,7 +16,7 @@ colors:  #in hex code if not noted else
   primary: "#fef28e" #"#F70031" 
   primary_rgb: "254,242,142" #"247,0,49" #rgb of the primary. Needed in some places for the transparency effect.  
   secondary: "#24b572" #"#33004D"
-  link: "#92c1bb"
+  link: "#da4571"
   link_hover: "#4ab6a7"
   footer_heading: "#ffffff"
   footer_content: "#19e7ca"
