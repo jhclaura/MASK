@@ -129,7 +129,10 @@ var dir, step;
 	var bgColor = new THREE.Color( 0,0,0 ), tmpBgColor = new THREE.Color( 0,0,0 );
 	var sampleIndex = 0, triggerSources = [];
 
-	var frankDance = [], frankMat, strobeLightOn = false;
+	var dancingFrank = [], frank, frankMat, totalFrankGeom, totalFrankMats = [], strobeLightOn = false;
+	var frankFiles = [ "models/frank/f_1.js", "models/frank/f_2.js", "models/frank/f_3.js", "models/frank/f_4.js",
+					   "models/frank/f_5.js", "models/frank/f_6.js", "models/frank/f_7.js", "models/frank/f_8.js",
+					   "models/frank/f_9.js", "models/frank/f_10.js", "models/frank/f_11.js", "models/frank/f_12.js" ];
 	//STROBE_LIGHT
 	var coverElement, delay = 0;
 	var canvasStrobe, canvasContext;
@@ -590,11 +593,16 @@ function init()
 	// frank
 		tex = new THREE.ImageUtils.loadTexture('images/frank.png');
 		frankMat = new THREE.MeshLambertMaterial({map: tex});
-		loadModelDance(
-			"models/frank/f_1.js", "models/frank/f_2.js", "models/frank/f_3.js", "models/frank/f_4.js",
-			"models/frank/f_5.js", "models/frank/f_6.js", "models/frank/f_7.js", "models/frank/f_8.js",
-			"models/frank/f_9.js", "models/frank/f_10.js", "models/frank/f_11.js", "models/frank/f_12.js",
-			frankMat);
+		totalFrankGeom = new THREE.Geometry();
+
+		for(var i=0; i<frankFiles.length; i++){
+			loadModelDance( frankFiles[i], frankMat, i );
+		}
+		// loadModelDance(
+		// 	"models/frank/f_1.js", "models/frank/f_2.js", "models/frank/f_3.js", "models/frank/f_4.js",
+		// 	"models/frank/f_5.js", "models/frank/f_6.js", "models/frank/f_7.js", "models/frank/f_8.js",
+		// 	"models/frank/f_9.js", "models/frank/f_10.js", "models/frank/f_11.js", "models/frank/f_12.js",
+		// 	frankMat);
 
 	stats = new Stats();
 	stats.domElement.style.position = 'absolute';
@@ -911,11 +919,13 @@ function loadModelGuy (model, modelB, modelC, modelD, mat, cMat, index) {
 }
 
 
-function loadModelDance (models0, models1, models2, models3, models4, models5, models6, models7, models8, models9, models10, models11, meshMat) {
+function loadModelDance_v0 (models0, models1, models2, models3, models4, models5, models6, models7, models8, models9, models10, models11, meshMat) {
 
 	var matt = meshMat;
 	var loader = new THREE.JSONLoader();
 	var danceMesh;
+
+	var totalGeom = new THREE.Geometry();
 
 	var models = [];
 	models.push(models0);
@@ -939,14 +949,50 @@ function loadModelDance (models0, models1, models2, models3, models4, models5, m
 			// danceMesh.scale.set(scaleD,scaleC,scaleC);
 			// danceMesh.position.y = posYD;
 
+			// dancingFrank[i].position.x = Math.sin((360/12*i - danceStep)*(Math.PI/180))*40;
+			// dancingFrank[i].position.z = Math.sin(Math.PI/2 + (360/12*i - danceStep)*(Math.PI/180))*40;
+			// dancingFrank[i].rotation.y = (360/12*i - danceStep)*(Math.PI/180);
+
+			danceMesh.position.x = Math.sin((360/12*i)*(Math.PI/180))*40;
+			danceMesh.position.z = Math.sin(Math.PI/2 + (360/12*i)*(Math.PI/180))*40;
+			danceMesh.rotation.y = (360/12*i)*(Math.PI/180);
+			console.log(i);
 			scene.add(danceMesh);
-			frankDance.push(danceMesh);
+			dancingFrank.push(danceMesh);
 				
 		}, "js");
 	}
-	
 }
 
+function loadModelDance (model, meshMat, index) {
+
+	var matt = meshMat;
+	totalFrankMats.push( matt );
+
+	var loader = new THREE.JSONLoader();
+	var danceMesh;
+
+	loader.load(model, function(geometry){
+		danceMesh = new THREE.Mesh(geometry, matt);
+
+		danceMesh.position.x = Math.sin((360/12*index)*(Math.PI/180))*20;
+		danceMesh.position.z = Math.sin(Math.PI/2 + (360/12*index)*(Math.PI/180))*20;
+		danceMesh.position.y = -1;
+		danceMesh.rotation.y = (180+360/12*index)*(Math.PI/180);
+
+		danceMesh.updateMatrix();
+		totalFrankGeom.merge( danceMesh.geometry, danceMesh.matrix );
+
+		if(index == 11){
+			frank = new THREE.Mesh( totalFrankGeom, new THREE.MeshFaceMaterial(totalFrankMats) );
+			scene.add( frank );
+		}
+
+		// scene.add(danceMesh);
+		// dancingFrank.push(danceMesh);
+			
+	}, "js");
+}
 
 var trigger0_source;
 
@@ -1110,7 +1156,9 @@ var danceStep = 0;
 function update()
 {	
 
-	danceStep += 3.75;
+	danceStep += 2.618;	//3.75, 2.945, 2.4216
+
+	// danceStep += 3.75;
 
 	// WEB_CAM
 		if(video.readyState === video.HAVE_ENOUGH_DATA){
@@ -1235,24 +1283,39 @@ function update()
 				currentKeyframeH = keyframeH;
 			}
 		}
-		if(touchCount==4 && resetHorse==true) {
+		if(touchCount>=4 && resetHorse==true) {
 			// console.log("4 ppl are touching!");
 			goHorse();
-		}		
-	
-	if(touchCount>=5)	console.log("5 ppl or more are touching!");
-
-	// zoetrope
-		if(strobeLightOn)
-			changeColor();
-		else
-			showCanvas();
-
-		for(var i=0; i<frankDance.length; i++){
-			frankDance[i].position.x = Math.sin((360/12*i - danceStep)*(Math.PI/180))*40;
-			frankDance[i].position.z = Math.sin(Math.PI/2 + (360/12*i - danceStep)*(Math.PI/180))*40;
-			frankDance[i].rotation.y = (360/12*i - danceStep)*(Math.PI/180);
 		}
+
+		if (frank && touchCount>=4) {
+			// for(var i=0; i<dancingFrank.length; i++){
+			// 	dancingFrank[i].position.x = Math.sin((360/12*i - danceStep)*(Math.PI/180))*40;
+			// 	dancingFrank[i].position.z = Math.sin(Math.PI/2 + (360/12*i - danceStep)*(Math.PI/180))*40;
+			// 	dancingFrank[i].rotation.y = (360/12*i - danceStep)*(Math.PI/180);
+			// }
+
+			frank.rotation.y = -danceStep;
+		}
+	
+	// zoetrope
+	if(touchCount>=5 || strobeLightOn) {
+		// console.log("5 ppl or more are touching!");
+		changeColor();		
+	} else {
+		showCanvas();
+	}
+			
+
+	
+
+		// for(var i=0; i<dancingFrank.length; i++){
+		// 	dancingFrank[i].position.x = Math.sin((360/12*i - danceStep)*(Math.PI/180))*40;
+		// 	dancingFrank[i].position.z = Math.sin(Math.PI/2 + (360/12*i - danceStep)*(Math.PI/180))*40;
+		// 	dancingFrank[i].rotation.y = (360/12*i - danceStep)*(Math.PI/180);
+		// }
+
+		
 
 	//
 	time = Date.now();
