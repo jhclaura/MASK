@@ -5,8 +5,8 @@ date:   2014-04-26 16:54:46
 author: Laura
 categories:
 - project
-img: duet.jpg
-thumb: duetT.jpg
+img: duet.png
+thumb: duetT.png
 carousel:
 - single01.jpg
 - single02.jpg
