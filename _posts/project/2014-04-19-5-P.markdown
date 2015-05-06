@@ -8,7 +8,7 @@ categories:
 img: 5p.jpg
 thumb: 5pT.jpg
 carousel:
-- single01.jpg
+- 5p.jpg
 - single02.jpg
 - single03.jpg
 ---
