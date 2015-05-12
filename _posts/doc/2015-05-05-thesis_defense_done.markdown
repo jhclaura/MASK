@@ -11,9 +11,8 @@ thumb: vr_thumb.png
 ---
 
 Thesis internal presentation was done. YAHHHHH. A lot of things to add and also a lot of things to change. <!--more-->
-AUDIO check beforehand next time!!! 
 
-Here are the short lists of feedback, based on my faint memories because I was super nervous during Q&A.
+AUDIO check beforehand next time!!! And here are the short lists of feedback, based on my faint memories because I was super nervous during Q&A.
 <br>
 <br>
 
