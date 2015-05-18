@@ -15,8 +15,19 @@ carousel:
 - h_2.png
 - h_3.png
 ---
-####H i v e
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+###H i v e
+Live inside a beehive as a community, wherever you are.
 
-####I d e a
-It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+###I d e a
+It’s a community nest that connect people to overcome the distance. During the day, people work as worker bees. During the night, people come back to the bee hive and share what they've been through during the day.
+
+By moving heads, users can look around and talk with each other inside the virtual beehive.
+
+###F e a t u r e
+- Made of cardboard, paper, wax paper, and LEDs.
+- For isolation frustration
+
+###V i d e o
+<iframe src="https://player.vimeo.com/video/128157746?color=c9ff23" width="800" height="450" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe><br>
+
+<iframe src="https://player.vimeo.com/video/128157885?color=c9ff23" width="800" height="450" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>

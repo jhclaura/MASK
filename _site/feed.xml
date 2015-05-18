@@ -5,9 +5,27 @@
     <description>MASK is a collection of virtual reality wearables that help overcoming difficulties. Here you can find all the resource to create your own MASK and World.</description>
     <link>http://www.jhclaura.com/MASK/</link>
     <atom:link href="http://www.jhclaura.com/MASK/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Fri, 15 May 2015 15:50:44 -0400</pubDate>
-    <lastBuildDate>Fri, 15 May 2015 15:50:44 -0400</lastBuildDate>
+    <pubDate>Mon, 18 May 2015 12:52:57 -0400</pubDate>
+    <lastBuildDate>Mon, 18 May 2015 12:52:57 -0400</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Doc: Thesis DONE!</title>
+        <description>&lt;h4 id=&quot;yeahhhhh&quot;&gt;YEAHHHHH&lt;/h4&gt;
+&lt;p&gt;THESIS’s done! Just finished the public presentation of MASK and people liked it yah :D&lt;/p&gt;
+
+&lt;p&gt;So emotional. I &amp;lt;3 ITP.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 15 May 2015 08:20:46 -0400</pubDate>
+        <link>http://www.jhclaura.com/MASK/doc/murmur/Thesis-done</link>
+        <guid isPermaLink="true">http://www.jhclaura.com/MASK/doc/murmur/Thesis-done</guid>
+        
+        
+        <category>doc</category>
+        
+        <category>murmur</category>
+        
+      </item>
     
       <item>
         <title>Doc: Fabrication Overview</title>
@@ -123,11 +141,33 @@ They feel the masks are too special and my style and only I’ll make the masks.
     
       <item>
         <title>Project: 5P</title>
-        <description>&lt;h4 id=&quot;p&quot;&gt;5 P&lt;/h4&gt;
-&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.&lt;/p&gt;
+        <description>&lt;h3 id=&quot;p&quot;&gt;5P&lt;/h3&gt;
+&lt;p&gt;An exploration of touches with acceleration of visuals and sounds.&lt;/p&gt;
 
-&lt;h4 id=&quot;i-d-ea&quot;&gt;I d ea&lt;/h4&gt;
-&lt;p&gt;It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
+&lt;h3 id=&quot;i-d-e-a&quot;&gt;I d e a&lt;/h3&gt;
+&lt;p&gt;It’s a mask for 5 persons. By attaching sensors on the forehead of Cardboards, I can easily detect who is touching who among 5 persons.&lt;/p&gt;
+
+&lt;p&gt;Total 10 combinations of touching: AB, AC, AD, AE, BC, BD, BE, CD, CE, DE. Each of them will trigger specific animation and sound.&lt;/p&gt;
+
+&lt;p&gt;AB –&amp;gt; money pops out on the ground&lt;br /&gt;
+AC –&amp;gt; star appears&lt;br /&gt;
+AD –&amp;gt; change sky color&lt;br /&gt;
+AE –&amp;gt; head grows grass&lt;br /&gt;
+BC –&amp;gt; lightbulb appears&lt;br /&gt;
+BD –&amp;gt; banana grows out of the ground&lt;br /&gt;
+BE –&amp;gt; stripe grids&lt;br /&gt;
+CD –&amp;gt; rainbow shoots out from head&lt;br /&gt;
+CE –&amp;gt; drop doughnuts and cookies&lt;br /&gt;
+DE –&amp;gt; generate wave&lt;br /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;features&quot;&gt;Features&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Physical connection&lt;/li&gt;
+  &lt;li&gt;Senesors on Cardboard, measuring resistance changes when touched&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;v-i-d-e-o&quot;&gt;V i d e o&lt;/h3&gt;
+&lt;iframe src=&quot;https://player.vimeo.com/video/128151041?color=c9ff23&quot; width=&quot;800&quot; height=&quot;450&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 </description>
         <pubDate>Mon, 27 Apr 2015 12:54:46 -0400</pubDate>
         <link>http://www.jhclaura.com/MASK/project/5-P</link>
@@ -140,11 +180,27 @@ They feel the masks are too special and my style and only I’ll make the masks.
     
       <item>
         <title>Project: D u e t</title>
-        <description>&lt;h4 id=&quot;d-u-e-t&quot;&gt;D u e t&lt;/h4&gt;
-&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.&lt;/p&gt;
+        <description>&lt;h3 id=&quot;d-u-e-t&quot;&gt;D u e t&lt;/h3&gt;
+&lt;p&gt;Nonverbal communications with smiles.&lt;/p&gt;
 
-&lt;h4 id=&quot;i-d-e-a&quot;&gt;I d e a&lt;/h4&gt;
-&lt;p&gt;It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
+&lt;h3 id=&quot;i-d-e-a&quot;&gt;I d e a&lt;/h3&gt;
+&lt;p&gt;It’s a mask for two persons who hesitate to talk to each other. It’s for the eagerness of communicating without seeing each other’s face yet still feeling the intimacy.&lt;/p&gt;
+
+&lt;p&gt;The mask justified the user’s behavior. Starting conversation by swallowing people, the user brings both two people into virtual world, where they will be surrounded by four monsters, which are observing whether the users are smiling or not.&lt;/p&gt;
+
+&lt;p&gt;Users control the lights both in real world and virtual world, by customized muscle sensors. The lights change with smile levels. Once both of the users are smiling genuinely, the monsters will hold hands, start singing, and swing from right to left. Yet once there’s one user stops smiling, the monster will swallow that one and another user has to rescue him or her by smile.&lt;/p&gt;
+
+&lt;h3 id=&quot;f-e-a-t-u-r-e&quot;&gt;F e a t u r e&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Made of mylar paper, fabric, Arduino, LEDs, and muscle sensors.&lt;/li&gt;
+  &lt;li&gt;For nonverbal communications.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;v-i-d-e-o&quot;&gt;V i d e o&lt;/h3&gt;
+&lt;iframe src=&quot;https://player.vimeo.com/video/127044541?color=c9ff23&quot; width=&quot;800&quot; height=&quot;450&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/128151530?color=c9ff23&quot; width=&quot;800&quot; height=&quot;450&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 </description>
         <pubDate>Sat, 26 Apr 2014 12:54:46 -0400</pubDate>
         <link>http://www.jhclaura.com/MASK/project/D-u-e-t</link>
@@ -170,11 +226,30 @@ They feel the masks are too special and my style and only I’ll make the masks.
     
       <item>
         <title>Project: P u p p e t</title>
-        <description>&lt;h4 id=&quot;p-u-p-p-e-t&quot;&gt;P u p p e t&lt;/h4&gt;
-&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.&lt;/p&gt;
+        <description>&lt;h3 id=&quot;p-u-p-p-e-t&quot;&gt;P u p p e t&lt;/h3&gt;
+&lt;p&gt;Having small talks without speak.&lt;/p&gt;
 
-&lt;h4 id=&quot;i-d-e-a&quot;&gt;I d e a&lt;/h4&gt;
-&lt;p&gt;It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
+&lt;h3 id=&quot;i-d-e-a&quot;&gt;I d e a&lt;/h3&gt;
+&lt;p&gt;Sometime you are either not in the mood, or just feel miserable and don’t want to talk to others, but at the same time you don’t want to be rude. The puppet will speak for you.&lt;/p&gt;
+
+&lt;p&gt;Puppet helps the user to escape the real world, and provides temporary healthy self-pity for the user to enjoy, while puppet beneath you will take care of the real world for the user.&lt;/p&gt;
+
+&lt;p&gt;When noticing people approaching, the user can trigger face recognition mode by pressing the foot of Puppet. Once recognizing faces, Puppet will blur the face, and start the small talks for you. &lt;/p&gt;
+
+&lt;h3 id=&quot;f-e-a-t-u-r-e&quot;&gt;F e a t u r e&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Made of foam, conductive fabric, XBee, and a speaker inside the mouth&lt;/li&gt;
+  &lt;li&gt;For social anxiety&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;v-i-d-e-o&quot;&gt;V i d e o&lt;/h3&gt;
+&lt;iframe src=&quot;https://player.vimeo.com/video/127044542?color=c9ff23&quot; width=&quot;800&quot; height=&quot;450&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/128152102?color=c9ff23&quot; width=&quot;800&quot; height=&quot;450&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/128152220?color=c9ff23&quot; width=&quot;800&quot; height=&quot;450&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 </description>
         <pubDate>Fri, 25 Apr 2014 12:54:46 -0400</pubDate>
         <link>http://www.jhclaura.com/MASK/project/P-u-p-p-e-t</link>
@@ -187,11 +262,25 @@ They feel the masks are too special and my style and only I’ll make the masks.
     
       <item>
         <title>Project: H i v e</title>
-        <description>&lt;h4 id=&quot;h-i-v-e&quot;&gt;H i v e&lt;/h4&gt;
-&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.&lt;/p&gt;
+        <description>&lt;h3 id=&quot;h-i-v-e&quot;&gt;H i v e&lt;/h3&gt;
+&lt;p&gt;Live inside a beehive as a community, wherever you are.&lt;/p&gt;
 
-&lt;h4 id=&quot;i-d-e-a&quot;&gt;I d e a&lt;/h4&gt;
-&lt;p&gt;It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
+&lt;h3 id=&quot;i-d-e-a&quot;&gt;I d e a&lt;/h3&gt;
+&lt;p&gt;It’s a community nest that connect people to overcome the distance. During the day, people work as worker bees. During the night, people come back to the bee hive and share what they’ve been through during the day.&lt;/p&gt;
+
+&lt;p&gt;By moving heads, users can look around and talk with each other inside the virtual beehive.&lt;/p&gt;
+
+&lt;h3 id=&quot;f-e-a-t-u-r-e&quot;&gt;F e a t u r e&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Made of cardboard, paper, wax paper, and LEDs.&lt;/li&gt;
+  &lt;li&gt;For isolation frustration&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;v-i-d-e-o&quot;&gt;V i d e o&lt;/h3&gt;
+&lt;iframe src=&quot;https://player.vimeo.com/video/128157746?color=c9ff23&quot; width=&quot;800&quot; height=&quot;450&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/128157885?color=c9ff23&quot; width=&quot;800&quot; height=&quot;450&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 </description>
         <pubDate>Thu, 24 Apr 2014 12:54:46 -0400</pubDate>
         <link>http://www.jhclaura.com/MASK/project/H-i-v-e</link>
@@ -204,11 +293,25 @@ They feel the masks are too special and my style and only I’ll make the masks.
     
       <item>
         <title>Project: H o u s e</title>
-        <description>&lt;h4 id=&quot;h-o-u-s-e&quot;&gt;H o u s e&lt;/h4&gt;
-&lt;p&gt;Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry’s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.&lt;/p&gt;
+        <description>&lt;h3 id=&quot;h-o-u-s-e&quot;&gt;H o u s e&lt;/h3&gt;
+&lt;p&gt;Connect to your home, whenever you are.&lt;/p&gt;
 
-&lt;h4 id=&quot;i-d-e-a&quot;&gt;I d e a&lt;/h4&gt;
-&lt;p&gt;It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p&gt;
+&lt;h3 id=&quot;i-d-e-a&quot;&gt;I d e a&lt;/h3&gt;
+&lt;p&gt;Both physically and virtually being inside the House, you look the real world through different virtual windows. Because of the virtual wall, a distance is created so you feel less timid of the outside world.&lt;/p&gt;
+
+&lt;p&gt;There’s a window always connected to your home, joining easily by opening the webpage. Whenever you are, you can feel the invisible connection with your house. Also, by expanding the house, user can have quality conversation in the open field, with only two windows (one locale, one remote) remain.&lt;/p&gt;
+
+&lt;h3 id=&quot;f-e-a-t-u-r-e&quot;&gt;F e a t u r e&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;Made of used wine boxes.&lt;/li&gt;
+  &lt;li&gt;For distance frustration.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;v-i-d-e-o&quot;&gt;V i d e o&lt;/h3&gt;
+&lt;iframe src=&quot;https://player.vimeo.com/video/128151363?color=c9ff23&quot; width=&quot;800&quot; height=&quot;450&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/127044539?color=c9ff23&quot; width=&quot;800&quot; height=&quot;450&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 </description>
         <pubDate>Wed, 23 Apr 2014 12:54:46 -0400</pubDate>
         <link>http://www.jhclaura.com/MASK/project/H-o-u-s-e</link>

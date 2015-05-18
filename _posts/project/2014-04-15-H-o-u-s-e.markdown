@@ -14,8 +14,19 @@ carousel:
 - house_field.png
 - house_family.png
 ---
-####H o u s e
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+###H o u s e
+Connect to your home, whenever you are.
 
-####I d e a
-It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+###I d e a
+Both physically and virtually being inside the House, you look the real world through different virtual windows. Because of the virtual wall, a distance is created so you feel less timid of the outside world.
+
+There's a window always connected to your home, joining easily by opening the webpage. Whenever you are, you can feel the invisible connection with your house. Also, by expanding the house, user can have quality conversation in the open field, with only two windows (one locale, one remote) remain.
+ 
+###F e a t u r e
+- Made of used wine boxes.
+- For distance frustration.
+
+###V i d e o
+<iframe src="https://player.vimeo.com/video/128151363?color=c9ff23" width="800" height="450" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe><br>
+
+<iframe src="https://player.vimeo.com/video/127044539?color=c9ff23" width="800" height="450" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>

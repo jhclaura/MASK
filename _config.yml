@@ -19,7 +19,7 @@ colors:  #in hex code if not noted else
   link: "#da4571"
   link_hover: "#4ab6a7"
   footer_heading: "#ffffff"
-  footer_content: "#19e7ca"
+  footer_content: "#84f2e3"
   
   
 ### CONTACT SETTINGS ###
@@ -93,7 +93,7 @@ tel: +1 626-905-9397
 #     img: client01.png
     
 # Short text about your company. Shown in footer on every page and also separately on Home and Contact page.
-about: "MASK - You see and you believe."
+about: "MASK - We are who we pretend to be."
 
 # Testimonial content. Shown on Home and About page. 
 # testimonial:

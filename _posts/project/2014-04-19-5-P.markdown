@@ -5,14 +5,34 @@ date:   2015-04-27 16:54:46
 author: Laura
 categories:
 - project
-img: 5p.jpg
-thumb: 5pT.jpg
+img: 5p_v2.png
+thumb: 5pT.png
 carousel:
-- 5p.jpg
+- 5p_v2.png
 
 ---
-####5 P
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+###5P
+An exploration of touches with acceleration of visuals and sounds.
 
-####I d ea
-It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+###I d e a
+It's a mask for 5 persons. By attaching sensors on the forehead of Cardboards, I can easily detect who is touching who among 5 persons.
+
+Total 10 combinations of touching: AB, AC, AD, AE, BC, BD, BE, CD, CE, DE. Each of them will trigger specific animation and sound.
+
+AB --> money pops out on the ground<br>
+AC --> star appears<br>
+AD --> change sky color<br>
+AE --> head grows grass<br>
+BC --> lightbulb appears<br>
+BD --> banana grows out of the ground<br>
+BE --> stripe grids<br>
+CD --> rainbow shoots out from head<br>
+CE --> drop doughnuts and cookies<br>
+DE --> generate wave<br>
+
+###Features
+- Physical connection
+- Senesors on Cardboard, measuring resistance changes when touched
+
+###V i d e o
+<iframe src="https://player.vimeo.com/video/128151041?color=c9ff23" width="800" height="450" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>

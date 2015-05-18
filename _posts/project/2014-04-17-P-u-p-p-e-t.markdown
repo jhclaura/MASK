@@ -14,8 +14,23 @@ carousel:
 - onPuppet.png
 - puppet_env.png
 ---
-####P u p p e t
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+###P u p p e t
+Having small talks without speak.
 
-####I d e a
-It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+###I d e a
+Sometime you are either not in the mood, or just feel miserable and don't want to talk to others, but at the same time you don't want to be rude. The puppet will speak for you.
+
+Puppet helps the user to escape the real world, and provides temporary healthy self-pity for the user to enjoy, while puppet beneath you will take care of the real world for the user.
+
+When noticing people approaching, the user can trigger face recognition mode by pressing the foot of Puppet. Once recognizing faces, Puppet will blur the face, and start the small talks for you. 
+
+###F e a t u r e
+- Made of foam, conductive fabric, XBee, and a speaker inside the mouth
+- For social anxiety
+
+###V i d e o
+<iframe src="https://player.vimeo.com/video/127044542?color=c9ff23" width="800" height="450" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe><br>
+
+<iframe src="https://player.vimeo.com/video/128152102?color=c9ff23" width="800" height="450" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe><br>
+
+<iframe src="https://player.vimeo.com/video/128152220?color=c9ff23" width="800" height="450" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>

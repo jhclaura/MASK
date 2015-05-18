@@ -5,10 +5,10 @@ date:   2014-04-26 16:54:46
 author: Laura
 categories:
 - project
-img: duet.png
+img: duet_v2.png
 thumb: duetT.png
 carousel:
-- duet.png
+- duet_v2.png
 - reason_duet.gif
 - duet_light.png
 - muscleSensorBoard.jpg
@@ -19,8 +19,21 @@ carousel:
 - m_3.png
 - m_4.png
 ---
-####D u e t
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+###D u e t
+Nonverbal communications with smiles.
 
-####I d e a
-It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+###I d e a
+It’s a mask for two persons who hesitate to talk to each other. It’s for the eagerness of communicating without seeing each other’s face yet still feeling the intimacy.
+
+The mask justified the user's behavior. Starting conversation by swallowing people, the user brings both two people into virtual world, where they will be surrounded by four monsters, which are observing whether the users are smiling or not.
+
+Users control the lights both in real world and virtual world, by customized muscle sensors. The lights change with smile levels. Once both of the users are smiling genuinely, the monsters will hold hands, start singing, and swing from right to left. Yet once there's one user stops smiling, the monster will swallow that one and another user has to rescue him or her by smile.
+
+###F e a t u r e
+- Made of mylar paper, fabric, Arduino, LEDs, and muscle sensors.
+- For nonverbal communications.
+
+###V i d e o
+<iframe src="https://player.vimeo.com/video/127044541?color=c9ff23" width="800" height="450" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe><br>
+
+<iframe src="https://player.vimeo.com/video/128151530?color=c9ff23" width="800" height="450" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
