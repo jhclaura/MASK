@@ -5,9 +5,35 @@
     <description>MASK is a collection of virtual reality wearables that help overcoming difficulties. Here you can find all the resource to create your own MASK and World.</description>
     <link>http://www.jhclaura.com/MASK/</link>
     <atom:link href="http://www.jhclaura.com/MASK/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Mon, 18 May 2015 14:21:07 -0400</pubDate>
-    <lastBuildDate>Mon, 18 May 2015 14:21:07 -0400</lastBuildDate>
+    <pubDate>Mon, 18 May 2015 14:40:46 -0400</pubDate>
+    <lastBuildDate>Mon, 18 May 2015 14:40:46 -0400</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Doc: How To Make A Mask</title>
+        <description>&lt;p&gt;Super rough draft :P&lt;/p&gt;
+
+&lt;h4 id=&quot;pepakura&quot;&gt;Pepakura&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Download &lt;a href=&quot;http://www.tamasoft.co.jp/pepakura-en/&quot;&gt;Pepakura&lt;/a&gt; on PC ( I know… T_T )&lt;/li&gt;
+  &lt;li&gt;Password &lt;a href=&quot;https://answers.yahoo.com/question/index?qid=20100805034035AAqRsbh&quot;&gt;here&lt;/a&gt; :P&lt;/li&gt;
+  &lt;li&gt;Import 3D model&lt;/li&gt;
+  &lt;li&gt;Set size&lt;/li&gt;
+  &lt;li&gt;Unfold&lt;/li&gt;
+  &lt;li&gt;Laser Cut or scissors&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Mon, 18 May 2015 12:54:46 -0400</pubDate>
+        <link>http://www.jhclaura.com/MASK/doc/fabrication/How-To-Make-A-Mask</link>
+        <guid isPermaLink="true">http://www.jhclaura.com/MASK/doc/fabrication/How-To-Make-A-Mask</guid>
+        
+        
+        <category>doc</category>
+        
+        <category>fabrication</category>
+        
+      </item>
     
       <item>
         <title>Doc: Thesis DONE!</title>
@@ -66,29 +92,7 @@
 &lt;b&gt;Eagle&lt;/b&gt; - muscle sensor circuit design&lt;br /&gt;&lt;/p&gt;
 
 &lt;!--more--&gt;
-&lt;p&gt;AUDIO check beforehand next time!!! &lt;/p&gt;
-
-&lt;p&gt;Here are the short lists of feedback, based on my faint memories because I was super nervous during Q&amp;amp;A.
-&lt;br /&gt;
-&lt;br /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;from-critic&quot;&gt;From Critic&lt;/h4&gt;
-&lt;p&gt;&lt;b&gt;They don’t buy MASK as a tool to overcome difficulties&lt;/b&gt;
-Just as mid-term presentation, my original intention seems not echo with others. Am I just enjoying myself?&lt;/p&gt;
-
-&lt;p&gt;&lt;b&gt;More user feedback&lt;/b&gt;
-What did user feel after wearing the MASK? Could do more user tests.&lt;/p&gt;
-
-&lt;p&gt;&lt;b&gt;Opensource?&lt;/b&gt;
-They feel the masks are too special and my style and only I’ll make the masks.
-&lt;br /&gt;
-&lt;br /&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;from-myself&quot;&gt;From Myself&lt;/h4&gt;
-&lt;p&gt;&lt;b&gt;Something to talk/do more next time&lt;/b&gt;&lt;/p&gt;
-&lt;li&gt;Interact with people in both world.&lt;/li&gt;
-&lt;li&gt;Once I choose to wear mask, I decide to stay and deal with it, and try to change my mindset.&lt;/li&gt;
-&lt;li&gt;Change all the still screen capture with video&lt;/li&gt;
+&lt;p&gt;{ more to come! }&lt;/p&gt;
 
 </description>
         <pubDate>Wed, 06 May 2015 12:54:46 -0400</pubDate>
@@ -285,37 +289,6 @@ DE –&amp;gt; generate wave&lt;br /&gt;&lt;/p&gt;
         <pubDate>Thu, 24 Apr 2014 12:54:46 -0400</pubDate>
         <link>http://www.jhclaura.com/MASK/project/H-i-v-e</link>
         <guid isPermaLink="true">http://www.jhclaura.com/MASK/project/H-i-v-e</guid>
-        
-        
-        <category>project</category>
-        
-      </item>
-    
-      <item>
-        <title>Project: H o u s e</title>
-        <description>&lt;h3 id=&quot;h-o-u-s-e&quot;&gt;H o u s e&lt;/h3&gt;
-&lt;p&gt;Connect to your home, whenever you are.&lt;/p&gt;
-
-&lt;h3 id=&quot;i-d-e-a&quot;&gt;I d e a&lt;/h3&gt;
-&lt;p&gt;Both physically and virtually being inside the House, you look the real world through different virtual windows. Because of the virtual wall, a distance is created so you feel less timid of the outside world.&lt;/p&gt;
-
-&lt;p&gt;There’s a window always connected to your home, joining easily by opening the webpage. Whenever you are, you can feel the invisible connection with your house. Also, by expanding the house, user can have quality conversation in the open field, with only two windows (one locale, one remote) remain.&lt;/p&gt;
-
-&lt;h3 id=&quot;f-e-a-t-u-r-e&quot;&gt;F e a t u r e&lt;/h3&gt;
-&lt;ul&gt;
-  &lt;li&gt;Made of used wine boxes.&lt;/li&gt;
-  &lt;li&gt;For distance frustration.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;v-i-d-e-o&quot;&gt;V i d e o&lt;/h3&gt;
-&lt;iframe src=&quot;https://player.vimeo.com/video/128151363?color=c9ff23&quot; width=&quot;800&quot; height=&quot;450&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
-&lt;p&gt;&lt;br /&gt;&lt;/p&gt;
-
-&lt;iframe src=&quot;https://player.vimeo.com/video/127044539?color=c9ff23&quot; width=&quot;800&quot; height=&quot;450&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
-</description>
-        <pubDate>Wed, 23 Apr 2014 12:54:46 -0400</pubDate>
-        <link>http://www.jhclaura.com/MASK/project/H-o-u-s-e</link>
-        <guid isPermaLink="true">http://www.jhclaura.com/MASK/project/H-o-u-s-e</guid>
         
         
         <category>project</category>
