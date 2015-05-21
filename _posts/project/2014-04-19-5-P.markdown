@@ -15,7 +15,7 @@ carousel:
 An exploration to accelerate touches with visuals and sounds.
 
 ###I d e a
-<i>Mask in progress.</i> It's a mask for 5 persons. By attaching sensors on the forehead of Cardboards, I can easily detect who is touching who among 5 persons.
+<b><i>Still in progress.</i></b> It's a mask for 5 persons. By attaching sensors on the forehead of Cardboards, I can easily detect who is touching who among 5 persons.
 
 Total 10 combinations of touching: AB, AC, AD, AE, BC, BD, BE, CD, CE, DE. Each of them will trigger specific animation and sound.
 
