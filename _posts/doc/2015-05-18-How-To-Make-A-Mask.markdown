@@ -7,7 +7,7 @@ categories:
 - doc
 - fabrication
 img: makeMask.jpg
-thumb: makeMaskT.jpg
+thumb: makeMaskT.png
 ---
 
 Super rough draft :P
