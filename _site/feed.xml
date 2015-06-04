@@ -5,8 +5,8 @@
     <description>MASK is a collection of virtual reality wearables that help overcoming difficulties. Here you can find all the resource to create your own MASK and World.</description>
     <link>http://www.jhclaura.com/MASK/</link>
     <atom:link href="http://www.jhclaura.com/MASK/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Thu, 04 Jun 2015 14:51:12 -0400</pubDate>
-    <lastBuildDate>Thu, 04 Jun 2015 14:51:12 -0400</lastBuildDate>
+    <pubDate>Thu, 04 Jun 2015 15:39:51 -0400</pubDate>
+    <lastBuildDate>Thu, 04 Jun 2015 15:39:51 -0400</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
     
       <item>
@@ -14,27 +14,24 @@
         <description>&lt;h4 id=&quot;tech&quot;&gt;Tech&lt;/h4&gt;
 &lt;p&gt;&lt;a href=&quot;http://stemkoski.github.io/Three.js/&quot;&gt;stemkoski&lt;/a&gt; - simple examples about Three.js. good place to start and scramble the elements to desire&lt;br /&gt;
 &lt;a href=&quot;https://developers.google.com/cardboard/&quot;&gt;Google Cardboard&lt;/a&gt; - official website with SDK to download, and Github links&lt;br /&gt;
-[Jsfeat][jsfeat] - JS library for computer vision&lt;br /&gt;
-&lt;a href=&quot;https://www.unofficialcardboard.com/&quot;&gt;Unofficial Cardboard&lt;/a&gt; - where I got my first Cardboard before I made myself&lt;/p&gt;
+&lt;a href=&quot;http://inspirit.github.io/jsfeat/&quot;&gt;Jsfeat&lt;/a&gt; - JS library for computer vision&lt;br /&gt;
+&lt;a href=&quot;https://www.unofficialcardboard.com/&quot;&gt;Unofficial Cardboard&lt;/a&gt; - where I got my first Cardboard before I made myself&lt;br /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://www.html5rocks.com/en/tutorials/webrtc/basics/?redirect_from_locale=it&quot;&gt;Intro to WebRTC&lt;/a&gt; - how to user your camera and microphone
-&lt;a href=&quot;http://muaz-khan.blogspot.com/2014/05/webrtc-tips-tricks.html&quot;&gt;WebRTC Tips &amp;amp; Tricks&lt;/a&gt; - it’s like a cheatsheet about WebRTC!
-&lt;a href=&quot;https://www.webrtc-experiment.com/RTCMultiConnection/getMediaDevices.html&quot;&gt;GetMediaDevices&lt;/a&gt; - SUPER useful website to know the name of all the media you can access on the device you have. open the website with either computer or phone to see
-&lt;a href=&quot;http://www.html5rocks.com/en/tutorials/canvas/performance/&quot;&gt;Performance Improvement&lt;/a&gt; - what to do and beaware to improve performance
-&lt;a href=&quot;http://www.html5rocks.com/en/tutorials/device/orientation/&quot;&gt;Device Orientation&lt;/a&gt; - utilize the accelerometer and gyroscope of your phone&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.html5rocks.com/en/tutorials/webrtc/basics/?redirect_from_locale=it&quot;&gt;Intro to WebRTC&lt;/a&gt; - how to user your camera and microphone&lt;br /&gt;
+&lt;a href=&quot;http://muaz-khan.blogspot.com/2014/05/webrtc-tips-tricks.html&quot;&gt;WebRTC Tips &amp;amp; Tricks&lt;/a&gt; - it’s like a cheatsheet about WebRTC!&lt;br /&gt;
+&lt;a href=&quot;https://www.webrtc-experiment.com/RTCMultiConnection/getMediaDevices.html&quot;&gt;GetMediaDevices&lt;/a&gt; - SUPER useful website to know the name of all the media you can access on the device you have. open the website with either computer or phone to see&lt;br /&gt;
+&lt;a href=&quot;http://www.html5rocks.com/en/tutorials/canvas/performance/&quot;&gt;Performance Improvement&lt;/a&gt; - what to do and beaware to improve performance&lt;br /&gt;
+&lt;a href=&quot;http://www.html5rocks.com/en/tutorials/device/orientation/&quot;&gt;Device Orientation&lt;/a&gt; - utilize the accelerometer and gyroscope of your phone&lt;br /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&quot;http://www.acapela-group.com/&quot;&gt;Acapela Group&lt;/a&gt; - where I got my Puppet voice
-&lt;a href=&quot;http://electronics.stackexchange.com/questions/42117/touching-person-to-person&quot;&gt;Detect Human Touch&lt;/a&gt; - how to detect human touch&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.acapela-group.com/&quot;&gt;Acapela Group&lt;/a&gt; - where I got my Puppet voice&lt;br /&gt;
+&lt;a href=&quot;http://electronics.stackexchange.com/questions/42117/touching-person-to-person&quot;&gt;Detect Human Touch&lt;/a&gt; - how to detect human touch&lt;br /&gt;&lt;/p&gt;
 
 &lt;h4 id=&quot;fabrication&quot;&gt;Fabrication&lt;/h4&gt;
-&lt;p&gt;&lt;a href=&quot;http://thecardboardcollective.com/&quot;&gt;Cardboard Collective&lt;/a&gt; - amazing website about what you can do with simple cardboard &amp;lt;3
+&lt;p&gt;&lt;a href=&quot;http://thecardboardcollective.com/&quot;&gt;Cardboard Collective&lt;/a&gt; - amazing website about what you can do with simple cardboard &amp;lt;3&lt;br /&gt;
 &lt;a href=&quot;http://www.ultimatepapermache.com/&quot;&gt;Paper Mache&lt;/a&gt; - detailed website documenting the process of making paper mache by lady Jonni Good&lt;br /&gt;
 &lt;a href=&quot;http://puppetbuilder.com/info/index.html&quot;&gt;Puppet Builder&lt;/a&gt; - materials you need to make a puppet with foam&lt;br /&gt;
 &lt;a href=&quot;http://puppetvisionmovie.com/&quot;&gt;Puppet Vision&lt;/a&gt; - info and inspirations about puppets!&lt;br /&gt;
 &lt;a href=&quot;http://itp.nyu.edu/~ib534/papo/resources.html&quot;&gt;Puppets and Performing Objects&lt;/a&gt; - webpage of class PAPO in ITP, taught by Ithai Benjamin&lt;br /&gt;&lt;/p&gt;
-
-&lt;!--more--&gt;
-&lt;p&gt;{ more to come! }&lt;/p&gt;
 
 </description>
         <pubDate>Mon, 18 May 2015 14:54:46 -0400</pubDate>
@@ -82,8 +79,10 @@
 &lt;p&gt;So emotional. I &amp;lt;3 ITP.&lt;/p&gt;
 
 &lt;p&gt;(updated 5/25)
-There’s the video of my thesis presentation!
-&amp;lt;iframe src=&quot;https://player.vimeo.com/video/129403079?color=c9ff23&quot; width=&quot;800&quot; height=&quot;451&quot; frameborder=&quot;0&quot; webkitallowfullscreen mozallowfullscreen allowfullscreen&amp;gt;&amp;lt;/iframe&amp;gt;&lt;/p&gt;
+There’s the video of my thesis presentation!&lt;/p&gt;
+
+&lt;h3 id=&quot;v-i-d-e-o&quot;&gt;V i d e o&lt;/h3&gt;
+&lt;iframe src=&quot;https://player.vimeo.com/video/129403079?color=c9ff23&quot; width=&quot;800&quot; height=&quot;451&quot; frameborder=&quot;0&quot; webkitallowfullscreen=&quot;&quot; mozallowfullscreen=&quot;&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 </description>
         <pubDate>Fri, 15 May 2015 08:20:46 -0400</pubDate>
         <link>http://www.jhclaura.com/MASK/doc/murmur/Thesis-done</link>
