@@ -7,7 +7,7 @@ categories:
 - doc
 - fabrication
 img: maskS.png
-thumb: maskT.jpg
+thumb: maskT.png
 ---
 
 ####Tech
