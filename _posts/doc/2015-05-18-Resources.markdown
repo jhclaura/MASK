@@ -14,26 +14,25 @@ thumb: maskT.jpg
 [stemkoski][stemkoski] - simple examples about Three.js. good place to start and scramble the elements to desire<br>
 [Google Cardboard][cardboard] - official website with SDK to download, and Github links<br>
 [Jsfeat][jsfeat] - JS library for computer vision<br>
-[Unofficial Cardboard][uncard] - where I got my first Cardboard before I made myself</b>
+[Unofficial Cardboard][uncard] - where I got my first Cardboard before I made myself<br>
 
-[Intro to WebRTC][webrtc] - how to user your camera and microphone</b>
-[WebRTC Tips & Tricks][webrtctips] - it's like a cheatsheet about WebRTC!</b>
-[GetMediaDevices][media] - SUPER useful website to know the name of all the media you can access on the device you have. open the website with either computer or phone to see</b>
-[Performance Improvement][perform] - what to do and beaware to improve performance</b>
-[Device Orientation][orient] - utilize the accelerometer and gyroscope of your phone</b>
+[Intro to WebRTC][webrtc] - how to user your camera and microphone<br>
+[WebRTC Tips & Tricks][webrtctips] - it's like a cheatsheet about WebRTC!<br>
+[GetMediaDevices][media] - SUPER useful website to know the name of all the media you can access on the device you have. open the website with either computer or phone to see<br>
+[Performance Improvement][perform] - what to do and beaware to improve performance<br>
+[Device Orientation][orient] - utilize the accelerometer and gyroscope of your phone<br>
 
-[Acapela Group][speak] - where I got my Puppet voice</b>
-[Detect Human Touch][touch] - how to detect human touch</b>
+[Acapela Group][speak] - where I got my Puppet voice<br>
+[Detect Human Touch][touch] - how to detect human touch<br>
 
 ####Fabrication
-[Cardboard Collective][cbcollective] - amazing website about what you can do with simple cardboard <3</b>
+[Cardboard Collective][cbcollective] - amazing website about what you can do with simple cardboard <3<br>
 [Paper Mache][papermache] - detailed website documenting the process of making paper mache by lady Jonni Good<br>
 [Puppet Builder][puppet] - materials you need to make a puppet with foam<br>
 [Puppet Vision][puppetvisionmovie] - info and inspirations about puppets!<br>
 [Puppets and Performing Objects][papo] - webpage of class PAPO in ITP, taught by Ithai Benjamin<br>
 
-<!--more-->
-{ more to come! }
+
 
 [stemkoski]: http://stemkoski.github.io/Three.js/
 [cardboard]: https://developers.google.com/cardboard/
@@ -50,3 +49,4 @@ thumb: maskT.jpg
 [webrtctips]: http://muaz-khan.blogspot.com/2014/05/webrtc-tips-tricks.html
 [speak]: http://www.acapela-group.com/
 [touch]: http://electronics.stackexchange.com/questions/42117/touching-person-to-person
+[jsfeat]: http://inspirit.github.io/jsfeat/
