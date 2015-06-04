@@ -17,4 +17,6 @@ So emotional. I <3 ITP.
 
 (updated 5/25)
 There's the video of my thesis presentation!
+
+###V i d e o
 <iframe src="https://player.vimeo.com/video/129403079?color=c9ff23" width="800" height="451" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
