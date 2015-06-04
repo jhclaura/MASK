@@ -14,19 +14,19 @@ thumb: maskT.jpg
 [stemkoski][stemkoski] - simple examples about Three.js. good place to start and scramble the elements to desire<br>
 [Google Cardboard][cardboard] - official website with SDK to download, and Github links<br>
 [Jsfeat][jsfeat] - JS library for computer vision<br>
-[Unofficial Cardboard][uncard] - where I got my first Cardboard before I made myself
+[Unofficial Cardboard][uncard] - where I got my first Cardboard before I made myself</b>
 
-[Intro to WebRTC][webrtc] - how to user your camera and microphone
-[WebRTC Tips & Tricks][webrtctips] - it's like a cheatsheet about WebRTC!
-[GetMediaDevices][media] - SUPER useful website to know the name of all the media you can access on the device you have. open the website with either computer or phone to see
-[Performance Improvement][perform] - what to do and beaware to improve performance
-[Device Orientation][orient] - utilize the accelerometer and gyroscope of your phone
+[Intro to WebRTC][webrtc] - how to user your camera and microphone</b>
+[WebRTC Tips & Tricks][webrtctips] - it's like a cheatsheet about WebRTC!</b>
+[GetMediaDevices][media] - SUPER useful website to know the name of all the media you can access on the device you have. open the website with either computer or phone to see</b>
+[Performance Improvement][perform] - what to do and beaware to improve performance</b>
+[Device Orientation][orient] - utilize the accelerometer and gyroscope of your phone</b>
 
-[Acapela Group][speak] - where I got my Puppet voice
-[Detect Human Touch][touch] - how to detect human touch
+[Acapela Group][speak] - where I got my Puppet voice</b>
+[Detect Human Touch][touch] - how to detect human touch</b>
 
 ####Fabrication
-[Cardboard Collective][cbcollective] - amazing website about what you can do with simple cardboard <3
+[Cardboard Collective][cbcollective] - amazing website about what you can do with simple cardboard <3</b>
 [Paper Mache][papermache] - detailed website documenting the process of making paper mache by lady Jonni Good<br>
 [Puppet Builder][puppet] - materials you need to make a puppet with foam<br>
 [Puppet Vision][puppetvisionmovie] - info and inspirations about puppets!<br>
