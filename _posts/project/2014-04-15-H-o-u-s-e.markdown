@@ -5,6 +5,8 @@ date:   2014-04-23 16:54:46
 author: Laura Chen
 categories:
 - project
+tags:
+- multi-user, walkable, parallel worlds
 img: house.jpg
 thumb: houseT.jpg
 carousel:

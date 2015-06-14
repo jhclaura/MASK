@@ -5,6 +5,8 @@ date:   2015-04-27 16:54:46
 author: Laura
 categories:
 - project
+tags:
+- multi-users, sensors, touch
 img: 5p_v2.png
 thumb: 5pT.png
 carousel:

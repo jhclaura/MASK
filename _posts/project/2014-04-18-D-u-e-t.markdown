@@ -5,6 +5,8 @@ date:   2014-04-26 16:54:46
 author: Laura
 categories:
 - project
+tags:
+- multi-user, PBC, muscle sensors
 img: duet_v2.png
 thumb: duetT.png
 carousel:
