@@ -94,14 +94,17 @@ a:focus {
 }
 
 .flickr_albums {
-	width: 70%;
-	margin: 0 auto;
+	width: 100%;
+	text-align: center;
+	/*margin: 0 auto;*/
 }
 
 iframe {
 	margin: 0 auto !important;
 	/*display: block;*/
 	padding: 1em !important;
+	display: inline-block !important;
+	float: none !important;
 }
 
 /*	################################################################
