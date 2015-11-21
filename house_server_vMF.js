@@ -1,4 +1,3 @@
-//SET_UP
 var express = require('express');
 var app = express();
 
@@ -6,13 +5,30 @@ var http = require('http');
 var server = http.createServer(app);
 var port = process.env.PORT || 7000;
 
+
+
+// peer_server
+var ExpressPeerServer = require('peer').ExpressPeerServer;
+var peerExpress = require('express');
+var peerApp = peerExpress();
+var peerServer = require('http').createServer(peerApp);
+var options = { debug: true }
+var peerPort = 5000;
+
 app.get('*', function(req, res){
 	res.sendFile(__dirname + req.url);
 });
 
+// peerApp.get('*', function(req, res){
+// 	res.sendFile(__dirname + req.url);
+// });
+peerApp.use('/pp', ExpressPeerServer(peerServer, options));
+
 server.listen(port);
+peerServer.listen(peerPort);
 
 console.log('Server started on port ' + port);
+console.log('PeerServer started on port ' + peerPort);
 
 
 // Websocket

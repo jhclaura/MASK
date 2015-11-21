@@ -140,8 +140,12 @@
 					/* WebRTC - Peer.js */
 						
 					// Register for an API Key:	
-					peer = new Peer({key: 't70jqks7224yrpb9'});	//Laura's key
-					// peer = new Peer( ID(), { secure: false, host: '169.254.73.253', port: 5000, path:'/pp', debug:true} );
+					// peer = new Peer({key: 't70jqks7224yrpb9'});	//Laura's key
+					peer = new Peer( ID(), { secure: false, host: '169.254.73.253', port: 5000, path:'/pp', debug:true} );
+
+					// peer = new Peer(ID(), { secure: false, host: 'localhost', port: 9000, path:'/pp', debug:true}
+					// 	// config: { 'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }] }
+					// 	);
 
 					// Get an ID from the PeerJS server		
 					peer.on('open', function(id) {
@@ -178,33 +182,33 @@
 									console.log(ahhhhhhIndex + "log in");
 
 									// v_normal
+										// if(ahhhhhhIndex==0){
+										// 	remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+										// 	remote.play();
+										// }else if(ahhhhhhIndex==1){
+										// 	video.pause();
+										// 	video.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+										// 	video.play();
+										// }
+
+									// v_show
+									if(whoIamInMask==1) {
 										if(ahhhhhhIndex==0){
 											remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
 											remote.play();
-										}else if(ahhhhhhIndex==1){
+										}
+									}
+									if(whoIamInMask==2) {
+										if(ahhhhhhIndex==0){
 											video.pause();
 											video.src = window.URL.createObjectURL(remoteStream) || remoteStream;
 											video.play();
+
+											remote.pause();
+											remote.src = window.URL.createObjectURL(my_stream) || my_stream;
+											remote.play();
 										}
-
-									// v_show
-									// if(whoIamInMask==1) {
-									// 	if(ahhhhhhIndex==0){
-									// 		remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
-									// 		remote.play();
-									// 	}
-									// }
-									// if(whoIamInMask==2) {
-									// 	if(ahhhhhhIndex==0){
-									// 		video.pause();
-									// 		video.src = window.URL.createObjectURL(remoteStream) || remoteStream;
-									// 		video.play();
-
-									// 		remote.pause();
-									// 		remote.src = window.URL.createObjectURL(my_stream) || my_stream;
-									// 		remote.play();
-									// 	}
-									// }
+									}
 
 									console.log("play remotes: " + ahhhhhhIndex);
 									

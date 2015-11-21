@@ -1,8 +1,8 @@
 {
-  "name": "dirtyTest_04",
+  "name": "MASK",
   "version": "0.0.0",
   "description": "",
-  "main": "littleMe_v2.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
