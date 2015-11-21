@@ -1,17 +1,37 @@
 {
-  "name": "MASK",
+  "name": "mask",
   "version": "0.0.0",
-  "description": "",
+  "description": "Mask",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
-  "author": "",
+  "author": "Laura Juo-Hsin Chen",
   "license": "ISC",
   "dependencies": {
     "express": "^4.12.2",
     "sensortag": "^0.1.11",
     "serialport": "^1.6.2",
     "ws": "^0.7.1"
-  }
+  },
+  "engines": {
+    "node": "4.2.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jhclaura/MASK.git"
+  },
+  "keywords": [
+    "mask",
+    "vr",
+    "Three.js",
+    "Websocket",
+    "Peer.js"
+  ],
+  "bugs": {
+    "url": "https://github.com/jhclaura/MASK/issues"
+  },
+  "homepage": "https://github.com/jhclaura/MASK"
 }
