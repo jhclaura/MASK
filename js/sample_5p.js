@@ -32,7 +32,10 @@ function SoundsSample(context) {
              '../audios/5p/flute_1.mp3',             //#21
              '../audios/5p/flute_2.mp3',
              '../audios/5p/flute_3.mp3',
-             '../audios/5p/boom_1.mp3',             //#24
+             '../audios/hmm_q_01.mp3',           //#24
+             '../audios/hmm_q_01.mp3',
+             '../audios/hmm_q_01.mp3',
+             '../audios/5p/boom_1.mp3',             //#27
              '../audios/5p/boom_2.mp3',
              '../audios/5p/boom_3.mp3' 
             ], onLoaded);

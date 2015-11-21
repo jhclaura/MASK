@@ -482,6 +482,8 @@ THREE.DeviceControls = function ( camera ) {
 
 			// touch2ndStartLoc.set(touch2nd.clientX, touch2nd.clientY);
 		}
+
+		strobeLightOn = true;
 	};
 
 
@@ -569,6 +571,7 @@ THREE.DeviceControls = function ( camera ) {
 
 		// console.log(event);
 
+		strobeLightOn = false;
 	};
 
 	//

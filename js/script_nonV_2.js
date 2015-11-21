@@ -4,6 +4,119 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 var element = document.body;
 
+
+//PointerLockControls
+	var pointerControls, dateTime = Date.now();
+	var objects = [];
+	var rays = [];
+	var blocker = document.getElementById('blocker');
+	var instructions = document.getElementById('instructions');
+
+	// http://www.html5rocks.com/en/tutorials/pointerlock/intro/
+
+	var havePointerLock = 
+				'pointerLockElement' in document || 
+				'mozPointerLockElement' in document || 
+				'webkitPointerLockElement' in document;
+
+	if ( havePointerLock ) {
+		// console.log("havePointerLock");
+
+		var element = document.body;
+
+		var pointerlockchange = function ( event ) {
+
+			if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
+				console.log("enable pointerControls");
+
+				controls.enabled = true;
+				blocker.style.display = 'none';
+
+			} else {
+
+				controls.enabled = false;
+				blocker.style.display = '-webkit-box';
+				blocker.style.display = '-moz-box';
+				blocker.style.display = 'box';
+
+				instructions.style.display = '';
+			}
+
+		}
+
+		var pointerlockerror = function(event){
+			instructions.style.display = '';
+		}
+
+		// Hook pointer lock state change events
+		document.addEventListener( 'pointerlockchange', pointerlockchange, false );
+		document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
+		document.addEventListener( 'webkitpointerlockchange', pointerlockchange, false );
+
+		document.addEventListener( 'pointerlockerror', pointerlockerror, false );
+		document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
+		document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
+
+
+		if(isTouchDevice()) {
+			console.log("isTouchDevice");
+			
+
+			instructions.addEventListener( 'touchend', funToCall, false );
+		} else {
+			instructions.addEventListener( 'click', funToCall, false );
+		}
+
+
+	} else {
+
+		instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
+	}
+
+	function isTouchDevice() { 
+		return 'ontouchstart' in window || !!(navigator.msMaxTouchPoints);
+	}
+
+	function funToCall(event){
+
+		console.log("click or touch!");
+
+		instructions.style.display = 'none';
+
+		// Ask the browser to lock the pointer
+		element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+
+		controls.enabled = true;
+
+		if ( /Firefox/i.test( navigator.userAgent ) ) {
+
+			var fullscreenchange = function ( event ) {
+
+				if ( document.fullscreenElement === element || document.mozFullscreenElement === element || document.mozFullScreenElement === element ) {
+
+					document.removeEventListener( 'fullscreenchange', fullscreenchange );
+					document.removeEventListener( 'mozfullscreenchange', fullscreenchange );
+
+					element.requestPointerLock();
+				}
+
+			}
+
+			document.addEventListener( 'fullscreenchange', fullscreenchange, false );
+			document.addEventListener( 'mozfullscreenchange', fullscreenchange, false );
+
+			element.requestFullscreen = element.requestFullscreen || element.mozRequestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen;
+
+			element.requestFullscreen();
+
+		} else {
+
+			element.requestPointerLock();
+
+		}
+	}
+
+
 ////////////////////////////////////////////////////////////	
 // SET_UP_VARIABLES
 ////////////////////////////////////////////////////////////
@@ -153,6 +266,8 @@ var rain, rainGeo, rainMat, rainParticle, rainVelocity=[];
 	} 
 	var audioContext = new AudioContext();
 	var sample = new SoundsSample(audioContext);
+	var bufferLoader, audioAllLoaded = false;
+	var audioSources = [], gainNodes = [];
 
 
 ///////////////////////////////////////////////////////////
@@ -174,6 +289,13 @@ function init()
 	document.body.addEventListener('touchmove', function(event) {
 	  event.preventDefault();
 	}, false); 
+
+	// web audio api
+		bufferLoader = new BufferLoader(
+			audioContext, [ '../audios/bruno_theme.mp3' ], 
+					  finishedLoading
+		);
+		bufferLoader.load();
 
 	time = Date.now();
 	clock = new THREE.Clock();
@@ -560,6 +682,29 @@ function init()
 	demo_app_BBF(videoWidth/2, videoHeight/2);
 
 	animate();	
+}
+
+
+// web audio api
+function finishedLoading(bufferList){
+
+	for(var i=0; i<1; i++){
+		var s = audioContext.createBufferSource();
+		audioSources.push(s);
+
+		var g = audioContext.createGain();
+		gainNodes.push(g);
+
+		audioSources[i].buffer = bufferList[i];
+		audioSources[i].loop = true;
+		audioSources[i].connect(gainNodes[i]);
+		gainNodes[i].connect(audioContext.destination);
+		
+		audioSources[i].start(0);
+	}
+	gainNodes[0].gain.value = 0.8;
+
+	audioAllLoaded = true;
 }
 
 
@@ -986,7 +1131,7 @@ function myKeyPressed (event) {
 			detectFaceMode = !detectFaceMode;
 			break;
 
-		case 83: //S
+		case 76: //l (-> look)
 			eyeParent.visible = !eyeParent.visible;
 			puppetEye.visible = !puppetEye.visible;
 			break;

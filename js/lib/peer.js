@@ -1215,6 +1215,9 @@ function Socket(secure, host, port, path, key) {
   var wsProtocol = secure ? 'wss://' : 'ws://';
   this._httpUrl = httpProtocol + host + ':' + port + path + key;
   this._wsUrl = wsProtocol + host + ':' + port + path + 'peerjs?key=' + key;
+
+  // console.log(this._httpUrl);
+  // console.log(this._wsUrl);
 }
 
 util.inherits(Socket, EventEmitter);
@@ -1240,6 +1243,10 @@ Socket.prototype._startWebSocket = function(id) {
     return;
   }
 
+  //
+  console.log(this._wsUrl);
+  //
+  
   this._socket = new WebSocket(this._wsUrl);
 
   this._socket.onmessage = function(event) {

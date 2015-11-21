@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<title>cam feed_test02_cv_brightness</title>
-		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<title>MASK - Hive</title>
+		<link rel="stylesheet" type="text/css" href="css/style_v2.css">
 	</head>
 	<body>		
 			<script type="text/javascript" src="js/lib/three.min_69.js"></script>
@@ -12,23 +12,18 @@
 
 			<div id="render-canvas"></div>
 
+			<!-- indie -->
+			<div id="blocker" style="display: -webkit-box;">
+				<div id="instructions" >
+					<img width="60" height="60" src="images/click.gif">
+				</div>
+			</div>
+
 			<p id="errorMessage" style="display:none"></p>
 
-			<!-- cam -->
+			<!-- my cam -->
 			<video id="video" autoplay loop width="480" height="320" style="display:none"></video>
 			<canvas id="videoImage" width="480" height="320" style="display:none"></canvas>
-
-			<!-- <video id="remoteVideo_1" autoplay loop width="480" height="320" style="display:none"></video>
-			<canvas id="remoteVideoImage_1" width="480" height="320" style="display:none"></canvas>
-
-			<video id="remoteVideo_2" autoplay loop width="480" height="320" style="display:none"></video>
-			<canvas id="remoteVideoImage_2" width="480" height="320" style="display:none"></canvas>
-
-			<video id="remoteVideo_3" autoplay loop width="480" height="320" style="display:none"></video>
-			<canvas id="remoteVideoImage_3" width="480" height="320" style="display:none"></canvas>
-
-			<video id="remoteVideo_4" autoplay loop width="480" height="320" style="display:none"></video>
-			<canvas id="remoteVideoImage_4" width="480" height="320" style="display:none"></canvas> -->
 
 
 			<script type="text/javascript">
@@ -58,7 +53,7 @@
 				var oldPlayerNum = 0, newPlayerNum = 0;
 				var newPlayerJoined = false;
 
-				var whoIamInHive = -1, initEnvironment = false;
+				var whoIamInHive = 0, initEnvironment = false;
 
 				//----------------------------------------------------
 
@@ -69,17 +64,9 @@
 				var video = document.getElementById('video');
 				var videoImage = document.getElementById('videoImage');
 
-				// var remote = document.getElementById('remoteVideo');
-				// var remoteImage = document.getElementById('remoteVideoImage');
 				var remotes = [], remoteImages = [];
-
 				// dynamically create all the remote videos and canvases
 				for(var i=1; i<15; i++){
-					// var remote = document.getElementById('remoteVideo_' + i);
-					// var remoteImage = document.getElementById('remoteVideoImage_' + i);
-
-					// remotes.push( remote );
-					// remoteImages.push( remoteImage );
 
 					// create VIDEO @ DOM
 						var massVideoElement = document.createElement('video');
@@ -147,7 +134,7 @@
 				}
 
 				if (typeof MediaStreamTrack.getSources === 'undefined'){
-				  alert('This browser does not support MediaStreamTrack.\n\nTry Chrome Canary.');
+				  alert('This browser does not support MediaStreamTrack.\n\nPlease try Chrome Browser.');
 				} else {
 				  MediaStreamTrack.getSources(gotSources);
 				}
@@ -244,6 +231,7 @@
 							oldPlayerNum = newPlayerNum;	// 0 -> 1
 
 							console.log("my socket is connected, send out my id here");
+
 						}
 					}
 
@@ -275,13 +263,16 @@
 									call.on('stream', function(remoteStream) {
 										console.log("Got remote stream, for mid cell!");
 
+										//
+										// remoteStream.getAudioTracks()[0].enabled = false;
+										//
+
 										remotes[ currentVidAmount-1 ].src = window.URL.createObjectURL(remoteStream) || remoteStream;
 										// document.body.appendChild(remoteElement);
 										remotes[ currentVidAmount-1 ].play();
 
 										currentVidAmount++;
 									});
-
 								}
 								// else if ( currentVidAmount < 15 ) {
 								// 	call.on('stream', function(remoteStream) {
@@ -323,6 +314,14 @@
 							if(!initEnvironment) {
 								whoIamInHive = data.index;
 								console.log("I'm " + whoIamInHive + " in the Hive.");
+
+								// for light up HIVE LEDs!
+									var msg = {
+										'type': 'hive',
+										'in': whoIamInHive-1,
+										'out': -1
+									};
+									sendMessage(JSON.stringify(msg));
 
 								init();
 								initEnvironment = true;
@@ -425,7 +424,7 @@
 
 
 			<script src="js/StereoEffect.js"></script>
-  			<script src="js/controls/DeviceControls_vH.js"></script>
+  			<script src="js/controls/DeviceControls_vH3.js"></script>
   			<script type="text/javascript" src="js/BufferLoader.js"></script>
 			<script type="text/javascript" src="js/Detector.js"></script>
 			<script type="text/javascript" src="js/KeyboardState.js"></script>
@@ -434,6 +433,6 @@
 			<script type="text/javascript" src="js/wave.js"></script>
 			<script type="text/javascript" src="js/sample.js"></script>
 			<script type="text/javascript" src="js/jsfeat-min.js"></script>
-			<script type="text/javascript" src="js/script_hive.js"></script>
+			<script type="text/javascript" src="js/script_hive_v5.js"></script>
 	</body>
 </html>

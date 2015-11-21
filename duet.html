@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<title>duet</title>
+		<title>MASK - Duet</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>		
@@ -11,6 +11,13 @@
 			<script type="text/javascript" src="js/lib/peer.js"></script>
 
 			<div id="render-canvas"></div>
+
+			<!-- indie -->
+			<div id="blocker" style="display: -webkit-box;">
+				<div id="instructions" >
+					<img width="60" height="60" src="images/click.gif">
+				</div>
+			</div>
 
 			<!-- cam -->
 			<p id="errorMessage" style="display:none"></p>
@@ -104,7 +111,7 @@
 				}
 
 				if (typeof MediaStreamTrack.getSources === 'undefined'){
-				  alert('This browser does not support MediaStreamTrack.\n\nTry Chrome Canary.');
+				  alert('This browser does not support MediaStreamTrack.\n\nPlease try Chrome, or update Chrome.');
 				} else {
 				  MediaStreamTrack.getSources(gotSources);
 				}
@@ -152,13 +159,40 @@
 						
 						// get the history!
 						// only apply for the second opened browser
-						// for showing the first opened browser
-						if(currentVidAmount==1){
-							incoming_call.on('stream', function(remoteStream) {
+						// for showing the previous opened browser
+						if(currentVidAmount>=1){
+							//for two
+								// incoming_call.on('stream', function(remoteStream) {
+								// 	remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+								// 	remote.play();
+								// });
 
-								remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
-								remote.play();
-							});
+							//for three
+								incoming_call.on('stream', function(remoteStream) {
+
+									var ahhhhhhIndex = currentVidAmount-1;
+
+									if(ahhhhhhIndex==0 && whoIamInMask==2){	//2nd person
+										video.pause();
+										video.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+										video.play();
+
+										remote.pause();
+										remote.src = window.URL.createObjectURL(my_stream) || my_stream;
+										remote.play();
+									} else if (ahhhhhhIndex==0){
+										remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+										remote.play();
+									} else if(ahhhhhhIndex==1){	//3rd person --> screen record
+										video.pause();
+										video.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+										video.play();
+									}
+
+									console.log("play remotes: " + ahhhhhhIndex);
+									
+									currentVidAmount ++;
+								});
 						}						
 					});
 				};
@@ -220,11 +254,13 @@
 								call.on('stream', function(remoteStream) {
 									console.log("Got remote stream!");
 
-									remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
-									// document.body.appendChild(remoteElement);
-									remote.play();
+									if(whoIamInMask==1){
+										remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+										// document.body.appendChild(remoteElement);
+										remote.play();
 
-									currentVidAmount++;
+										currentVidAmount++;
+									}
 								});						
 							}
 						}
@@ -235,10 +271,10 @@
 								whoIamInMask = data.index;
 								console.log("I'm " + whoIamInMask + " in the Duet.");
 
-								if(whoIamInMask==1){
-									myStartZ = 2;
+								if(whoIamInMask==2){
+									myStartZ = -3;
 								} else {
-									myStartZ = -2;
+									myStartZ = 3;
 								}
 								init();
 								initEnvironment = true;
@@ -254,38 +290,50 @@
 							var playerLocZ = data.playerLocZ;
 							var playerRotY = data.playerRotY;
 							var playerQ = new THREE.Quaternion( data.playerQ._x, data.playerQ._y, data.playerQ._z, data.playerQ._w );
+							var eyeQ = new THREE.Quaternion( data.eyeQ._x, data.eyeQ._y, data.eyeQ._z, data.eyeQ._w );
 
 							if(firstGuy.children && secondGuy.children)
 								updatePlayer(data.index, playerLocX, playerLocZ, playerRotY, playerQ);
 
-							
+							if( data.index==1 && whoIamInMask==3)	controls.setRotationByQ(eyeQ);
+
+
 							// console.log('playerQ: ' + playerQ);
 						}
 
 						// physical input from Arduinio
-						/*
-						if(data.type == 'button'){
-							console.log( data.status );
+						
+						if(data.type == 'smile'){
 
-							if (data.status == 1) {
-								for(var i=0; i<roomExploded.length; i++){
-									roomExploded[i] = !roomExploded[i];
-								}
-								for(var i=0; i<windowExploded.length; i++){
-									windowExploded[i] = !windowExploded[i];
-								}
-							}
+							var smileValues = data.data.split(',');
 
-							if (data.status == 0) {
-								for(var i=0; i<roomExploded.length; i++){
-									roomExploded[i] = !roomExploded[i];
+							//v1
+							// for(var i=0; i<smileValues.length; i++){
+							// 	smileLevels[i] = parseInt(smileValues[i]);
+							// 	// console.log( i + ': ' + smileLevels[i]);
+
+							// 	if( smileLevels[i]>smileThreshold) {
+							// 		smileStatus[i] = true;
+							// 	} else {
+							// 		smileStatus[i] = false;
+							// 	}
+							// }
+
+							//v2
+							for(var i=0; i<smileValues.length; i++){
+								smileLevels[i] = parseInt(smileValues[i]);
+								// console.log( i + ': ' + smileLevels[i]);
+
+								if( smileLevels[i]<smileThreshold) {
+									smileStatus[i] = 0;
+								} else if( smileLevels[i]>smileThresholdB) {
+									smileStatus[i] = 2;
+								} else {
+									smileStatus[i] = 1;
 								}
-								for(var i=0; i<windowExploded.length; i++){
-									windowExploded[i] = !windowExploded[i];
-								}
-							}
+							}		
 						}
-						*/
+						
 
 						// ADD_PREVIOUS_PLAYERS
 						// ONE_TIME_EVENT
@@ -341,7 +389,7 @@
 
 
 			<script src="js/StereoEffect.js"></script>
-  			<script src="js/controls/DeviceControls_vD_2.js"></script>
+  			<script src="js/controls/DeviceControls_vD3.js"></script>
   			<script type="text/javascript" src="js/BufferLoader.js"></script>
 			<script type="text/javascript" src="js/Detector.js"></script>
 			<script type="text/javascript" src="js/KeyboardState.js"></script>
@@ -349,9 +397,9 @@
 			<script type="text/javascript" src="js/stats.min.js"></script>
 			<script type="text/javascript" src="js/wave.js"></script>
 			<script type="text/javascript" src="js/DS.js"></script>
-			<script type="text/javascript" src="js/sample.js"></script>
+			<script type="text/javascript" src="js/sample_duet.js"></script>
 			<script type="text/javascript" src="js/ImprovedNoise.js"></script>
 			<script type="text/javascript" src="js/jsfeat-min.js"></script>
-			<script type="text/javascript" src="js/script_duet_v5.js"></script>
+			<script type="text/javascript" src="js/script_duet_v12.js"></script>
 	</body>
 </html>

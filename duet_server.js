@@ -93,7 +93,7 @@ wss.on('connection', function(ws){
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 
-/*
+
 var serialport = require('serialport'),// include the library
     SerialPort = serialport.SerialPort, // make a local instance of it
     portName = '/dev/tty.usbmodemfd121'; 
@@ -120,18 +120,12 @@ function latestDataHandler(data){
 	lastData = data;
 
 	var msg = {
-		'type': 'button',
-		'status': lastData
+		'type': 'smile',
+		'data': lastData
 	};
 
-	// if(mySocket){
-		socketHandlers(mySocket, msg);
-		// console.log("send!");
-	// }
-	
-	// if(mySocket){
-	// 	mySocket.send(data);
-	// }
+	socketHandlers(mySocket, msg);
+
 }
 
 function showPortClose(){
@@ -141,7 +135,7 @@ function showPortClose(){
 function showError(error){
 	console.log('Serial port error: ' + error);
 }
-*/
+
 
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////

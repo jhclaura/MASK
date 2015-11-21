@@ -45,7 +45,7 @@ var mySocket = undefined;
 
 wss.on('connection', function(ws){
 
-	// mySocket = ws;
+	mySocket = ws;
 
 	thisId++;
 	clientIds.push(thisId);
@@ -55,22 +55,49 @@ wss.on('connection', function(ws){
 	allSockets.push(ws);
 	console.log('new player #%d connected!', thisId);
 
+	// hiveIndex.index = thisId;
+	// socketHandlers(ws, hiveIndex);
+	// console.log("hive index sent!");
 
-	hiveIndex.index = thisId;
-	socketHandlers(ws, hiveIndex);
-	console.log("hive index sent!");
-
+	if(mySocket){
+		hiveIndex.index = thisId;
+		mySocket.send( JSON.stringify(hiveIndex) );
+	}
 
 	ws.on('message', function(data){
 		
+		// console.log(data);
+
 		var msg = JSON.parse(data);
 		socketHandlers(ws, msg);
+
+
+		// for Arduino
+		/*
+			if(msg.type == 'hive'){
+
+				var tmpIn = msg.in;
+				var tmpOut = msg.out;
+
+				
+				if(myPort && myPort.isOpen){
+					myPort.write( tmpIn + ',' + tmpOut);	// better end with another ','
+
+					// myPort.write( '0' );
+					// console.log( '0' );
+					console.log( tmpIn + "," + tmpOut );
+				}
+			}
+		*/
 
 	});
 
 	ws.on('close', function(){
 		for(var i=0; i<allSockets.length; i++){
 			if(allSockets[i]==ws){
+
+				// for turn off the light of HIVE LEDs
+					// myPort.write( -1 + ',' + clientIds[i]);
 
 				var msg = {
 					'type': 'removePlayer',
@@ -87,10 +114,9 @@ wss.on('connection', function(ws){
 				break;
 			}
 		}
-		// mySocket = undefined;
+		mySocket = undefined;
 	});
 
-	// mySocket = ws;
 });
 
 
@@ -99,10 +125,10 @@ wss.on('connection', function(ws){
 ///////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////
 
+/*
 var serialport = require('serialport'),// include the library
     SerialPort = serialport.SerialPort, // make a local instance of it
     portName = '/dev/tty.usbmodemfd121'; 
-
 
 var myPort = new SerialPort(portName, {
 	baudRate: 9600,
@@ -118,6 +144,7 @@ myPort.on('error', showError);
 
 function showPortOpen(){
 	console.log('port open. Data rate: ' + myPort.options.baudRate);
+	myPort.isOpen = true;
 }
 
 function latestDataHandler(data){
@@ -130,8 +157,8 @@ function latestDataHandler(data){
 	};
 
 	// if(mySocket){
-		socketHandlers(mySocket, msg);
-		// console.log("send!");
+	// 	socketHandlers(mySocket, msg);
+	// 	console.log("sent from arduino!");
 	// }
 	
 	// if(mySocket){
@@ -147,7 +174,7 @@ function showError(error){
 	console.log('Serial port error: ' + error);
 }
 
-
+*/
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 
@@ -165,17 +192,17 @@ var socketHandlers = function(socket,msg){
 
 			var maskIndex = undefined;
 
-			if(msg.type=='index'){
-				//GENERATE_ALL_MASKPLAYERS_ONLY_ONCE
-				if(msg.camID==0){
-					msg.npID = 100;
-					// socket.id = msg.id;	// save id
-					console.log('NewPlayerID --> ' + msg.id);
-					msg.camID++;
+			// if(msg.type=='index'){
+			// 	//GENERATE_ALL_MASKPLAYERS_ONLY_ONCE
+			// 	if(msg.camID==0){
+			// 		msg.npID = 100;
+			// 		// socket.id = msg.id;	// save id
+			// 		console.log('NewPlayerID --> ' + msg.id);
+			// 		msg.camID++;
 
-					maskPlayer.push(msg);
-				}
-			}
+			// 		maskPlayer.push(msg);
+			// 	}
+			// }
 
 			if(msg.type=='addNewPlayer'){
 				//GENERATE_ALL_MASKPLAYERS_ONLY_ONCE

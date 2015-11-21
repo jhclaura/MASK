@@ -198,6 +198,8 @@ var perlin = new ImprovedNoise(), noiseQuality = 1;
 
 	var audioContext = new AudioContext();
 	var sample = new SoundsSample(audioContext);
+	var bufferLoader, audioAllLoaded = false;
+	var audioSources = [], gainNodes = [];
 
 
 ///////////////////////////////////////////////////////////
@@ -218,7 +220,16 @@ function init()
 	//Prevent scrolling for Mobile
 	document.body.addEventListener('touchmove', function(event) {
 	  event.preventDefault();
-	}, false); 
+	}, false);
+
+	// web audio api
+		bufferLoader = new BufferLoader(
+			audioContext, [ '../audios/duet/nightForest.mp3',
+						    '../audios/duet/firecrack.mp3' ], 
+					  finishedLoading
+		);
+		bufferLoader.load();
+
 
 	time = Date.now();
 	clock = new THREE.Clock();
@@ -694,6 +705,30 @@ function init()
 
 
 	animate();	
+}
+
+
+// web audio api
+function finishedLoading(bufferList){
+
+	for(var i=0; i<2; i++){
+		var s = audioContext.createBufferSource();
+		audioSources.push(s);
+
+		var g = audioContext.createGain();
+		gainNodes.push(g);
+
+		audioSources[i].buffer = bufferList[i];
+		audioSources[i].loop = true;
+		audioSources[i].connect(gainNodes[i]);
+		gainNodes[i].connect(audioContext.destination);
+		
+		audioSources[i].start(0);
+	}
+	gainNodes[0].gain.value = 1;
+	gainNodes[1].gain.value = 0.2;
+
+	audioAllLoaded = true;
 }
 
 

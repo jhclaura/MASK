@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<title>MASK - House</title>
+		<link rel="stylesheet" type="text/css" href="css/style_v2.css">
+	</head>
+	<body>		
+			<script type="text/javascript" src="js/lib/three.min_69.js"></script>
+			<script type="text/javascript" src="js/lib/peer.js"></script>
+
+			<div id="render-canvas"></div>
+
+			<!-- indie -->
+			<div id="blocker" style="display: -webkit-box;">
+				<div id="instructions" >
+					<img width="60" height="60" src="images/click.gif">
+				</div>
+			</div>
+
+
+			<!-- cam -->
+			<p id="errorMessage" style="display:none"></p>
+
+			<video id="video" autoplay loop width="480" height="320" style="display:none"></video>
+			<canvas id="videoImage" width="480" height="320" style="display:none"></canvas>
+
+			<video id="remoteVideo" autoplay loop width="480" height="320" style="display:none"></video>
+			<canvas id="remoteVideoImage" width="480" height="320" style="display:none"></canvas>
+
+			<!-- <div id="debugView" style="position:relative; width:240px; height:180px; float:right">
+				<canvas id="layerOnVideo" width="240" height="180" style="z-index:10000000002; position:absolute; left:0px; top:0px; opacity:0.5;">
+				<canvas id="videoImage" width="240" height="180" style="z-index:10000000001; position:absolute; left:0px; top:0px; opacity:0.5; display:none;">
+			</div> -->
+
+			<script type="text/javascript">
+				/* based on codes of Shawn */
+				/* source: http://itp.nyu.edu/~sve204/liveweb_fall2014/week5.html */
+
+				/* Get User Media */
+				var my_stream = null, remote_stream = null;
+
+				/* My WebRTC peer and peer_id */
+				var peer = null;
+				var peer_id = null;			
+			
+				/* Socket Server - WS */
+				var socket = null;
+				var socketOpened = false;
+
+				var host;
+				var ws;
+				var myID, createID = false;
+				var updatePreviousPlayer = false;
+
+				var msgCount = 0;
+				var newPlayerID;
+
+				var camID = 0;
+				var oldPlayerNum = 0, newPlayerNum = 0;
+				var newPlayerJoined = false;
+
+				var whoIamInMask = -1, initEnvironment = false;
+
+				//----------------------------------------------------
+
+				var audioSource = null, videoSource = null, camUserID = null, camEnvironmentID = null;
+				var mediaConstraints = {};
+
+				// DOM
+				var video = document.getElementById('video');
+				var videoImage = document.getElementById('videoImage');
+
+				var remote = document.getElementById('remoteVideo');
+				var remoteImage = document.getElementById('remoteVideoImage');
+
+				var currentVidAmount = 0;
+
+				//
+
+				navigator.getUserMedia = navigator.getUserMedia || 
+					navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+
+				function gotSources(sourceInfos) {
+				  for (var i = 0; i !== sourceInfos.length; ++i) {
+				    var sourceInfo = sourceInfos[i];
+				    // console.log(sourceInfo);
+
+				   	if (sourceInfo.kind === 'video') {
+				   		// console.log(sourceInfo);
+
+				   		if (sourceInfo.facing === 'user') camUserID = sourceInfo.id;
+				   		else if (sourceInfo.facing === 'environment') {
+
+				   			camEnvironmentID = sourceInfo.id;
+				   			mediaConstraints = {
+								video: {
+									optional: [{sourceId: camEnvironmentID}]
+								}, audio: true
+							};
+							navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
+				   		}
+				   		else {
+				   			camEnvironmentID = sourceInfo.id;
+				   			mediaConstraints = {
+								video: {
+									optional: [{sourceId: camEnvironmentID}]
+								}, audio: true
+							};
+							navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
+				   		}
+				    } 
+				  }
+				}
+
+				if (typeof MediaStreamTrack.getSources === 'undefined'){
+				  alert('This browser does not support MediaStreamTrack.\n\nTry Chrome Canary.');
+				} else {
+				  MediaStreamTrack.getSources(gotSources);
+				}
+
+				function successCallback(stream) {
+					my_stream = stream; // make stream available to console
+
+					video.src = window.URL.createObjectURL(stream) || stream;
+					video.play();
+					currentVidAmount ++;
+					console.log("me; currentVidAmount: " + currentVidAmount);
+
+					// Now we can connect to the peer server
+					peerConnect();
+				}
+
+				function errorCallback(error){
+					var msg = 'No camera available.';
+					if (error.code == 1) 
+					{   msg = 'User denied access to use camera.';   }
+					document.getElementById('errorMessage').textContent = msg;
+					console.log('navigator.getUserMedia error: ', error);
+				}
+
+				//
+				var peerConnect = function() {			
+					/* WebRTC - Peer.js */
+						
+					// Register for an API Key:	
+					peer = new Peer({key: 't70jqks7224yrpb9'});	//Laura's key
+
+					// Get an ID from the PeerJS server		
+					peer.on('open', function(id) {
+						console.log('My peer ID is: ' + id);
+						peer_id = id;
+				  
+				  		// Now we can connect to the socket server						
+						connectSocket();
+					});		
+			
+					
+					peer.on('call', function(incoming_call) {
+						console.log("Got a call!");
+
+						incoming_call.answer(my_stream); // Answer the call with an A/V stream.
+
+						
+						// get the history!
+						// only apply for the second above opened browser
+						// for showing the first opened browser
+						if(currentVidAmount>=1){
+
+							//for two
+								// incoming_call.on('stream', function(remoteStream) {
+								// 	remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+								// 	remote.play();
+								// });
+
+							//for three
+								incoming_call.on('stream', function(remoteStream) {
+
+									var ahhhhhhIndex = currentVidAmount-1;
+									console.log("history; currentVidAmount: " + currentVidAmount);
+									console.log(ahhhhhhIndex + "log in");
+
+									if(ahhhhhhIndex==0){
+										remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+										remote.play();
+									}else if(ahhhhhhIndex==1){
+										video.pause();
+										video.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+										video.play();
+									}
+
+									console.log("play remotes: " + ahhhhhhIndex);
+									
+									currentVidAmount ++;
+								});
+						}	
+						
+					});
+					
+
+				};
+
+
+				var connectSocket = function() {
+
+					host = location.origin.replace(/^http/, 'ws');
+					ws = new WebSocket(host);
+
+					newPlayerNum ++;
+
+					ws.onopen = function(){
+						console.log('Our browsers are connected!');
+
+						// ONLY_EXECUTE_ONCE
+						if(oldPlayerNum != newPlayerNum){	// 0 != 1
+							// my socket is connected, send out my id here
+							var msg = {
+								'type': 'addNewPlayer',
+								'camID': camID,				// 0
+								'id': peer_id,
+								'npID': 0
+							};
+
+							sendMessage(JSON.stringify(msg));
+													
+							//UPDATE_FOR_WS
+							//SO_ONLY_CREATE_NEW_PLAYER_ONCE_FOR_EACH_BROWSER
+							oldPlayerNum = newPlayerNum;	// 0 -> 1
+
+							console.log("my socket is connected, send out my id here");
+						}
+					}
+
+					ws.onmessage = function(msg){
+
+						msgCount++;
+
+						var data = JSON.parse(msg.data);
+						// console.log("Got msg!");
+						// console.log(data);
+
+						// ID_FOR_EACH_BROWSER
+						// ONLY_EXECUTE_ONCE
+						// if(!createID){
+						// 	myID = data.myID;
+						// 	createID = true;
+						// }
+
+						if(data.type == 'addNewPlayer' && currentVidAmount<3){
+							//NEW_PLAYER_JOIN
+							//EVERY_NEW_WINDOW_OPEN
+							if(peer_id!=data.id && data.npID>0){
+								console.log("Got a new peer: " + data.id);
+
+								var call = peer.call(data.id, my_stream);
+
+								
+									call.on('stream', function(remoteStream) {
+
+										if(currentVidAmount<2){
+											remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+											remote.play();
+
+											currentVidAmount++;
+											console.log("Got remote stream! currentVidAmount: " + currentVidAmount);
+										}
+
+									});
+												
+							}
+						}
+
+						if(data.type == 'index'){
+
+							if(!initEnvironment) {
+								whoIamInMask = data.index;
+								console.log("I'm " + whoIamInMask + " in House.");
+
+								init();
+								initEnvironment = true;
+							}							
+						}
+
+						if(data.type == 'updatePlayer' && whoIamInMask==3){
+
+							// console.log(data.playerQ);
+
+							// var playerLocX = data.playerLocX;
+							// var playerLocZ = data.playerLocZ;
+							// var playerRotY = data.playerRotY;
+							var playerQ = new THREE.Quaternion( data.playerQ._x, data.playerQ._y, data.playerQ._z, data.playerQ._w );
+							controls.setRotationByQ(playerQ);
+
+							// console.log('data.index: ' + data.index);
+							// console.log('playerQ: ' + playerQ);
+						}
+
+						if(data.type == 'touch' && whoIamInMask!=1){
+
+							for(var i=0; i<roomExploded.length; i++){
+								roomExploded[i] = !roomExploded[i];
+							}
+							for(var i=0; i<windowExploded.length; i++){
+								windowExploded[i] = !windowExploded[i];
+							}
+						}
+
+
+						// if(data.type == 'button'){
+						// 	console.log( data.status );
+
+						// 	if (data.status == 1) {
+						// 		for(var i=0; i<roomExploded.length; i++){
+						// 			roomExploded[i] = !roomExploded[i];
+						// 		}
+						// 		for(var i=0; i<windowExploded.length; i++){
+						// 			windowExploded[i] = !windowExploded[i];
+						// 		}
+						// 	}
+
+						// 	if (data.status == 0) {
+						// 		for(var i=0; i<roomExploded.length; i++){
+						// 			roomExploded[i] = !roomExploded[i];
+						// 		}
+						// 		for(var i=0; i<windowExploded.length; i++){
+						// 			windowExploded[i] = !windowExploded[i];
+						// 		}
+						// 	}
+						// }
+
+						// ADD_PREVIOUS_PLAYERS
+						// ONE_TIME_EVENT
+						if(data.length>0 && !updatePreviousPlayer){
+							for(var i=0; i<data.length; i++){
+								// console.log('!');
+								if(peer_id > data[i].id){
+									console.log('create! ID: ' + data[i].id);
+								}							
+							}
+							updatePreviousPlayer = true;
+						}
+					}
+
+					//
+					
+					
+
+				    socketOpened = true;
+				};
+
+				//SYNCING_ISSUE
+				//http://stackoverflow.com/questions/23898477/tornado-websockets-invalidstateerror-still-in-connecting-state
+				//but has better solution... e.g. promises
+				function sendMessage(msg) {
+			        waitForSocketConnection( ws, function() {
+			            ws.send( msg );
+			        });
+
+			        // console.log('* sendMessage');
+			    };
+
+
+				function waitForSocketConnection(socket, callback){
+			        setTimeout(
+			            function(){
+			                if (socket.readyState === 1) {
+			                    if(callback !== undefined){
+			                        callback();
+
+			                        // console.log('* callback');
+			                    }
+			                    return;
+			                } else {
+			                    waitForSocketConnection(socket,callback);
+			                }
+			            }, 5);
+
+			        // console.log('* waitForSocketConnection');
+			    };
+			    
+			</script>
+
+
+			<script src="js/StereoEffect.js"></script>
+  			<script src="js/controls/DeviceControls_vC6.js"></script>
+  			<script type="text/javascript" src="js/BufferLoader.js"></script>
+			<script type="text/javascript" src="js/Detector.js"></script>
+			<script type="text/javascript" src="js/KeyboardState.js"></script>
+			<script type="text/javascript" src="js/lib/tween.min.js"></script>
+			<script type="text/javascript" src="js/stats.min.js"></script>
+			<script type="text/javascript" src="js/wave.js"></script>
+			<script type="text/javascript" src="js/sample.js"></script>
+			<script type="text/javascript" src="js/jsfeat-min.js"></script>
+			<script type="text/javascript" src="js/script_house_v2.js"></script>
+	</body>
+</html>

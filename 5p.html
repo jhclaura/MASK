@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<title>5 p</title>
+		<title>MASK - 5P</title>
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>		
@@ -11,6 +11,13 @@
 			<script type="text/javascript" src="js/lib/peer.js"></script>
 
 			<div id="render-canvas"></div>
+
+			<!-- indie -->
+			<div id="blocker" style="display: -webkit-box;">
+				<div id="instructions" >
+					<img width="60" height="60" src="images/click.gif">
+				</div>
+			</div>
 
 			<!-- cam -->
 			<p id="errorMessage" style="display:none"></p>
@@ -199,8 +206,9 @@
 									remotes[ ahhhhhhIndex ].src = window.URL.createObjectURL(remoteStream) || remoteStream;
 									remotes[ ahhhhhhIndex ].play();
 
+									console.log("play remotes: " + ahhhhhhIndex);
+									
 									currentVidAmount ++;
-
 								});
 							}
 
@@ -285,7 +293,7 @@
 
 							if(!initEnvironment) {
 								whoIamInMask = data.index;
-								console.log("I'm " + whoIamInMask + " in the Hive.");
+								console.log("I'm " + whoIamInMask + " in the 5P.");
 
 								myStartX = guyPositions[whoIamInMask-1].x;
 								myStartZ = guyPositions[whoIamInMask-1].z;
@@ -294,20 +302,42 @@
 								initEnvironment = true;
 							}							
 						}
-						if(data.type == 'index'){
 
-							if(!initEnvironment) {
-								whoIamInMask = data.index;
-								console.log("I'm " + whoIamInMask + " in the Duet.");
+						if(data.type == 'touch'){
+							// console.log( data.data );
+							var sensorValues = data.data.split(',');
 
-								if(whoIamInMask==1){
-									myStartZ = 2;
+							touchCount=0;
+
+							for(var i=0; i<sensorValues.length; i++){
+								touches[i] = parseInt(sensorValues[i]);
+								// console.log( touchLabels[i] + ': ' + touches[i]);
+								
+
+								if(touches[i]==10) {
+									// console.log( touchLabels[i] + ' touch!');
+									touchCount++;
+									// trigger time!
+									triggerAnimation(i);
+
+									// show connection
+									connections[i].material.opacity=1;
+
+									// if(!fadeConnections[i]){
+									// 	setTimeout(function(){
+									// 		connections[i].material.opacity=0;
+									// 	}, 1000);
+									// 	fadeConnections[i]=true;
+									// }
 								} else {
-									myStartZ = -2;
+									if(connections.length==10){
+										connections[i].material.opacity=0;
+										// fadeConnections[i]=false;
+									}
 								}
-								init();
-								initEnvironment = true;
-							}		
+							}
+
+							console.log(touchCount);						
 						}
 
 						
@@ -326,10 +356,31 @@
 							if(guys.length > 0){
 								updatePlayer(data.index, playerLocX, playerLocZ, playerRotY, playerQ);
 							}
-								
-
 							// console.log('playerQ: ' + playerQ);
 						}
+
+						if(data.type == 'horse'){
+							// if(resetHorse==true) goHorse();
+							// if(frank) frank.rotation.y = -danceStep;
+
+							gogoHorse = true;
+							console.log('gogoHorse: ' + gogoHorse);
+						}
+
+						if(data.type == 'horseStop'){
+							// if(resetHorse==true) goHorse();
+							// if(frank) frank.rotation.y = -danceStep;
+							gogoHorse = false;
+						}
+
+						if(data.type == 'zoetrope'){
+							strobeLightOn=true;
+						}
+
+						if(data.type == 'zoeStop'){
+							strobeLightOn=false;
+						}
+
 						
 
 
@@ -399,19 +450,7 @@
 							}
 						}
 						*/
-						if(data.type == 'touch'){
-							// console.log( data.data );
-							var sensorValues = data.data.split(',');
 
-							for(var i=0; i<sensorValues.length; i++){
-								touches[i] = sensorValues[i];
-								// console.log( touchLabels[i] + ': ' + touches[i]);
-
-								if(touches[i]==1) {
-									console.log( touchLabels[i] + ' touch!');
-								}
-							}							
-						}						
 					}
 					//
 				    socketOpened = true;
@@ -458,8 +497,8 @@
 			<script type="text/javascript" src="js/lib/tween.min.js"></script>
 			<script type="text/javascript" src="js/stats.min.js"></script>
 			<script type="text/javascript" src="js/wave.js"></script>
-			<script type="text/javascript" src="js/sample_5p.js"></script>
+			<script type="text/javascript" src="js/sample_5p_v2.js"></script>
 			<script type="text/javascript" src="js/jsfeat-min.js"></script>
-			<script type="text/javascript" src="js/script_5p.js"></script>
+			<script type="text/javascript" src="js/script_5p_v4.js"></script>
 	</body>
 </html>

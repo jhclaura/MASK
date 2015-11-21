@@ -4,6 +4,118 @@ if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
 var element = document.body;
 
+//PointerLockControls
+	var pointerControls, dateTime = Date.now();
+	var objects = [];
+	var rays = [];
+	var blocker = document.getElementById('blocker');
+	var instructions = document.getElementById('instructions');
+
+	// http://www.html5rocks.com/en/tutorials/pointerlock/intro/
+
+	var havePointerLock = 
+				'pointerLockElement' in document || 
+				'mozPointerLockElement' in document || 
+				'webkitPointerLockElement' in document;
+
+	if ( havePointerLock ) {
+		// console.log("havePointerLock");
+
+		var element = document.body;
+
+		var pointerlockchange = function ( event ) {
+
+			if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
+				console.log("enable pointerControls");
+
+				controls.enabled = true;
+				blocker.style.display = 'none';
+
+			} else {
+
+				controls.enabled = false;
+				blocker.style.display = '-webkit-box';
+				blocker.style.display = '-moz-box';
+				blocker.style.display = 'box';
+
+				instructions.style.display = '';
+			}
+
+		}
+
+		var pointerlockerror = function(event){
+			instructions.style.display = '';
+		}
+
+		// Hook pointer lock state change events
+		document.addEventListener( 'pointerlockchange', pointerlockchange, false );
+		document.addEventListener( 'mozpointerlockchange', pointerlockchange, false );
+		document.addEventListener( 'webkitpointerlockchange', pointerlockchange, false );
+
+		document.addEventListener( 'pointerlockerror', pointerlockerror, false );
+		document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
+		document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
+
+
+		if(isTouchDevice()) {
+			console.log("isTouchDevice");
+			
+
+			instructions.addEventListener( 'touchend', funToCall, false );
+		} else {
+			instructions.addEventListener( 'click', funToCall, false );
+		}
+
+
+	} else {
+
+		instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
+	}
+
+	function isTouchDevice() { 
+		return 'ontouchstart' in window || !!(navigator.msMaxTouchPoints);
+	}
+
+	function funToCall(event){
+
+		console.log("click or touch!");
+
+		instructions.style.display = 'none';
+
+		// Ask the browser to lock the pointer
+		element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
+
+		controls.enabled = true;
+
+		if ( /Firefox/i.test( navigator.userAgent ) ) {
+
+			var fullscreenchange = function ( event ) {
+
+				if ( document.fullscreenElement === element || document.mozFullscreenElement === element || document.mozFullScreenElement === element ) {
+
+					document.removeEventListener( 'fullscreenchange', fullscreenchange );
+					document.removeEventListener( 'mozfullscreenchange', fullscreenchange );
+
+					element.requestPointerLock();
+				}
+
+			}
+
+			document.addEventListener( 'fullscreenchange', fullscreenchange, false );
+			document.addEventListener( 'mozfullscreenchange', fullscreenchange, false );
+
+			element.requestFullscreen = element.requestFullscreen || element.mozRequestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen;
+
+			element.requestFullscreen();
+
+		} else {
+
+			element.requestPointerLock();
+
+		}
+	}
+
+
 ////////////////////////////////////////////////////////////	
 // SET_UP_VARIABLES
 ////////////////////////////////////////////////////////////
@@ -102,12 +214,16 @@ var dir, step;
 // Guysss
 	var firstGuy, firstGuyHead, secondGuy, secondGuyHead;
 	var guys = [], guysHeads = [], guysRAs = [], guysLAs = [];
-	var gguy, gguyBody, gguyHead;
+	var gguy, gguyBody, gguyHead, guyHandHight = false;
 	var QforBodyRotation;
 	var camMats = [];
 	var guyColors = [ 0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0x00ffff ];
 	var guyPositions = [ new THREE.Vector3(0,0,-7), new THREE.Vector3(4.5,0,-1.5), new THREE.Vector3(-4.5,0,-1.5),
 						 new THREE.Vector3(3,0,4), new THREE.Vector3(-3,0,4) ];
+	var connections = [], connectMat;
+	var connectFiles = [ "models/connections/c_0.js", "models/connections/c_1.js", "models/connections/c_2.js", "models/connections/c_3.js",
+					     "models/connections/c_4.js", "models/connections/c_5.js", "models/connections/c_6.js",
+					     "models/connections/c_7.js", "models/connections/c_8.js", "models/connections/c_9.js" ];
 
 // touches
 	var touches = [], threePTouch = false, fourPplTouch = false, fivePplTouch = false, touchCount = 0, touchPastStatus = [];
@@ -129,7 +245,7 @@ var dir, step;
 	var bgColor = new THREE.Color( 0,0,0 ), tmpBgColor = new THREE.Color( 0,0,0 );
 	var sampleIndex = 0, triggerSources = [];
 
-	var dancingFrank = [], frank, frankMat, totalFrankGeom, totalFrankMats = [], strobeLightOn = false;
+	var dancingFrank = [], frank, frankMat, totalFrankGeom, totalFrankMats = [];
 	var frankFiles = [ "models/frank/f_1.js", "models/frank/f_2.js", "models/frank/f_3.js", "models/frank/f_4.js",
 					   "models/frank/f_5.js", "models/frank/f_6.js", "models/frank/f_7.js", "models/frank/f_8.js",
 					   "models/frank/f_9.js", "models/frank/f_10.js", "models/frank/f_11.js", "models/frank/f_12.js" ];
@@ -468,6 +584,18 @@ function init()
 				loadModelGuy( "models/Guy2/GuyB.js", "models/Guy2/GuyLA.js", "models/Guy2/GuyRA.js", "models/Guy2/GuyH.js", mmm.clone(), camMats[i], i );
 			}
 
+	// connections
+		var loader = new THREE.JSONLoader( true );
+		tex = THREE.ImageUtils.loadTexture('images/connection.png');
+		connectMat = new THREE.MeshLambertMaterial({map: tex, shading: THREE.FlatShading, transparent: true, opacity: 0});
+		// var geo = new THREE.BoxGeometry(0.5, 0.5, 4);
+
+		for(var i=0; i<connectFiles.length; i++){
+			loadConnections( connectFiles[i], connectMat );
+		}
+		
+		
+
 	// touche: grass on guy's head
 		tex = THREE.ImageUtils.loadTexture('images/grass.png');
 		grassMat = new THREE.MeshLambertMaterial( { map: tex } );
@@ -481,7 +609,7 @@ function init()
 		for(var i=0; i<10; i++){
 			touches.push( false );
 			touchPastStatus.push( false );
-			triggerSources.push( null );touchPastStatus
+			triggerSources.push( null );
 		}
 
 	// lightbulbs
@@ -580,7 +708,7 @@ function init()
 		horse = new THREE.Object3D();
 		loader.load( "models/horse.js", function( geometry ) {
 			tex = new THREE.ImageUtils.loadTexture('images/horse.png');
-			var hos = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { map: tex, shading: THREE.FlatShading, morphTargets: true, transparent: true, opacity: 1 } ) );
+			var hos = new THREE.Mesh( geometry, new THREE.MeshLambertMaterial( { map: tex, shading: THREE.FlatShading, morphTargets: true, transparent: true, opacity: 0 } ) );
 			hos.position.y -= 1.5;
 			hos.rotation.y += Math.PI;
 			horse.add( hos );			
@@ -859,8 +987,9 @@ function loadModelGuy (model, modelB, modelC, modelD, mat, cMat, index) {
 
 	// add body --> children[0]
 	loader.load(model, function( geometry ){
-		var gb = new THREE.Mesh( geometry.clone(), mat );				
+		var gb = new THREE.Mesh( geometry.clone(), mat );
 		gguyBody.add(gb);
+		gguyBody.name = "body";
 
 		// add LA --> children[0][1]
 		loader.load(modelB, function( geometryB ){
@@ -918,6 +1047,15 @@ function loadModelGuy (model, modelB, modelC, modelD, mat, cMat, index) {
 	} );	
 }
 
+function loadConnections (model, meshMat) {
+	var mmmmm = meshMat.clone();
+	var loader = new THREE.JSONLoader();
+	loader.load(model, function(geometry){
+		var ccc = new THREE.Mesh(geometry, mmmmm);
+		scene.add(ccc);			
+		connections.push(ccc);
+	}, "js");
+}
 
 function loadModelDance_v0 (models0, models1, models2, models3, models4, models5, models6, models7, models8, models9, models10, models11, meshMat) {
 
@@ -993,6 +1131,8 @@ function loadModelDance (model, meshMat, index) {
 			
 	}, "js");
 }
+
+
 
 var trigger0_source;
 
@@ -1075,13 +1215,24 @@ function myKeyPressed (event) {
 			break;
 
 		case 57: //9
-			triggerSources[8] = sample.triggerReturn(24+sampleIndex,1);
+			triggerSources[9] = sample.triggerReturn(27+sampleIndex,1);
 			showWave();
 			touches[9] = true;
 			break;
 
 		case 32: //space
 			strobeLightOn = true;
+			break;
+
+		case 72: //h --> lift right hand
+			guyHandHight = !guyHandHight;
+			if(guyHandHight){
+				new TWEEN.Tween(guys[0].children[0].children[2].rotation).to({x: -90 * Math.PI/180}, 800).easing( TWEEN.Easing.Back.Out).start(); 
+				new TWEEN.Tween(guys[0].children[0].children[2].scale).to({y: 4}, 800).easing( TWEEN.Easing.Back.Out).start(); 
+			} else {
+				new TWEEN.Tween(guys[0].children[0].children[2].rotation).to({x: 0}, 800).easing( TWEEN.Easing.Back.Out).start(); 
+				new TWEEN.Tween(guys[0].children[0].children[2].scale).to({y: 1}, 800).easing( TWEEN.Easing.Back.Out).start(); 
+			}
 			break;
 	}
 }
@@ -1264,9 +1415,14 @@ function update()
 
 	touchCount = 0;
 	// count touches
-	for(var i=0; i<touches.length; i++){
-		if(touches[i]) touchCount++;
-	}
+	// for(var i=0; i<touches.length; i++){
+	// 	if(touches[i]) {
+	// 		touchCount++;
+	// 		connections[i].material.opacity=1;
+	// 	} else {
+	// 		connections[i].material.opacity=0;
+	// 	}
+	// }
 
 	// horse
 		if(horse && horseWalking){
@@ -1620,6 +1776,212 @@ function goHorse() {
 			
 		} ).start(); 
 }
+
+//
+
+function triggerAnimation(index) {
+
+	sampleIndex = Math.random();
+	if(sampleIndex>0.65)
+		sampleIndex = 0;
+	else if(sampleIndex<=0.3)	//lowest chance
+		sampleIndex = 1;
+	else
+		sampleIndex = 2;
+
+	triggerSources[ index ] = sample.triggerReturn( index*3+sampleIndex, 0.3 );
+
+	////////////////////
+	////////////////////
+	////////////////////
+
+	if(index==0){
+		var newM = money.clone();
+		newM.position.set( Math.random()*10-5, 0, Math.random()*10-5);
+		newM.rotation.y = Math.random()*Math.PI;
+		newM.scale.set(0.5,0.0001,1);
+		scene.add(newM);
+		// lightbulbs.push(newLB);
+
+		//v1
+		new TWEEN.Tween(newM.scale).to(
+			{y: 0.5}, 2000).easing( TWEEN.Easing.Elastic.Out)
+			.chain( new TWEEN.Tween(newM.scale)
+						.to({y: 0.0001}, 1000)
+						.easing(TWEEN.Easing.Elastic.Out).onComplete(function(){
+																scene.remove(newM);
+																console.log("remove money!");
+															}) ).start();
+	}
+
+	if(index==1){
+		for(var i=0; i<10; i++){
+			var newS = starSources[sampleIndex].clone();
+			newS.position.set( Math.random()*10-5, Math.random()*3-2, Math.random()*10-5);
+			newS.scale.set(0.0001,0.0001,0.0001);
+			scene.add(newS);
+			stars.push(newS);
+		}
+
+		new TWEEN.Tween(newS.scale).to(
+			{x:1, y:1, z:1}, 2000).easing( TWEEN.Easing.Elastic.Out)
+			.chain( new TWEEN.Tween(newS.scale)
+						.to({x:0.0001, y: 0.0001, z:0.0001}, 1000)
+						.easing(TWEEN.Easing.Elastic.Out).onComplete(function(){
+																scene.remove(newS);
+																console.log("remove money!");
+															}) ).start();
+	}
+
+	if(index==2){
+		var tmpH = 0.6 + 0.4*Math.random()-0.2; 
+		// console.log( tmpH );
+		// tmpBgColor.setHSL( Math.random(), 1, 1 );
+		// console.log( tmpBgColor );
+
+		// tmpBgColor.setHSL( ( 0.7 + 0.001*Math.random()-0.0005 ) * 0x111111 );
+
+		tmpBgColor.setHSL( tmpH, 0.8, 0.1 );
+		// console.log( tmpBgColor );
+
+		new TWEEN.Tween(bgColor).to({r: tmpBgColor.r, g: tmpBgColor.g, b: tmpBgColor.b}, 100)
+			.easing( TWEEN.Easing.Exponential.In).start();
+		renderer.setClearColor(bgColor);
+	}
+
+	if(index==3){
+		var grassIndex = time%5;
+		new TWEEN.Tween(grasses[grassIndex].scale).to({x:1, y:1, z:1}, 700).easing( TWEEN.Easing.Elastic.Out).chain(
+				new TWEEN.Tween(grasses[grassIndex].scale).to({x:0.1, y:0.1, z:0.1}, 1000).easing( TWEEN.Easing.Elastic.In).start()
+			).start(); 
+		new TWEEN.Tween(grassBones[grassIndex][1].rotation).to({y: 10*Math.PI/180}, 1200).easing( TWEEN.Easing.Elastic.Out).chain(
+				new TWEEN.Tween(grassBones[grassIndex][1].rotation).to({y: 0}, 1000).easing( TWEEN.Easing.Elastic.In).start()
+			).start(); 
+		new TWEEN.Tween(grassBones[grassIndex][3].rotation).to({y: 70*Math.PI/180}, 1200).easing( TWEEN.Easing.Elastic.Out).chain(
+				new TWEEN.Tween(grassBones[grassIndex][3].rotation).to({y:0}, 1000).easing( TWEEN.Easing.Elastic.In).start()
+			).start();
+		new TWEEN.Tween(grassBones[grassIndex][4].rotation).to({y: -40*Math.PI/180}, 1200).easing( TWEEN.Easing.Elastic.Out).chain(
+				new TWEEN.Tween(grassBones[grassIndex][4].rotation).to({y:0}, 1000).easing( TWEEN.Easing.Elastic.In).start()
+			).start();
+		new TWEEN.Tween(grassBones[grassIndex][6].rotation).to({y: -50*Math.PI/180}, 1200).easing( TWEEN.Easing.Elastic.Out).chain(
+				new TWEEN.Tween(grassBones[grassIndex][6].rotation).to({y:0}, 1000).easing( TWEEN.Easing.Elastic.In).start()
+			).start();
+		new TWEEN.Tween(grassBones[grassIndex][7].rotation).to({y: -70*Math.PI/180}, 1200).easing( TWEEN.Easing.Elastic.Out).chain(
+				new TWEEN.Tween(grassBones[grassIndex][7].rotation).to({y:0}, 1000).easing( TWEEN.Easing.Elastic.In).start()
+			).start();
+	}
+
+	if(index==4){
+		var newLB = lightbulbLight.clone();
+		newLB.position.set( Math.random()*10-5, -5, Math.random()*10-5);
+		scene.add(newLB);
+		// lightbulbs.push(newLB);
+
+		//v1
+		new TWEEN.Tween(newLB.position).to(
+			{y: 1}, 2000).easing( TWEEN.Easing.Elastic.Out)
+			.chain( new TWEEN.Tween(newLB.position)
+						.to({y: [-1,20]}, 5000)
+						.easing(TWEEN.Easing.Elastic.Out).onComplete(function(){
+																scene.remove(newLB);
+																console.log("remove lightbulbs!");
+															}) ).start();
+	}
+
+	if(index==5){
+		var bananaIndex = time%10;
+
+		// scale
+		new TWEEN.Tween(bananas[bananaIndex].scale).to({x:0.2, y:0.2, z:0.2}, 700).easing( TWEEN.Easing.Elastic.Out).chain(
+				new TWEEN.Tween(bananas[bananaIndex].scale).to({x:0.001, y:0.001, z:0.001}, 1000).easing( TWEEN.Easing.Elastic.In).start()
+			).start(); 
+
+		// animation
+		new TWEEN.Tween(baBones[bananaIndex][1].rotation).to({x: -1.5}, 700).easing( TWEEN.Easing.Elastic.Out).chain(
+				new TWEEN.Tween(baBones[bananaIndex][1].rotation).to({x: 0.12}, 700).easing( TWEEN.Easing.Elastic.In).start()
+			).start(); 
+		new TWEEN.Tween(baBones[bananaIndex][3].rotation).to({y: 1.5}, 700).easing( TWEEN.Easing.Elastic.Out).chain(
+				new TWEEN.Tween(baBones[bananaIndex][3].rotation).to({y: -0.105}, 700).easing( TWEEN.Easing.Elastic.In).start()
+			).start();
+		new TWEEN.Tween(baBones[bananaIndex][5].rotation).to({x: 1.5}, 700).easing( TWEEN.Easing.Elastic.Out).chain(
+				new TWEEN.Tween(baBones[bananaIndex][5].rotation).to({x: -0.122}, 700).easing( TWEEN.Easing.Elastic.In).start()
+			).start();
+		new TWEEN.Tween(baBones[bananaIndex][7].rotation).to({y: -1.5}, 700).easing( TWEEN.Easing.Elastic.Out).chain(
+				new TWEEN.Tween(baBones[bananaIndex][7].rotation).to({y: 0.108}, 700).easing( TWEEN.Easing.Elastic.In).start()
+			).start();
+	}
+
+	if(index==6){
+		var rr = Math.random();
+		stripes[sampleIndex].scale.set(1,1,1);
+
+		new TWEEN.Tween(stripes[sampleIndex].position).to({x: -stripes[sampleIndex].position.x, z: -stripes[sampleIndex].position.z}, 3000).easing( TWEEN.Easing.Elastic.Out)
+			.onComplete( function(){
+				// console.log('old: ' + index);
+				// console.log(stripes[index].position );
+				stripes[sampleIndex].position.set( 50 * Math.cos( Math.PI*rr ), 0, 50 * Math.sin( Math.PI*rr ));
+				// console.log('new: ' + index);
+				// console.log(stripes[index].position );
+				stripes[sampleIndex].lookAt(worldCenter);
+				stripes[sampleIndex].scale.set(0.01, 0.01, 0.01);
+			} ).start(); 
+	}
+
+	if(index==7){
+		var rainbowIndex = time%5;
+		rainbows[rainbowIndex].scale.set( 0.1, 0.01, 0.1);
+		rainbows[rainbowIndex].position.y = -0.8;
+
+		new TWEEN.Tween(rainbows[rainbowIndex].scale).to({x:1, y:1, z:1}, 1000).easing( TWEEN.Easing.Elastic.Out).start();
+		new TWEEN.Tween(rainbows[rainbowIndex].position).to({y: 10}, 5000).easing( TWEEN.Easing.Elastic.Out)
+			.onComplete( function(){
+				rainbows[rainbowIndex].scale.set( 0.1, 0.01, 0.1);
+				rainbows[rainbowIndex].position.y = -0.8;
+			} ).start(); 
+	}
+
+	if(index==8){
+		var foodIndex = time%2;
+		var newF = food[foodIndex].clone();
+		newF.position.set( Math.random()*10-5, 20, Math.random()*10-5);
+		newF.rotation.y = Math.random()*Math.PI;
+		newF.scale.set(0.001,0.001,0.001);
+		scene.add(newF);
+
+		//v1
+		if(newF.name == 'cookie')
+			new TWEEN.Tween(newF.scale).to({x:0.5, y:0.5, z:0.5}, 1000).easing( TWEEN.Easing.Elastic.Out).start();
+		else
+			new TWEEN.Tween(newF.scale).to({x:1, y:1, z:1}, 1000).easing( TWEEN.Easing.Elastic.Out).start();
+
+		new TWEEN.Tween(newF.position).to({y: -1}, 2000).easing(TWEEN.Easing.Elastic.Out).start();
+
+		setTimeout(function(){
+			new TWEEN.Tween(newF.position).to({y: -20}, 2000).easing(TWEEN.Easing.Elastic.Out)
+				.onComplete(function(){
+					new TWEEN.Tween(newF.scale).to({x:1, y:1, z:1}, 1000).easing( TWEEN.Easing.Elastic.Out).start();
+					scene.remove(newF);
+					console.log("remove food!");
+				} ).start();
+		}, 1500);
+	}
+
+	if(index==9){
+		wave.material.opacity=0;
+		wave.scale.set(0.001, 0.001, 0.001);
+		clearTimeout(waveTweenID)
+
+		new TWEEN.Tween(wave.material).to({opacity:1}, 2000).easing( TWEEN.Easing.Elastic.Out).start();
+		new TWEEN.Tween(wave.scale).to({x:1, y:1, z:1}, 1000).easing( TWEEN.Easing.Elastic.Out).start();
+
+		waveTweenID = setTimeout(function(){
+			new TWEEN.Tween(wave.scale).to({x:10, y:1, z:10}, 4000).easing( TWEEN.Easing.Elastic.Out).start();
+			new TWEEN.Tween(wave.material).to({opacity:0}, 4000).easing( TWEEN.Easing.Elastic.Out).start();
+		}, 2000);
+	}
+}
+
+////////////////////////////////////////////////////////
 
 function changeColor(){
 	delay+=0.1;

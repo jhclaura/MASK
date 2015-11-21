@@ -9,7 +9,7 @@ function SoundsSample(context) {
   var ctx = this;
   var loader = new BufferLoader(context, 
             ['../audios/puppet/cool.mp3',                //#0
-             '../audios/puppet/coolcool.mp3',
+             '../audios/puppet/whatsup.mp3',
              '../audios/hmm_yes_01.mp3',
              '../audios/hmm_no3.mp3',
              '../audios/hmm_q_01.mp3',
@@ -18,8 +18,8 @@ function SoundsSample(context) {
              '../audios/puppet/howareyou.mp3',         //#7
              '../audios/puppet/howsitgoing.mp3',
              '../audios/puppet/areyoualright.mp3',
-             '../audios/puppet/ill_walk_you.mp3',          //#10
-             '../audios/puppet/yah.mp3',              //#11
+             '../audios/puppet/hi_there.mp3',          //#10
+             '../audios/puppet/cool.mp3',              //#11
              '../audios/puppet/really.mp3',
              '../audios/puppet/ohwow.mp3',
              '../audios/puppet/thatsawesome.mp3',

@@ -699,7 +699,7 @@ THREE.DeviceControls = function ( camera ) {
 
 		// console.log("moveForward: " + moveForward);
 
-		delta *= 0.5;
+		delta *= 0.1;
 
 		velocity.x += ( - velocity.x ) * 0.08 * delta;
 		velocity.z += ( - velocity.z ) * 0.08 * delta;
