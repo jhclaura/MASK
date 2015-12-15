@@ -165,21 +165,17 @@
 						if(currentVidAmount>=1){
 
 							//for two
-								incoming_call.on('stream', function(remoteStream) {
-									remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
-									remote.play();
-
-									//
-									currentVidAmount ++;
-								});
+								// incoming_call.on('stream', function(remoteStream) {
+								// 	remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+								// 	remote.play();
+								// });
 
 							//for three
-							/*
 								incoming_call.on('stream', function(remoteStream) {
 
 									var ahhhhhhIndex = currentVidAmount-1;
 									console.log("history; currentVidAmount: " + currentVidAmount);
-									console.log(ahhhhhhIndex + " log in");
+									console.log(ahhhhhhIndex + "log in");
 
 									// v_normal
 										if(ahhhhhhIndex==0){
@@ -214,7 +210,6 @@
 									
 									currentVidAmount ++;
 								});
-							*/
 						}	
 						
 					});
@@ -399,7 +394,7 @@
 
 
 			<script src="js/StereoEffect.js"></script>
-  			<script src="js/controls/DeviceControls_vHouse.js"></script>
+  			<script src="js/controls/DeviceControls_vC6.js"></script>
   			<script type="text/javascript" src="js/BufferLoader.js"></script>
 			<script type="text/javascript" src="js/Detector.js"></script>
 			<script type="text/javascript" src="js/KeyboardState.js"></script>
