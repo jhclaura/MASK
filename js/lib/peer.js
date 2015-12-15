@@ -830,8 +830,7 @@ Peer.prototype._initializeServerConnection = function() {
 Peer.prototype._retrieveId = function(cb) {
   var self = this;
   var http = new XMLHttpRequest();
-  // var protocol = this.options.secure ? 'https://' : 'http://';
-  protocol = 'https://';
+  var protocol = this.options.secure ? 'https://' : 'http://';
   var url = protocol + this.options.host + ':' + this.options.port +
     this.options.path + this.options.key + '/id';
   var queryString = '?ts=' + new Date().getTime() + '' + Math.random();
@@ -1157,8 +1156,7 @@ Peer.prototype.listAllPeers = function(cb) {
   cb = cb || function() {};
   var self = this;
   var http = new XMLHttpRequest();
-  // var protocol = this.options.secure ? 'https://' : 'http://';
-  var protocol = 'https://';
+  var protocol = this.options.secure ? 'https://' : 'http://';
   var url = protocol + this.options.host + ':' + this.options.port +
     this.options.path + this.options.key + '/peers';
   var queryString = '?ts=' + new Date().getTime() + '' + Math.random();
@@ -1213,8 +1211,7 @@ function Socket(secure, host, port, path, key) {
   this.disconnected = false;
   this._queue = [];
 
-  // var httpProtocol = secure ? 'https://' : 'http://';
-  var httpProtocol = 'https://';
+  var httpProtocol = secure ? 'https://' : 'http://';
   var wsProtocol = secure ? 'wss://' : 'ws://';
   this._httpUrl = httpProtocol + host + ':' + port + path + key;
   this._wsUrl = wsProtocol + host + ':' + port + path + 'peerjs?key=' + key;
