@@ -198,7 +198,7 @@
 					// Register for an API Key for PeerJS cloud server	
 					// peer = new Peer({key: 'k625glo5j67xpqfr'});	//Laura's key
 
-					peer = new Peer( ID(), { secure: false, host: 'peerjs-server-.herokuapp.com', port: 5000, path:'/pp', debug:true} );
+					peer = new Peer( ID(), { secure: true, host: 'peerjs-server-.herokuapp.com', port: 5000, path:'/pp', debug:true} );
 
 					// Get an ID from the PeerJS server		
 					peer.on('open', function(id) {
