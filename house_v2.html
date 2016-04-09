@@ -32,8 +32,6 @@
 			<script type="text/javascript">
 				/* reference on codes of Shawn Van Every*/
 				/* source: http://itp.nyu.edu/~sve204/liveweb_fall2014/week5.html */
-				/* reference on codes of WebRTC samples */
-				/* source: https://github.com/webrtc/samples/blob/gh-pages/src/content/devices/input-output */
 
 				/* Get User Media */
 				var my_stream = null, remote_stream = null;
@@ -75,62 +73,9 @@
 				var currentVidAmount = 0;
 				//
 
-				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+				navigator.getUserMedia = navigator.getUserMedia || 
+					navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-				navigator.mediaDevices.enumerateDevices()
-				.then(gotDevices)
-				.catch(errorCallback);
-
-				function gotDevices(deviceInfos) {
-					var camIsKnown = false;
-
-					for(var i=0; i!==deviceInfos.length; ++i){
-						var deviceInfo = deviceInfos[i];
-						if (deviceInfo.kind === 'videoinput') {
-							console.log( deviceInfo );
-
-							var deviceLabels = deviceInfo.label.split(" ");
-							console.log( deviceLabels );
-
-							for(var j=0; j<deviceLabels.length; j++){
-
-								// if it's mobile
-								if(deviceLabels[j]==='front') {
-									camUserID = deviceInfo.deviceId;
-								}
-								else if (deviceLabels[j]==='back') {
-									camEnvironmentID = deviceInfo.deviceId;
-									camIsKnown = true;
-
-						   			mediaConstraints = {
-										video: deviceInfo.label,
-										audio: undefined
-									};
-									// navigator.getUserMedia(mediaConstraints)
-									// .then(successCallback)
-									// .catch(errorCallback);
-									navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
-									break;
-								}
-							}
-
-							// if it's laptop
-							if(!camIsKnown){
-								camEnvironmentID = deviceInfo.deviceId;
-								camIsKnown = true;
-
-								mediaConstraints = {
-									video: deviceInfo.label,
-									audio: undefined
-								};
-								// navigator.getUserMedia(mediaConstraints)
-								// .then(successCallback)
-								// .catch(errorCallback);
-								navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
-							}
-						}
-					}
-				}
 
 				function gotSources(sourceInfos) {
 				  for (var i = 0; i !== sourceInfos.length; ++i) {
@@ -164,11 +109,11 @@
 				  }
 				}
 
-				// if (typeof MediaStreamTrack.getSources === 'undefined'){
-				//   alert('This browser does not support MediaStreamTrack.\n\nTry Chrome.');
-				// } else {
-				//   MediaStreamTrack.getSources(gotSources);
-				// }
+				if (typeof MediaStreamTrack.getSources === 'undefined'){
+				  alert('This browser does not support MediaStreamTrack.\n\nTry Chrome.');
+				} else {
+				  MediaStreamTrack.getSources(gotSources);
+				}
 
 				function successCallback(stream) {
 					my_stream = stream; // make stream available to console
@@ -187,7 +132,6 @@
 					if (error.code == 1) 
 					{   msg = 'User denied access to use camera.';   }
 					document.getElementById('errorMessage').textContent = msg;
-					
 					console.log('navigator.getUserMedia error: ', error);
 				}
 
@@ -196,10 +140,8 @@
 					/* WebRTC - Peer.js */
 						
 					// Register for an API Key:	
-					peer = new Peer({key: 'k625glo5j67xpqfr'});	//Laura's key
+					peer = new Peer({key: 't70jqks7224yrpb9', secure: true});	//Laura's key
 					// peer = new Peer( ID(), { secure: false, host: '169.254.73.253', port: 5000, path:'/pp', debug:true} );
-
-					console.log('!!');
 
 					// Get an ID from the PeerJS server		
 					peer.on('open', function(id) {
