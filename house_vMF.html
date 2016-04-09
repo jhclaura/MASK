@@ -32,8 +32,6 @@
 			<script type="text/javascript">
 				/* reference on codes of Shawn Van Every*/
 				/* source: http://itp.nyu.edu/~sve204/liveweb_fall2014/week5.html */
-				/* reference on codes of WebRTC samples */
-				/* source: https://github.com/webrtc/samples/blob/gh-pages/src/content/devices/input-output */
 
 				/* Get User Media */
 				var my_stream = null, remote_stream = null;
@@ -75,7 +73,8 @@
 				var currentVidAmount = 0;
 				//
 
-				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+				navigator.getUserMedia = navigator.getUserMedia || 
+					navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
 				navigator.mediaDevices.enumerateDevices()
 				.then(gotDevices)
@@ -187,7 +186,6 @@
 					if (error.code == 1) 
 					{   msg = 'User denied access to use camera.';   }
 					document.getElementById('errorMessage').textContent = msg;
-					
 					console.log('navigator.getUserMedia error: ', error);
 				}
 
@@ -195,10 +193,13 @@
 				var peerConnect = function() {			
 					/* WebRTC - Peer.js */
 						
-					// Register for an API Key for PeerJS cloud server	
-					// peer = new Peer({key: 'k625glo5j67xpqfr'});	//Laura's key
+					// Register for an API Key:	
+					// peer = new Peer({key: 't70jqks7224yrpb9'});	//Laura's key
+					peer = new Peer( ID(), { secure: false, host: '192.168.2.2', port: 5000, path:'/pp', debug:true} );
 
-					peer = new Peer( ID(), { secure: false, host: 'peerjs-server-.herokuapp.com', port: 5000, path:'/pp', debug:true} );
+					// peer = new Peer(ID(), { secure: false, host: 'localhost', port: 9000, path:'/pp', debug:true}
+					// 	// config: { 'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }] }
+					// 	);
 
 					// Get an ID from the PeerJS server		
 					peer.on('open', function(id) {
@@ -222,56 +223,51 @@
 						if(currentVidAmount>=1){
 
 							//for two
-								incoming_call.on('stream', function(remoteStream) {
-									remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
-									remote.play();
-
-									//
-									currentVidAmount ++;
-								});
+								// incoming_call.on('stream', function(remoteStream) {
+								// 	remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+								// 	remote.play();
+								// });
 
 							//for three
-							/*
 								incoming_call.on('stream', function(remoteStream) {
 
 									var ahhhhhhIndex = currentVidAmount-1;
 									console.log("history; currentVidAmount: " + currentVidAmount);
-									console.log(ahhhhhhIndex + " log in");
+									console.log(ahhhhhhIndex + "log in");
 
 									// v_normal
+										// if(ahhhhhhIndex==0){
+										// 	remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+										// 	remote.play();
+										// }else if(ahhhhhhIndex==1){
+										// 	video.pause();
+										// 	video.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+										// 	video.play();
+										// }
+
+									// v_show
+									if(whoIamInMask==1) {
 										if(ahhhhhhIndex==0){
 											remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
 											remote.play();
-										}else if(ahhhhhhIndex==1){
+										}
+									}
+									if(whoIamInMask==2) {
+										if(ahhhhhhIndex==0){
 											video.pause();
 											video.src = window.URL.createObjectURL(remoteStream) || remoteStream;
 											video.play();
+
+											remote.pause();
+											remote.src = window.URL.createObjectURL(my_stream) || my_stream;
+											remote.play();
 										}
-
-									// v_show
-									// if(whoIamInMask==1) {
-									// 	if(ahhhhhhIndex==0){
-									// 		remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
-									// 		remote.play();
-									// 	}
-									// }
-									// if(whoIamInMask==2) {
-									// 	if(ahhhhhhIndex==0){
-									// 		video.pause();
-									// 		video.src = window.URL.createObjectURL(remoteStream) || remoteStream;
-									// 		video.play();
-
-									// 		remote.pause();
-									// 		remote.src = window.URL.createObjectURL(my_stream) || my_stream;
-									// 		remote.play();
-									// 	}
-									// }
+									}
 
 									console.log("play remotes: " + ahhhhhhIndex);
 									
 									currentVidAmount ++;
 								});
-							*/
 						}	
 						
 					});
@@ -456,7 +452,7 @@
 
 
 			<script src="js/StereoEffect.js"></script>
-  			<script src="js/controls/DeviceControls_vHouse.js"></script>
+  			<script src="js/controls/DeviceControls_vC6.js"></script>
   			<script type="text/javascript" src="js/BufferLoader.js"></script>
 			<script type="text/javascript" src="js/Detector.js"></script>
 			<script type="text/javascript" src="js/KeyboardState.js"></script>

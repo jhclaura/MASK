@@ -29,6 +29,7 @@
   "homepage": "https://github.com/jhclaura/MASK",
   "dependencies": {
     "express": "^4.13.3",
+    "peer": "^0.2.8",
     "serialport": "^2.0.5",
     "ws": "^0.8.0"
   }
