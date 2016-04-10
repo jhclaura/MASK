@@ -392,7 +392,7 @@ function superInit()
 function init() 
 {	
 	var loader = new THREE.JSONLoader( true );
-	
+
 	// LIGHTBUG
 		// geo = new THREE.SphereGeometry(2);
 		// mat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
@@ -1144,6 +1144,7 @@ function formatFloat(num, pos) {
 	var size = Math.pow(10, pos);
 	return Math.round(num * size) / size;
 }
+
 
 // function built based on Stemkoski's
 // http://stemkoski.github.io/Three.js/Texture-Animation.html

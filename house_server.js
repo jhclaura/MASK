@@ -36,7 +36,8 @@ wss.on('connection', function(ws){
 	mySocket = ws;
 
 	thisId++;
-	clientIds.push(thisId);
+	// clientIds.push(thisId);
+	ws.countId = thisId;
 
 	allSockets.push(ws);
 	console.log('new player #%d connected!', thisId);
@@ -59,13 +60,13 @@ wss.on('connection', function(ws){
 
 				var msg = {
 					'type': 'removePlayer',
-					'removeID': clientIds[i]
+					'removeID': ws.countId
 				};
 
-				console.log('Player #%d disconnected.', clientIds[i]);
+				console.log( 'Player #%d disconnected.', ws.countId );
 
 				allSockets.splice(i,1);
-				clientIds.splice(i,1);
+				maskPlayer.splice(i,1);
 
 				socketHandlers(ws, msg);
 
@@ -150,9 +151,10 @@ var socketHandlers = function(socket,msg){
 				//GENERATE_ALL_MASKPLAYERS_ONLY_ONCE
 				if(msg.camID==0){
 					msg.npID = 100;
-					// socket.id = msg.id;	// save id
-					console.log('NewPlayerID --> ' + msg.id);
+					msg.countId = socket.countId;	// save id
 					msg.camID++;
+
+					console.log('NewPlayerID --> ' + msg.countId);
 
 					maskPlayer.push(msg);
 				}

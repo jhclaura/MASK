@@ -81,12 +81,16 @@
 				var currentVidAmount = 0;
 				//
 				var videoOptions = [];
+			   //
 
 				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
 				navigator.mediaDevices.enumerateDevices()
 				.then(gotDevices)
 				.catch(errorCallback);
+
+				//
+				document.addEventListener( 'touchstart', onFirstTouch, false );
 
 				//
 
@@ -232,7 +236,8 @@
 						
 					// Register for an API Key for PeerJS cloud server	
 					// peer = new Peer({key: 'k625glo5j67xpqfr'});	//Laura's key
-
+					var idd = ID();
+					console.log(idd);
 					peer = new Peer( ID(), { secure: true, host: 'peerjs-server-.herokuapp.com', port: 443, key: 'peerjs', debug: 3} );
 
 					// Get an ID from the PeerJS server		
@@ -334,7 +339,7 @@
 							var msg = {
 								'type': 'addNewPlayer',
 								'camID': camID,				// 0
-								'id': peer_id,
+								'peerid': peer_id,
 								'npID': 0
 							};
 
@@ -366,10 +371,10 @@
 						if(data.type == 'addNewPlayer' && currentVidAmount<3){
 							//NEW_PLAYER_JOIN
 							//EVERY_NEW_WINDOW_OPEN
-							if(peer_id!=data.id && data.npID>0){
-								console.log("Got a new peer: " + data.id);
+							if(peer_id!=data.peerid && data.npID>0){
+								console.log("Got a new peer: " + data.peerid);
 
-								var call = peer.call(data.id, my_stream);
+								var call = peer.call(data.peerid, my_stream);
 
 								
 									call.on('stream', function(remoteStream) {
@@ -489,6 +494,23 @@
 
 			    function isTouchDevice() { 
 					return 'ontouchstart' in window || !!(navigator.msMaxTouchPoints);
+				}
+
+				function onFirstTouch() {
+					if( !myVideoIsPlayed ){
+						video.play();
+						currentVidAmount ++;
+						console.log("me; currentVidAmount: " + currentVidAmount);
+						myVideoIsPlayed = true;
+
+						// Now we can connect to the peer server
+						setTimeout(function(){
+							peerConnect();
+						}, 3000);
+
+						// init();
+					}
+					document.removeEventListener('touchstart', onFirstTouch, false);
 				}
 			    
 			</script>
