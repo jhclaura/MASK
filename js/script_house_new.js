@@ -57,10 +57,8 @@ var element = document.body;
 		document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
 
 
-		if(isTouchDevice()) {
+		if( amITouchDevice ) {
 			console.log("isTouchDevice");
-			
-
 			instructions.addEventListener( 'touchend', funToCall, false );
 		} else {
 			instructions.addEventListener( 'click', funToCall, false );
@@ -70,10 +68,6 @@ var element = document.body;
 	} else {
 
 		instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
-	}
-
-	function isTouchDevice() { 
-		return 'ontouchstart' in window || !!(navigator.msMaxTouchPoints);
 	}
 
 	function funToCall(event){
@@ -266,7 +260,7 @@ var dir, step;
 
 ///////////////////////////////////////////////////////////
 
-// init();
+superInit();
 
 ///////////////////////////////////////////////////////////
 
@@ -276,9 +270,8 @@ var dir, step;
 ///////////////////////////////////////////////////////////
 // FUNCTIONS 
 ///////////////////////////////////////////////////////////
-			
-function init() 
-{	
+function superInit()
+{
 	//Prevent scrolling for Mobile
 	document.body.addEventListener('touchmove', function(event) {
 	  event.preventDefault();
@@ -394,9 +387,12 @@ function init()
 			scene.add(tmpR);
 		} );
 	}
-		
+}
 
-
+function init() 
+{	
+	var loader = new THREE.JSONLoader( true );
+	
 	// LIGHTBUG
 		// geo = new THREE.SphereGeometry(2);
 		// mat = new THREE.MeshBasicMaterial({ color: 0xff0000 });

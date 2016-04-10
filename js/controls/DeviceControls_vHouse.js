@@ -336,6 +336,18 @@ THREE.DeviceControls = function ( camera ) {
 
 	// DEVICE
 	var onTouchStart = function ( event ) {
+
+		if( !myVideoIsPlayed ){
+			video.play();
+			currentVidAmount ++;
+			console.log("me; currentVidAmount: " + currentVidAmount);
+			myVideoIsPlayed = true;
+
+			// Now we can connect to the peer server
+			// peerConnect();
+			init();
+		}
+
 		touchActive = true;
 
 		if (this.enabled === false) return;

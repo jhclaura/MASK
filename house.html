@@ -9,6 +9,8 @@
 	<body>		
 			<script type="text/javascript" src="js/lib/three.min_69.js"></script>
 			<script type="text/javascript" src="js/lib/peer.js"></script>
+			<script type="text/javascript" src="js/lib/adapter.js"></script>
+			<script type="text/javascript" src="js/lib/common.js"></script>
 
 			<div id="render-canvas"></div>
 
@@ -60,6 +62,10 @@
 
 				var whoIamInMask = -1, initEnvironment = false;
 
+				//
+				var amITouchDevice = isTouchDevice();
+				var myVideoIsPlayed = false;
+
 				//----------------------------------------------------
 
 				var audioSource = null, videoSource = null, camUserID = null, camEnvironmentID = null;
@@ -74,6 +80,7 @@
 
 				var currentVidAmount = 0;
 				//
+				var videoOptions = [];
 
 				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
@@ -81,53 +88,75 @@
 				.then(gotDevices)
 				.catch(errorCallback);
 
+				//
+
 				function gotDevices(deviceInfos) {
 					var camIsKnown = false;
 
 					for(var i=0; i!==deviceInfos.length; ++i){
 						var deviceInfo = deviceInfos[i];
+
 						if (deviceInfo.kind === 'videoinput') {
 							console.log( deviceInfo );
 
 							var deviceLabels = deviceInfo.label.split(" ");
 							console.log( deviceLabels );
 
-							for(var j=0; j<deviceLabels.length; j++){
+							// for(var j=0; j<deviceLabels.length; j++){
 
 								// if it's mobile
-								if(deviceLabels[j]==='front') {
+								if(deviceLabels[3]==='front') {
 									camUserID = deviceInfo.deviceId;
 								}
-								else if (deviceLabels[j]==='back') {
+								else if (deviceLabels[3]==='back') {
 									camEnvironmentID = deviceInfo.deviceId;
 									camIsKnown = true;
 
 						   			mediaConstraints = {
-										video: deviceInfo.label,
-										audio: undefined
+						   				audio: false,
+										video: {deviceId: {exact: camEnvironmentID}}
 									};
-									// navigator.getUserMedia(mediaConstraints)
-									// .then(successCallback)
-									// .catch(errorCallback);
-									navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
-									break;
+
+									if (window.stream) {
+										window.stream.getTracks().forEach(function(track) {
+											track.stop();
+										});
+									};
+
+									navigator.mediaDevices.getUserMedia(mediaConstraints)
+									.then(successCallback)
+									.catch(errorCallback);
+									
+									// navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
+								} else {
+									console.log("i don't have front or back label");
+									camEnvironmentID = deviceInfo.deviceId;
+									camIsKnown = true;
+
+									// mediaConstraints = {
+									// 	video: deviceInfo.label,
+									// 	audio: undefined
+									// };
+									mediaConstraints = {
+						   				audio: false,
+										video: {deviceId: {exact: camEnvironmentID}}
+									};
+
+									if (window.stream) {
+										window.stream.getTracks().forEach(function(track) {
+											track.stop();
+										});
+									}
+
+									navigator.mediaDevices.getUserMedia(mediaConstraints)
+									.then(successCallback)
+									.catch(errorCallback);
+
+									
+
+									// navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
 								}
-							}
-
-							// if it's laptop
-							if(!camIsKnown){
-								camEnvironmentID = deviceInfo.deviceId;
-								camIsKnown = true;
-
-								mediaConstraints = {
-									video: deviceInfo.label,
-									audio: undefined
-								};
-								// navigator.getUserMedia(mediaConstraints)
-								// .then(successCallback)
-								// .catch(errorCallback);
-								navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
-							}
+							// }
 						}
 					}
 				}
@@ -174,20 +203,26 @@
 					my_stream = stream; // make stream available to console
 
 					video.src = window.URL.createObjectURL(stream) || stream;
-					video.play();
-					currentVidAmount ++;
-					console.log("me; currentVidAmount: " + currentVidAmount);
 
-					// Now we can connect to the peer server
-					peerConnect();
+					console.log("successCallback!");
+
+					// if i'm not touch device
+					if(!amITouchDevice){
+						video.play();
+						currentVidAmount ++;
+						console.log("me; currentVidAmount: " + currentVidAmount);
+						myVideoIsPlayed = true;
+
+						// Now we can connect to the peer server
+						peerConnect();
+					}
 				}
 
 				function errorCallback(error){
-					var msg = 'No camera available.';
-					if (error.code == 1) 
-					{   msg = 'User denied access to use camera.';   }
-					document.getElementById('errorMessage').textContent = msg;
-					
+					// var msg = 'No camera available.';
+					// if (error.code == 1) 
+					// {   msg = 'User denied access to use camera.';   }
+					// document.getElementById('errorMessage').textContent = msg;					
 					console.log('navigator.getUserMedia error: ', error);
 				}
 
@@ -451,6 +486,10 @@
 			    function ID(){
 			    	return Math.random().toString(36).substr(2, 9);
 			    };
+
+			    function isTouchDevice() { 
+					return 'ontouchstart' in window || !!(navigator.msMaxTouchPoints);
+				}
 			    
 			</script>
 
