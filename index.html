@@ -7,19 +7,20 @@
 		<link rel="stylesheet" type="text/css" href="css/style_v2.css">
 	</head>
 	<body>		
-			<script type="text/javascript" src="js/lib/three.min_69.js"></script>
+			<script type="text/javascript" src="js/lib/three.js"></script>
 			<script type="text/javascript" src="js/lib/peer.js"></script>
 			<script type="text/javascript" src="js/lib/adapter.js"></script>
 			<script type="text/javascript" src="js/lib/common.js"></script>
+			<script type="text/javascript" src="js/Detector.js"></script>
 
 			<div id="render-canvas"></div>
 
 			<!-- indie -->
-			<div id="blocker" style="display: -webkit-box;">
+			<!-- <div id="blocker" style="display: -webkit-box;">
 				<div id="instructions" >
 					<img width="60" height="60" src="images/click.gif">
 				</div>
-			</div>
+			</d -->iv>
 
 
 			<!-- cam -->
@@ -32,6 +33,45 @@
 			<canvas id="remoteVideoImage" width="480" height="320" style="display:none"></canvas>
 
 			<script type="text/javascript">
+				//device detection
+				//source: http://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device-in-jquery
+				var isMobile = false; //initiate as false
+				var whichMobile = "";
+				if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+					isMobile = true;
+				}
+				console.log("isMobile: " + isMobile);
+
+				// tell android or iOS
+				if( /Android/i.test(navigator.userAgent) ) {
+					console.log("I'm android!");
+					whichMobile = "android";
+				}
+				if( /iPhone|iPad|iPod/i.test(navigator.userAgent) ) {
+					console.log("I'm iOS!");
+					whichMobile = "iOS_mobile";
+				}
+
+				// if it's desktop, create click.gif div for PointerlockAPI
+				if( !isMobile ) {
+					var clickDiv = document.createElement('div');
+					clickDiv.id = "blocker";
+					clickDiv.style = "display: -webkit-box;";
+					document.getElementsByTagName("body")[0].appendChild(clickDiv);
+
+					var fingerImg = document.createElement('img');
+					fingerImg.setAttribute("src", "images/click.gif");
+					fingerImg.setAttribute("width", "60");
+					fingerImg.setAttribute("height", "60");
+					var ins = document.createElement('div');
+					ins.id = "instructions";
+					ins.appendChild(fingerImg);
+					clickDiv.appendChild(ins);
+				}
+
+				// DETECT
+				if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
 				/* reference on codes of Shawn Van Every*/
 				/* source: http://itp.nyu.edu/~sve204/liveweb_fall2014/week5.html */
 				/* reference on codes of WebRTC samples */
@@ -94,6 +134,7 @@
 
 				//
 
+
 				function gotDevices(deviceInfos) {
 					var camIsKnown = false;
 
@@ -101,10 +142,10 @@
 						var deviceInfo = deviceInfos[i];
 
 						if (deviceInfo.kind === 'videoinput') {
-							console.log( deviceInfo );
+							// console.log( deviceInfo );
 
 							var deviceLabels = deviceInfo.label.split(" ");
-							console.log( deviceLabels );
+							// console.log( deviceLabels );
 
 							// for(var j=0; j<deviceLabels.length; j++){
 
@@ -213,13 +254,14 @@
 					// if i'm not touch device
 					if(!amITouchDevice){
 						video.play();
+					}
 						currentVidAmount ++;
 						console.log("me; currentVidAmount: " + currentVidAmount);
 						myVideoIsPlayed = true;
 
 						// Now we can connect to the peer server
 						peerConnect();
-					}
+					// }
 				}
 
 				function errorCallback(error){
@@ -237,8 +279,9 @@
 					// Register for an API Key for PeerJS cloud server	
 					// peer = new Peer({key: 'k625glo5j67xpqfr'});	//Laura's key
 					var idd = ID();
-					console.log(idd);
-					peer = new Peer( ID(), { secure: true, host: 'peerjs-server-.herokuapp.com', port: 443, key: 'peerjs', debug: 3} );
+					// console.log(idd);
+
+					peer = new Peer( idd, { secure: true, host: 'peerjs-server-.herokuapp.com', port: 443, key: 'peerjs', debug: 3} );
 
 					// Get an ID from the PeerJS server		
 					peer.on('open', function(id) {
@@ -499,27 +542,31 @@
 				function onFirstTouch() {
 					if( !myVideoIsPlayed ){
 						video.play();
-						currentVidAmount ++;
-						console.log("me; currentVidAmount: " + currentVidAmount);
-						myVideoIsPlayed = true;
 
-						// Now we can connect to the peer server
-						setTimeout(function(){
-							peerConnect();
-						}, 3000);
+						// currentVidAmount ++;
+						// console.log("me; currentVidAmount: " + currentVidAmount);
+						// myVideoIsPlayed = true;
 
-						// init();
+						// // Now we can connect to the peer server
+						// setTimeout(function(){
+						// 	peerConnect();
+						// }, 3000);
+
 					}
 					document.removeEventListener('touchstart', onFirstTouch, false);
 				}
 			    
 			</script>
 
+			<script src="js/lib/effects/VREffect.js"></script>
+
+			<script src="js/lib/webvr-polyfill.js"></script>
+			<script src="js/lib/webvr-manager.js"></script>
+
 
 			<script src="js/StereoEffect.js"></script>
   			<script src="js/controls/DeviceControls_vHouse.js"></script>
   			<script type="text/javascript" src="js/BufferLoader.js"></script>
-			<script type="text/javascript" src="js/Detector.js"></script>
 			<script type="text/javascript" src="js/KeyboardState.js"></script>
 			<script type="text/javascript" src="js/lib/tween.min.js"></script>
 			<script type="text/javascript" src="js/stats.min.js"></script>

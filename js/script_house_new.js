@@ -1,6 +1,8 @@
 
-// DETECT
-if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+WebVRConfig = {
+  BUFFER_SCALE: 0.5, // Default: 1.0.
+  PREVENT_DISTORTION: true
+};
 
 var element = document.body;
 
@@ -57,9 +59,9 @@ var element = document.body;
 		document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
 
 
-		if( amITouchDevice ) {
+		if( isMobile ) {
 			console.log("isTouchDevice");
-			instructions.addEventListener( 'touchend', funToCall, false );
+			// instructions.addEventListener( 'touchend', funToCall, false );
 		} else {
 			instructions.addEventListener( 'click', funToCall, false );
 		}
@@ -72,7 +74,7 @@ var element = document.body;
 
 	function funToCall(event){
 
-		console.log("click or touch!");
+		// console.log("click or touch!");
 
 		instructions.style.display = 'none';
 
@@ -114,6 +116,7 @@ var element = document.body;
 ////////////////////////////////////////////////////////////
 
 var scene, camera, container, renderer, effect;
+var vrmanager;
 var controls, headLight;
 var screenWidth = window.innerWidth;
 var screenHeight = window.innerHeight;
@@ -301,10 +304,22 @@ function superInit()
 		container.appendChild(renderer.domElement);
 
 	// EFFECT
+		/*
 		effect = new THREE.StereoEffect(renderer);
 		effect.separation = 0.2;
 	    effect.targetDistance = 50;
 	    effect.setSize(window.innerWidth, window.innerHeight);
+	    */
+	    // v.2
+	    effect = new THREE.VREffect(renderer);
+		effect.setSize(window.innerWidth, window.innerHeight);
+
+	// Create a VR manager helper to enter and exit VR mode.
+		var params = {
+		  hideButton: false, // Default: false.
+		  isUndistorted: false // Default: false.
+		};
+		vrmanager = new WebVRManager(renderer, effect, params);
 
 
 	// SCENE_SETUP
@@ -905,12 +920,24 @@ function myKeyPressed (event) {
 	}
 }
 
+var lastRender = 0;
 
-function animate() 
+function animate(timestamp) 
 {
-    requestAnimationFrame(animate);
+ //    requestAnimationFrame(animate);
+	// update();
+	// render();
+
+	var delta = Math.min(timestamp - lastRender, 500);
+	lastRender = timestamp;
+
 	update();
-	render();
+	
+	// Render the scene through the manager.
+	vrmanager.render(scene, camera, timestamp);
+	stats.update();
+
+	requestAnimationFrame(animate);
 }
 
 var swingSwitch = 0;
@@ -939,7 +966,7 @@ function update()
 
 	controls.update( Date.now() - time );
 	keyboard.update();
-	stats.update();
+	// stats.update();
 	var dt = clock.getDelta();
 	TWEEN.update();
 
@@ -1119,13 +1146,17 @@ function render()
 }
 
 function onWindowResize() {
+	// camera.aspect = window.innerWidth / window.innerHeight;
+	// camera.updateProjectionMatrix();
+	// if (devicePixelRatio) {
+	// 	renderer.devicePixelRatio = effect.devicePixelRatio = devicePixelRatio;
+	// }
+	// renderer.setSize(window.innerWidth, window.innerHeight);
+	// effect.setSize(window.innerWidth, window.innerHeight);
+
+	effect.setSize( window.innerWidth, window.innerHeight );
 	camera.aspect = window.innerWidth / window.innerHeight;
 	camera.updateProjectionMatrix();
-	if (devicePixelRatio) {
-		renderer.devicePixelRatio = effect.devicePixelRatio = devicePixelRatio;
-	}
-	renderer.setSize(window.innerWidth, window.innerHeight);
-	effect.setSize(window.innerWidth, window.innerHeight);
 }
 
 function fullscreen() {

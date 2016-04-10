@@ -1278,6 +1278,9 @@ Socket.prototype._startXhrStream = function(n) {
   try {
     var self = this;
     this._http = new XMLHttpRequest();
+
+    // console.log( this._httpUrl + '/id?i=' + this._http._streamIndex );
+    
     this._http._index = 1;
     this._http._streamIndex = n || 0;
     this._http.open('post', this._httpUrl + '/id?i=' + this._http._streamIndex, true);
@@ -1288,6 +1291,7 @@ Socket.prototype._startXhrStream = function(n) {
       self.emit('disconnected');
     }
     this._http.onreadystatechange = function() {
+      // console.log( "this.readyState: " + this.readyState  );
       if (this.readyState == 2 && this.old) {
         this.old.abort();
         delete this.old;
