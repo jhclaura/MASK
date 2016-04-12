@@ -147,6 +147,8 @@ var dummy;
 
 var dir, step;
 
+var textureLoader, jsonLoader;
+
 // WAVE
 	var timeWs = [
 		Math.PI/2, Math.PI, -Math.PI/2, 0,
@@ -348,8 +350,6 @@ function superInit()
 	light.intensity = 0.7;
 	scene.add(light);
 
-
-
 	headLight = new THREE.SpotLight(0xfdf646, 1);
 	headLight.position.set(2.3, 3, 23);
 	headLight.distance = 60;
@@ -372,31 +372,34 @@ function superInit()
 		// scene.add( controls.getObject() );
 	// controls = new THREE.OrbitControls(camera);
 
+	jsonLoader = new THREE.JSONLoader();
+	textureLoader = new THREE.TextureLoader();
+
 	//TERRAIN
-	terrainMat = new THREE.MeshLambertMaterial( {color: 0xf1f1fb, shading: THREE.FlatShading} );
+	terrainMat = new THREE.MeshPhongMaterial( {color: 0xf1f1fb, shading: THREE.FlatShading} );
 	loadModelTerrain("models/terrain.js", terrainMat);
 	//TREE
-	var tex = THREE.ImageUtils.loadTexture('images/tree.png');
+	var tex = textureLoader.load('images/tree.png');
 	treeMat = new THREE.MeshLambertMaterial( {map: tex} );
 	loadmodelTree("models/trees.js", treeMat);
 
 	// small houses
-	tex = THREE.ImageUtils.loadTexture('images/smallHouse.png');
+	tex = textureLoader.load('images/smallHouse.png');
 	houseLocalMat = new THREE.MeshLambertMaterial( {map: tex} );
-	tex = THREE.ImageUtils.loadTexture('images/smallHouse_2.png');
+	tex = textureLoader.load('images/smallHouse_2.png');
 	houseRemoteMat = new THREE.MeshLambertMaterial( {map: tex} );
 	loadmodelHouse("models/houseLocal.js", "models/houseRemote.js", houseLocalMat, houseRemoteMat);
 
 
 	// MANSION
 	mansion = new THREE.Object3D();
-	tex = THREE.ImageUtils.loadTexture('images/roomTexture.png');
+	tex = textureLoader.load('images/roomTexture.png');
 	// var mat = new THREE.MeshLambertMaterial({ color: 0xff0000, side: THREE.DoubleSide, shading: THREE.FlatShading });
-	houseMat = new THREE.MeshLambertMaterial({ map: tex, side: THREE.DoubleSide, shading: THREE.FlatShading });
+	houseMat = new THREE.MeshPhongMaterial({ map: tex, side: THREE.DoubleSide, shading: THREE.FlatShading });
 	// loadModelScreen("models/room/room_1.js", mat);
-	var loader = new THREE.JSONLoader( true );
+
 	for(var i=0; i<houseFiles.length; i++){
-		loader.load( houseFiles[i], function( geometry ) {
+		jsonLoader.load( houseFiles[i], function( geometry ) {
 			var tmpR = new THREE.Mesh( geometry, houseMat );
 			houses.push(tmpR);
 			scene.add(tmpR);
@@ -406,8 +409,6 @@ function superInit()
 
 function init() 
 {	
-	var loader = new THREE.JSONLoader( true );
-
 	// LIGHTBUG
 		// geo = new THREE.SphereGeometry(2);
 		// mat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
@@ -453,28 +454,28 @@ function init()
 		myWindow = new THREE.Object3D();
 		remoteWindow = new THREE.Object3D();
 
-		tex = THREE.ImageUtils.loadTexture('images/window01.png');
+		tex = textureLoader.load('images/window01.png');
 		frameMat = new THREE.MeshLambertMaterial({map: tex});
 
 		tvMat = new THREE.MeshBasicMaterial({map: videoTexture, overdraw: true, side: THREE.DoubleSide});
 		remoteMat = new THREE.MeshBasicMaterial({map: remoteTexture, overdraw: true, side: THREE.DoubleSide});
 
-		loader.load( "models/room/myWindowScreen_v2.js", function( geometry ) {
+		jsonLoader.load( "models/room/myWindowScreen_v2.js", function( geometry ) {
 			var tmpR = new THREE.Mesh( geometry, tvMat );
 			myWindow.add(tmpR);
 		} );
-		loader.load( "models/room/myWindowFrame_v3.js", function( geometry ) {
+		jsonLoader.load( "models/room/myWindowFrame_v3.js", function( geometry ) {
 			var tmpR = new THREE.Mesh( geometry, frameMat );
 			tmpR.position.set(-1,2.6,0);
 			myWindow.add(tmpR);
 		} );
 		scene.add(myWindow);
 
-		loader.load( "models/room/remoteWindowScreen.js", function( geometry ) {
+		jsonLoader.load( "models/room/remoteWindowScreen.js", function( geometry ) {
 			var tmpR = new THREE.Mesh( geometry, remoteMat );
 			remoteWindow.add(tmpR);
 		} );
-		loader.load( "models/room/remoteWindowFrame_v2.js", function( geometry ) {
+		jsonLoader.load( "models/room/remoteWindowFrame_v2.js", function( geometry ) {
 			var reFrameMat = frameMat.clone();
 			reFrameMat.color = new THREE.Color( 0xF27E97 );
 			var tmpR = new THREE.Mesh( geometry, reFrameMat );
@@ -506,7 +507,7 @@ function init()
 			windowExploded.push(false);
 			pastWindowExploded.push(false);
 		}
-		woodTexture = THREE.ImageUtils.loadTexture('images/wood.png');
+		woodTexture = textureLoader.load('images/wood.png');
 		frameMat = new THREE.MeshLambertMaterial({map: woodTexture});
 
 		// for(var i=0; i<frameFiles.length; i++){
@@ -552,7 +553,7 @@ function init()
 
 
 		// loadModelF("models/window01_uv.js", mat);
-		// windowFrameTexture2 = THREE.ImageUtils.loadTexture('images/window02.png');
+		// windowFrameTexture2 = textureLoader.load('images/window02.png');
 		// mat = new THREE.MeshLambertMaterial({map: windowFrameTexture2});
 		// loadModelF2("models/window02_3.js", "models/eyeLong2.js", mat, tvMat);
 
@@ -584,7 +585,7 @@ function init()
 		light = new THREE.PointLight(0xffff00, 1, 15);
 		// geo = new THREE.SphereGeometry(0.2,6,6);
 		// transY(geo, -1);
-			glowTexture = new THREE.ImageUtils.loadTexture('images/glow_edit.png');
+			glowTexture = textureLoader.load('images/glow_edit.png');
 			mat = new THREE.SpriteMaterial({map: glowTexture, color: 0xffef3b, transparent: false, blending: THREE.AdditiveBlending});
 			meshTemp = new THREE.Sprite(mat);
 			// meshTemp.position.y = -15;
@@ -596,15 +597,14 @@ function init()
 		scene.add(lamp);
 
 	// GUY
-		guyTexture = THREE.ImageUtils.loadTexture('images/guyAni.png');
+		guyTexture = textureLoader.load('images/guyAni.png');
 		guyPicAnimator = new TextureAnimator( guyTexture, 2, 1, 40, 30, [1,1,1,1,1,1,1,1,1,1,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1] );
 		mat = new THREE.MeshBasicMaterial({map: guyTexture});
 		loadModelGuy("models/GuySitForward.js", "models/GuySitForwardH.js", mat);
 
 	// ANI_GUY
-		guyTexture = THREE.ImageUtils.loadTexture('images/guyW.png');
-		var loader = new THREE.JSONLoader( true );
-		loader.load( "models/aniGuy.js", function( geometry ) {
+		guyTexture = textureLoader.load('images/guyW.png');
+		jsonLoader.load( "models/aniGuy.js", function( geometry ) {
 			aniGuy = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { map: guyTexture, morphTargets: true } ) );
 			aniGuy.position.set(3, 0.4, 14.3);
 			aniGuy.rotation.y = Math.PI;
@@ -710,8 +710,8 @@ function loadModelRig (model, model_B, meshMat) {
 
 				// console.log("bananaCore!");
 			}
-		}, "js");
-	}, "js");
+		});
+	});
 }
 
 function loadModelTerrain (model, meshMat) {
@@ -719,7 +719,7 @@ function loadModelTerrain (model, meshMat) {
 	loader.load(model, function(geometry){
 		terrain = new THREE.Mesh(geometry, meshMat);
 		scene.add(terrain);			
-	}, "js");
+	});
 }
 
 function loadmodelTree (model, meshMat) {
@@ -727,7 +727,7 @@ function loadmodelTree (model, meshMat) {
 	loader.load(model, function(geometry){
 		trees = new THREE.Mesh(geometry, meshMat);
 		scene.add(trees);			
-	}, "js");
+	});
 }
 
 function loadmodelHouse (model, modelB, meshMat, meshMatB) {
@@ -736,12 +736,12 @@ function loadmodelHouse (model, modelB, meshMat, meshMatB) {
 		houseLocal = new THREE.Mesh(geometry, meshMat);
 		houseLocal.position.z = -50;
 		scene.add(houseLocal);			
-	}, "js");
+	});
 	loader.load(modelB, function(geometryB){
 		houseRemote = new THREE.Mesh(geometryB, meshMatB);
 		houseRemote.position.z = 50;
 		scene.add(houseRemote);			
-	}, "js");
+	});
 }
 
 function loadModelR (model, meshMat) {
@@ -757,7 +757,7 @@ function loadModelR (model, meshMat) {
 
 		rabbits.push(rabbit);
 		scene.add(rabbit);			
-	}, "js");
+	});
 }
 
 function loadModelWindow (model, modelB, meshMat, meshMatB) {
@@ -769,7 +769,7 @@ function loadModelWindow (model, modelB, meshMat, meshMatB) {
 	loader.load(model, function(geometry){
 		var tW = new THREE.Mesh(geometry, meshMat);
 		tWindow.add(tW);
-	}, "js");
+	});
 
 	loader.load(modelB, function(geometryB){
 		var tW2 = new THREE.Mesh(geometryB, meshMatB);
@@ -777,7 +777,7 @@ function loadModelWindow (model, modelB, meshMat, meshMatB) {
 
 		flyWindows.push(tWindow);
 		scene.add(tWindow);		
-	}, "js");
+	});
 }
 
 function loadModelF (model, meshMat) {
@@ -788,7 +788,7 @@ function loadModelF (model, meshMat) {
 		windowFrame.position.set(0,-3.5,-14.5);
 		scene.add(windowFrame);		
 		// mansion.add(windowFrame);	
-	}, "js");
+	});
 }
 
 function loadModelF2 (model, model2, meshMat, meshMat2) {
@@ -798,13 +798,13 @@ function loadModelF2 (model, model2, meshMat, meshMat2) {
 		windowFrame2 = new THREE.Mesh(geometry, meshMat);
 		scene.add(windowFrame2);
 		// mansion.add(windowFrame2);		
-	}, "js");
+	});
 
 	loader.load(model2, function(geometry){
 		windowFrame2 = new THREE.Mesh(geometry, meshMat2);
 		scene.add(windowFrame2);	
 		// mansion.add(windowFrame2);		
-	}, "js");
+	});
 }
 
 function loadModelEye (model, model2, model3, model4, meshMat, meshMat2) {
@@ -815,24 +815,24 @@ function loadModelEye (model, model2, model3, model4, meshMat, meshMat2) {
 	loader.load(model, function(geometry){
 		eyeLid = new THREE.Mesh(geometry, meshMat);
 		eyeWindow.add(eyeLid);
-	}, "js");
+	});
 
 	loader.load(model2, function(geometry){
 		eyeLashUp = new THREE.Mesh(geometry, meshMat);
 		eyeLashUp.position.y = 3;
 		eyeWindow.add(eyeLashUp);		
-	}, "js");
+	});
 
 	loader.load(model3, function(geometry){
 		eyeLashDown = new THREE.Mesh(geometry, meshMat);
 		eyeLashDown.position.y = -1;
 		eyeWindow.add(eyeLashDown);		
-	}, "js");
+	});
 
 	loader.load(model4, function(geometry){
 		var eyeS = new THREE.Mesh(geometry, meshMat2);
 		eyeWindow.add(eyeS);		
-	}, "js");
+	});
 
 	scene.add(eyeWindow);
 }
@@ -844,7 +844,7 @@ function loadModelScreen (model, meshMat) {
 		var mayaScreen = new THREE.Mesh(geometry, meshMat);
 		scene.add(mayaScreen);			
 		// scene.add(mayaScreen);
-	}, "js");
+	});
 }
 
 function loadModelGuy (model, modelB, meshMat) {
@@ -867,8 +867,8 @@ function loadModelGuy (model, modelB, meshMat) {
 			// guyHead.rotation.y=0.4;
 			scene.add(guyHead);
 			// mansion.add(guyHead);
-		}, "js");
-	}, "js");
+		});
+	});
 }
 
 
