@@ -22,6 +22,7 @@
 				</div>
 			</d -->iv>
 
+
 			<!-- cam -->
 			<p id="errorMessage" style="display:none"></p>
 
@@ -30,12 +31,6 @@
 
 			<video id="remoteVideo" autoplay loop width="480" height="320" style="display:none"></video>
 			<canvas id="remoteVideoImage" width="480" height="320" style="display:none"></canvas>
-
-			<div id="splashPage" style="display:block; position:absolute;">
-				<h1>MASK</h1>
-				<h2>House</h1>
-				<a id="startLink" onclick="ToStart();">Start</a>
-			</div>
 
 			<script type="text/javascript">
 				//device detection
@@ -77,20 +72,6 @@
 				// DETECT
 				if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
 
-				function byId(_id) {
-					return document.getElementById(_id);
-				}
-
-				function byClass(_class) {
-					return document.getElementsByClassName(_class);
-				}
-
-				var renderCanvas = byId("render-canvas");
-				var blockerDiv = byId("blocker");
-
-				renderCanvas.style.display = "none";
-				if(blockerDiv) blockerDiv.style.display = "none";
-
 				/* reference on codes of Shawn Van Every*/
 				/* source: http://itp.nyu.edu/~sve204/liveweb_fall2014/week5.html */
 				/* reference on codes of WebRTC samples */
@@ -119,7 +100,7 @@
 				var oldPlayerNum = 0, newPlayerNum = 0;
 				var newPlayerJoined = false;
 
-				var whoIamInMask = -1, initEnvironment = false, gotHistory = false;
+				var whoIamInMask = -1, initEnvironment = false;
 
 				//
 				var amITouchDevice = isTouchDevice();
@@ -140,60 +121,21 @@
 				var currentVidAmount = 0;
 				//
 				var videoOptions = [];
-
-				var startLinkIsClicked  = false, videoGot = false;
 			   //
-			   window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+
 				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
 				navigator.mediaDevices.enumerateDevices()
-				.then(gotDevices_new)
+				.then(gotDevices)
 				.catch(errorCallback);
 
 				//
-				// document.addEventListener( 'touchstart', onFirstTouch, false );
+				document.addEventListener( 'touchstart', onFirstTouch, false );
 
 				//
 
+
 				function gotDevices(deviceInfos) {
-					var camIsKnown = false;
-
-					for(var i=0; i!==deviceInfos.length; ++i){
-						var deviceInfo = deviceInfos[i];
-
-						if (deviceInfo.kind === 'videoinput') {
-							// console.log( deviceInfo );
-
-							// if it's mobile
-							if(isMobile) {
-								console.log("get mobile cam");
-								mediaConstraints = {
-					   				audio: false,
-									video: {  facingMode: "environment" }
-								};
-
-								navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
-								// navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
-								camIsKnown = true;
-								break;
-							} else {
-								console.log("i don't have front or back label");
-								camEnvironmentID = deviceInfo.deviceId;
-								camIsKnown = true;
-
-								mediaConstraints = {
-					   				audio: false,
-									video: true
-								};
-								navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
-								// navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
-								break;
-							}
-						}
-					}
-				}
-
-				function gotDevices_new(deviceInfos) {
 					var camIsKnown = false;
 
 					for(var i=0; i!==deviceInfos.length; ++i){
@@ -205,52 +147,61 @@
 							var deviceLabels = deviceInfo.label.split(" ");
 							// console.log( deviceLabels );
 
-							// if it's mobile
-							if(deviceLabels[3]==='front') {
-								camUserID = deviceInfo.deviceId;
-							}
-							else if (deviceLabels[3]==='back') {
-								camEnvironmentID = deviceInfo.deviceId;
-								camIsKnown = true;
+							// for(var j=0; j<deviceLabels.length; j++){
 
-					   			mediaConstraints = {
-					   				audio: false,
-									video: {deviceId: {exact: camEnvironmentID}}
-								};
+								// if it's mobile
+								if(deviceLabels[3]==='front') {
+									camUserID = deviceInfo.deviceId;
+								}
+								else if (deviceLabels[3]==='back') {
+									camEnvironmentID = deviceInfo.deviceId;
+									camIsKnown = true;
 
-								// if (window.stream) {
-								// 	window.stream.getTracks().forEach(function(track) {
-								// 		track.stop();
-								// 	});
-								// };
+						   			mediaConstraints = {
+						   				audio: false,
+										video: {deviceId: {exact: camEnvironmentID}}
+									};
 
-								navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
-								break;
-								// navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
-							} else {
-								console.log("i don't have front or back label");
-								camEnvironmentID = deviceInfo.deviceId;
-								camIsKnown = true;
+									if (window.stream) {
+										window.stream.getTracks().forEach(function(track) {
+											track.stop();
+										});
+									};
 
-								// mediaConstraints = {
-								// 	video: deviceInfo.label,
-								// 	audio: undefined
-								// };
-								mediaConstraints = {
-					   				audio: false,
-									video: {deviceId: {exact: camEnvironmentID}}
-								};
+									navigator.mediaDevices.getUserMedia(mediaConstraints)
+									.then(successCallback)
+									.catch(errorCallback);
+									
+									// navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
+								} else {
+									console.log("i don't have front or back label");
+									camEnvironmentID = deviceInfo.deviceId;
+									camIsKnown = true;
 
-								// if (window.stream) {
-								// 	window.stream.getTracks().forEach(function(track) {
-								// 		track.stop();
-								// 	});
-								// }
+									// mediaConstraints = {
+									// 	video: deviceInfo.label,
+									// 	audio: undefined
+									// };
+									mediaConstraints = {
+						   				audio: false,
+										video: {deviceId: {exact: camEnvironmentID}}
+									};
 
-								navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
-								break;
-								// navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
-							}
+									if (window.stream) {
+										window.stream.getTracks().forEach(function(track) {
+											track.stop();
+										});
+									}
+
+									navigator.mediaDevices.getUserMedia(mediaConstraints)
+									.then(successCallback)
+									.catch(errorCallback);
+
+									
+
+									// navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
+								}
+							// }
 						}
 					}
 				}
@@ -258,8 +209,10 @@
 				function gotSources(sourceInfos) {
 				  for (var i = 0; i !== sourceInfos.length; ++i) {
 				    var sourceInfo = sourceInfos[i];
+				    // console.log(sourceInfo);
 
 				   	if (sourceInfo.kind === 'video') {
+				   		// console.log(sourceInfo);
 
 				   		if (sourceInfo.facing === 'user') camUserID = sourceInfo.id;
 				   		else if (sourceInfo.facing === 'environment') {
@@ -291,44 +244,24 @@
 				//   MediaStreamTrack.getSources(gotSources);
 				// }
 
-				function ToStart() {
-					if (!videoGot) false;
-
-					video.play();
-					// remote.play();
-					// remote.pause();
-
-					currentVidAmount ++;
-					console.log("me; currentVidAmount: " + currentVidAmount);
-					myVideoIsPlayed = true;
-
-					// Connect to the peer server
-					peerConnect();
-
-					renderCanvas.style.display = "inline";				
-					if(blockerDiv) blockerDiv.style.display = "-webkit-box";
-					splashPage.style.display = "none";
-				}
-
 				function successCallback(stream) {
 					my_stream = stream; // make stream available to console
+
 					video.src = window.URL.createObjectURL(stream) || stream;
-					// remote.src = window.URL.createObjectURL(stream) || stream;
+
 					console.log("successCallback!");
 
-					videoGot = true;
+					// if i'm not touch device
+					if(!amITouchDevice){
+						video.play();
+					}
+						currentVidAmount ++;
+						console.log("me; currentVidAmount: " + currentVidAmount);
+						myVideoIsPlayed = true;
 
-					// // if i'm not touch device
-					// if(!amITouchDevice){
-					// 	video.play();
+						// Now we can connect to the peer server
+						peerConnect();
 					// }
-					// 	currentVidAmount ++;
-					// 	console.log("me; currentVidAmount: " + currentVidAmount);
-					// 	myVideoIsPlayed = true;
-
-					// 	// Now we can connect to the peer server
-					// 	peerConnect();
-					// // }
 				}
 
 				function errorCallback(error){
@@ -349,16 +282,16 @@
 
 					// peer = new Peer( idd, { secure: true, host: 'peerserverrr.herokuapp.com', port: 443, key: 'peerjs', debug: 3} );
 
-					// peer = new Peer( ID(), { host: '192.168.1.4', port: 5000, path:'/pp'} );
+					// peer = new Peer( ID(), { secure: false, host: '128.122.6.157', port: 5000, path:'/pp', debug:true} );
 
-					// peer = new Peer( ID(), { host: 'liveweb.itp.io', port: 9001, path:'/'} );
-					peer = new Peer( ID(), { host: 'peerserver.laurachen.xyz', port: 8080, path:'/api'} );
+					// peer = new Peer( ID(), { host: 'liveweb.itp.io', port: 9001, debug:true} );
+					peer = new Peer( ID(), { host: 'peerserver.laurachen.xyz', port: 8080, path:'/api', debug:true} );
 
 
 					// Get an ID from the PeerJS server		
 					peer.on('open', function(id) {
-						peer_id = id;
 						console.log('My peer ID is: ' + id);
+						peer_id = id;
 				  
 				  		// Now we can connect to the socket server						
 						connectSocket();
@@ -370,22 +303,20 @@
 
 						incoming_call.answer(my_stream); // Answer the call with an A/V stream.
 
-							incoming_call.on('stream', function(remoteStream) {
+						
+						// get the history!
+						// only apply for the second above opened browser
+						// for showing the first opened browser
+						if(currentVidAmount>=1){
 
-								// get the history!
-								// only apply for the second above opened browser
-								// ONLY ONCE
-								if(currentVidAmount==1 && !gotHistory){
-									console.log("get history");
-
-									remote.pause();
+							//for two
+								incoming_call.on('stream', function(remoteStream) {
 									remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
 									remote.play();
 
-									gotHistory = true
+									//
 									currentVidAmount ++;
-								}
-							});
+								});
 
 							//for three
 							/*
@@ -428,7 +359,8 @@
 									
 									currentVidAmount ++;
 								});
-							*/	
+							*/
+						}	
 						
 					});
 					
@@ -450,19 +382,19 @@
 						console.log('Our browsers are connected!');
 
 						// ONLY_EXECUTE_ONCE
-						// CREATE_NEW_PLAYER_ONCE_FOR_EACH_BROWSER
 						if(oldPlayerNum != newPlayerNum){	// 0 != 1
 							// my socket is connected, send out my id here
 							var msg = {
 								'type': 'addNewPlayer',
 								'camID': camID,				// 0
 								'peerid': peer_id,
-								'npID': 0,
-								'id': -1
+								'npID': 0
 							};
 
 							sendMessage(JSON.stringify(msg));
 													
+							//UPDATE_FOR_WS
+							//SO_ONLY_CREATE_NEW_PLAYER_ONCE_FOR_EACH_BROWSER
 							oldPlayerNum = newPlayerNum;	// 0 -> 1
 
 							console.log("my socket is connected, send out my id here");
@@ -484,27 +416,27 @@
 						// 	createID = true;
 						// }
 
-						if(data.type == 'addNewPlayer'){
-							// NEW_PLAYER_JOIN
-							// EVERY_NEW_WINDOW_OPEN
-							// IF NOT ME && PROCESSED BY SERVER
+						if(data.type == 'addNewPlayer' && currentVidAmount<3){
+							//NEW_PLAYER_JOIN
+							//EVERY_NEW_WINDOW_OPEN
 							if(peer_id!=data.peerid && data.npID>0){
 								console.log("Got a new peer: " + data.peerid);
 
-								// call the peer with my video stream
 								var call = peer.call(data.peerid, my_stream);
 
-								call.on('stream', function(remoteStream) {
+								
+									call.on('stream', function(remoteStream) {
 
-									// if(currentVidAmount<2){
-										remote.pause();
-										remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
-										remote.play();
+										if(currentVidAmount<2){
+											remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+											remote.play();
 
-										currentVidAmount++;
-										console.log("Got new remote stream! currentVidAmount: " + currentVidAmount);
-									// }
-								});												
+											currentVidAmount++;
+											console.log("Got remote stream! currentVidAmount: " + currentVidAmount);
+										}
+
+									});
+												
 							}
 						}
 
@@ -533,27 +465,43 @@
 							// console.log('playerQ: ' + playerQ);
 						}
 
-						// if(data.type == 'touch' && whoIamInMask!=1){
+						if(data.type == 'touch' && whoIamInMask!=1){
 
-						// 	for(var i=0; i<roomExploded.length; i++){
-						// 		roomExploded[i] = !roomExploded[i];
-						// 	}
-						// 	for(var i=0; i<windowExploded.length; i++){
-						// 		windowExploded[i] = !windowExploded[i];
-						// 	}
-						// }
+							for(var i=0; i<roomExploded.length; i++){
+								roomExploded[i] = !roomExploded[i];
+							}
+							for(var i=0; i<windowExploded.length; i++){
+								windowExploded[i] = !windowExploded[i];
+							}
+						}
 
 
-						// if(data.type == 'button' && whoIamInMask==1){
-						// 	for(var i=0; i<roomExploded.length; i++){
-						// 		roomExploded[i] = !roomExploded[i];
-						// 	}
-						// 	for(var i=0; i<windowExploded.length; i++){
-						// 		windowExploded[i] = !windowExploded[i];
-						// 	}
-						// }
+						if(data.type == 'button' && whoIamInMask==1){
+							for(var i=0; i<roomExploded.length; i++){
+								roomExploded[i] = !roomExploded[i];
+							}
+							for(var i=0; i<windowExploded.length; i++){
+								windowExploded[i] = !windowExploded[i];
+							}
+						}
 
+						// ADD_PREVIOUS_PLAYERS
+						// ONE_TIME_EVENT
+						if(data.length>0 && !updatePreviousPlayer){
+							for(var i=0; i<data.length; i++){
+								// console.log('!');
+								if(peer_id > data[i].id){
+									console.log('create! ID: ' + data[i].id);
+								}							
+							}
+							updatePreviousPlayer = true;
+						}
 					}
+
+					//
+					
+					
+
 				    socketOpened = true;
 				};
 
@@ -599,7 +547,6 @@
 				function onFirstTouch() {
 					if( !myVideoIsPlayed ){
 						video.play();
-						remote.play();
 
 						// currentVidAmount ++;
 						// console.log("me; currentVidAmount: " + currentVidAmount);
@@ -621,6 +568,7 @@
 			<script src="js/lib/webvr-polyfill.js"></script>
 			<script src="js/lib/webvr-manager.js"></script>
 
+
 			<script src="js/StereoEffect.js"></script>
   			<script src="js/controls/DeviceControls_vHouse.js"></script>
   			<script type="text/javascript" src="js/BufferLoader.js"></script>
@@ -630,6 +578,6 @@
 			<script type="text/javascript" src="js/wave.js"></script>
 			<script type="text/javascript" src="js/sample.js"></script>
 			<script type="text/javascript" src="js/jsfeat-min.js"></script>
-			<script type="text/javascript" src="js/script_house_new_v2.js"></script>
+			<script type="text/javascript" src="js/script_house_new.js"></script>
 	</body>
 </html>

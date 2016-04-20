@@ -1,9 +1,4 @@
 
-// WebVRConfig = {
-//   BUFFER_SCALE: 0.5, // Default: 1.0.
-//   PREVENT_DISTORTION: true
-// };
-
 var element = document.body;
 
 //PointerLockControls
@@ -69,6 +64,7 @@ var element = document.body;
 		element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
 
 		controls.enabled = true;
+		// fullscreen();
 
 		if ( /Firefox/i.test( navigator.userAgent ) ) {
 
@@ -108,7 +104,6 @@ var controls, headLight;
 var screenWidth = window.innerWidth;
 var screenHeight = window.innerHeight;
 var time, clock;
-var keyboard = new KeyboardState();
 var nativePixelRatio = window.devicePixelRatio = window.devicePixelRatio ||
   Math.round(window.screen.availWidth / document.documentElement.clientWidth);
 
@@ -118,13 +113,6 @@ var littleMe, littleMeTex, littleMeTex2;
 var myHead, myBody, myRA, myLA, myRL, myLL;
 var myPosY;
 var myStartX = 0, myStartZ = 0;
-// var myStartX = Math.random()*20, myStartZ = Math.random()*20;
-
-
-var banana, bananaCore, bananaGeo, bananaMat, baBone;
-var baBones=[], baPeels=[], bananas=[];
-
-var rabbit, rabbitTexture, rabbits = [];
 
 var ground, worldBall, room, roomTexture, roomWidth = 30, roomHeight = 60, roomDepth = 30;
 var windowFrame, windowFrame2, windowFrameTexture, windowFrameTexture2, table, woodTexture, lamp, glowTexture;
@@ -180,7 +168,6 @@ var textureLoader, jsonLoader;
 	var eyeMove = false;
 
 	var myScreens, remoteScreens, myFrames, remoteFrames;
-
 
 // computer vision
 	var debugImage, debugContext;
@@ -293,7 +280,6 @@ function superInit()
 		container.appendChild(renderer.domElement);
 
 	// EFFECT
-		
 		effect = new THREE.StereoEffect(renderer);
 		effect.separation = 0.2;
 	    effect.targetDistance = 50;
@@ -313,8 +299,9 @@ function superInit()
 
 	// SCENE_SETUP
 	scene = new THREE.Scene();
-	if(!isMobile)
+	if(!isMobile) {
 		scene.fog = new THREE.FogExp2( 0xf1f1fb, 0.006 );
+	}
 
 	// LIGHT
 	// light = new THREE.HemisphereLight( 0xf9ff91, 0x3ac5b9, 1);
@@ -343,7 +330,6 @@ function superInit()
 	headLight.distance = 60;
 	scene.add(headLight);
 
-
 	// CAMERA
 	camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 10000);
 
@@ -352,33 +338,33 @@ function superInit()
 		controls = new THREE.DeviceControls(camera, true);
 		scene.add( controls.getObject() );
 		console.log("controls created!");
-		
-		window.addEventListener('click', fullscreen, false);
 
+	// window.addEventListener('click', fullscreen, false);
 
 	jsonLoader = new THREE.JSONLoader();
 	textureLoader = new THREE.TextureLoader();
 
 	//TERRAIN
-	terrainMat = new THREE.MeshPhongMaterial( {color: 0xf1f1fb, shading: THREE.FlatShading} );
-	loadModelTerrain("models/terrain.js", terrainMat);
+		// terrainMat = new THREE.MeshPhongMaterial( {color: 0xf1f1fb, shading: THREE.FlatShading} );
+		// loadModelTerrain("models/terrain.js", terrainMat);
+	
 	//TREE
-	var tex = textureLoader.load('images/tree.png');
-	treeMat = new THREE.MeshLambertMaterial( {map: tex} );
-	loadmodelTree("models/trees.js", treeMat);
+		// var tex = textureLoader.load('images/tree.png');
+		// treeMat = new THREE.MeshLambertMaterial( {map: tex} );
+		// loadmodelTree("models/trees.js", treeMat);
 
 	// small houses
 	tex = textureLoader.load('images/smallHouse.png');
-	houseLocalMat = new THREE.MeshLambertMaterial( {map: tex} );
+	houseLocalMat = new THREE.MeshBasicMaterial( {map: tex} );
 	tex = textureLoader.load('images/smallHouse_2.png');
-	houseRemoteMat = new THREE.MeshLambertMaterial( {map: tex} );
+	houseRemoteMat = new THREE.MeshBasicMaterial( {map: tex} );
 	loadmodelHouse("models/houseLocal.js", "models/houseRemote.js", houseLocalMat, houseRemoteMat);
-
 
 	// MANSION
 	mansion = new THREE.Object3D();
 	tex = textureLoader.load('images/roomTexture.png');
-	// var mat = new THREE.MeshLambertMaterial({ color: 0xff0000, side: THREE.DoubleSide, shading: THREE.FlatShading });
+
+	// var mat = new THREE.MeshLambertMaterial({ map: tex, side: THREE.DoubleSide, shading: THREE.FlatShading });
 	houseMat = new THREE.MeshPhongMaterial({ map: tex, side: THREE.DoubleSide, shading: THREE.FlatShading });
 	// loadModelScreen("models/room/room_1.js", mat);
 
@@ -434,7 +420,6 @@ function init()
 		remoteTexture.needsUpdate = true;
 
 		//
-
 		myWindow = new THREE.Object3D();
 		remoteWindow = new THREE.Object3D();
 
@@ -919,7 +904,7 @@ function animate(timestamp)
 	
 	// // Render the scene through the manager.
 	// vrmanager.render(scene, camera, timestamp);
-	stats.update();
+	
 
 	// requestAnimationFrame(animate);
 }
@@ -929,6 +914,7 @@ var camPos, camRot;
 
 function update()
 {	
+
 	// WEB_CAM
 		if(video.readyState === video.HAVE_ENOUGH_DATA){
 			videoImageContext.drawImage(video, 0, 0, videoWidth, videoHeight);
@@ -948,8 +934,9 @@ function update()
 			}
 		}
 
+	stats.update();
 	controls.update( Date.now() - time );
-	keyboard.update();
+
 	// stats.update();
 	var dt = clock.getDelta();
 	TWEEN.update();
@@ -982,7 +969,7 @@ function update()
 		}else{
 			timeoutID2 = setTimeout(function(){
 				eyeMove = false;
-				console.log("short");
+				// console.log("short");
 			}, 2000);
 		}
 

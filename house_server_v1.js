@@ -16,7 +16,7 @@ console.log('Server started on port ' + port);
 
 
 // Websocket
-var allPlayers = [];
+var maskPlayer = [];
 
 var WebSocketServer = require('ws').Server;
 var wss = new WebSocketServer( {'server': server} );
@@ -36,9 +36,10 @@ wss.on('connection', function(ws){
 	mySocket = ws;
 
 	thisId++;
+	// clientIds.push(thisId);
 	ws.id = thisId;
-	allSockets.push(ws);
 
+	allSockets.push(ws);
 	console.log('new player #%d connected!', thisId);
 
 	if(mySocket){
@@ -47,8 +48,10 @@ wss.on('connection', function(ws){
 	}
 
 	ws.on('message', function(data){
+		
 		var msg = JSON.parse(data);
 		socketHandlers(ws, msg);
+
 	});
 
 	ws.on('close', function(){
@@ -63,7 +66,7 @@ wss.on('connection', function(ws){
 				console.log( 'Player #%d disconnected.', ws.id );
 
 				allSockets.splice(i,1);
-				allPlayers.splice(i,1);
+				maskPlayer.splice(i,1);
 
 				socketHandlers(ws, msg);
 
@@ -87,13 +90,13 @@ var socketHandlers = function(socket,msg){
 			if(msg.type=='addNewPlayer'){
 				//GENERATE_ALL_MASKPLAYERS_ONLY_ONCE
 				if(msg.camID==0){
-					msg.id = socket.id;
 					msg.npID = 100;
+					msg.id = socket.id;	// save id
 					msg.camID++;
 
-					console.log('New Player ID --> ' + msg.id);
+					console.log('NewPlayerID --> ' + msg.id);
 
-					allPlayers.push(msg);
+					maskPlayer.push(msg);
 				}
 			}
 
@@ -101,11 +104,10 @@ var socketHandlers = function(socket,msg){
 			allSockets[i].send(JSON.stringify(msg));
 
 
-			// SERVER_SEND_MULTIPLE_THING
+			// SERVER_SEND_BROADCAST_THING
 			if(msg.type=='addNewPlayer'){
-				allSockets[i].send(JSON.stringify(allPlayers));
-
-				// console.log('send out MULTIPLE Players: ' + allPlayers.length);
+				allSockets[i].send(JSON.stringify(maskPlayer));
+				// console.log(maskPlayer.length);
 			}
 
 		}

@@ -105,5 +105,24 @@ body {
 }
 
 a {
-	color: #ff0000;
+	color: #00ffff;
+}
+
+
+#splashPage {
+	/*position: absolute;*/
+	left:0; right:0; top:0; bottom:0;
+	margin: auto;
+	padding: 2em;	
+	line-height: 26px;
+	text-align:center;
+	color: #ffffff;
+
+	font-size:16pt;
+	background: url("../images/chalkboard.jpg") no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	/*background-repeat: repeat;*/
 }

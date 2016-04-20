@@ -1,8 +1,8 @@
 
-// WebVRConfig = {
-//   BUFFER_SCALE: 0.5, // Default: 1.0.
-//   PREVENT_DISTORTION: true
-// };
+WebVRConfig = {
+  BUFFER_SCALE: 0.5, // Default: 1.0.
+  PREVENT_DISTORTION: true
+};
 
 var element = document.body;
 
@@ -20,7 +20,7 @@ var element = document.body;
 				'mozPointerLockElement' in document || 
 				'webkitPointerLockElement' in document;
 
-	if ( havePointerLock && !isMobile ) {
+	if ( havePointerLock ) {
 		// console.log("havePointerLock");
 
 		var element = document.body;
@@ -58,10 +58,23 @@ var element = document.body;
 		document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
 		document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
 
-		instructions.addEventListener( 'click', funToCall, false );
+
+		if( isMobile ) {
+			console.log("isTouchDevice");
+			// instructions.addEventListener( 'touchend', funToCall, false );
+		} else {
+			instructions.addEventListener( 'click', funToCall, false );
+		}
+
+
+	} else {
+
+		instructions.innerHTML = 'Your browser doesn\'t seem to support Pointer Lock API';
 	}
 
 	function funToCall(event){
+
+		// console.log("click or touch!");
 
 		instructions.style.display = 'none';
 
@@ -293,28 +306,27 @@ function superInit()
 		container.appendChild(renderer.domElement);
 
 	// EFFECT
-		
+		/*
 		effect = new THREE.StereoEffect(renderer);
 		effect.separation = 0.2;
 	    effect.targetDistance = 50;
 	    effect.setSize(window.innerWidth, window.innerHeight);
-	    
+	    */
 	    // v.2
-	 //    effect = new THREE.VREffect(renderer);
-		// effect.setSize(window.innerWidth, window.innerHeight);
+	    effect = new THREE.VREffect(renderer);
+		effect.setSize(window.innerWidth, window.innerHeight);
 
 	// Create a VR manager helper to enter and exit VR mode.
-		// var params = {
-		//   hideButton: false, // Default: false.
-		//   isUndistorted: false // Default: false.
-		// };
-		// vrmanager = new WebVRManager(renderer, effect, params);
+		var params = {
+		  hideButton: false, // Default: false.
+		  isUndistorted: false // Default: false.
+		};
+		vrmanager = new WebVRManager(renderer, effect, params);
 
 
 	// SCENE_SETUP
 	scene = new THREE.Scene();
-	if(!isMobile)
-		scene.fog = new THREE.FogExp2( 0xf1f1fb, 0.006 );
+	scene.fog = new THREE.FogExp2( 0xf1f1fb, 0.006 );
 
 	// LIGHT
 	// light = new THREE.HemisphereLight( 0xf9ff91, 0x3ac5b9, 1);
@@ -355,6 +367,10 @@ function superInit()
 		
 		window.addEventListener('click', fullscreen, false);
 
+		//
+		// controls = new THREE.PointerLockControls(camera);
+		// scene.add( controls.getObject() );
+	// controls = new THREE.OrbitControls(camera);
 
 	jsonLoader = new THREE.JSONLoader();
 	textureLoader = new THREE.TextureLoader();
@@ -908,20 +924,20 @@ var lastRender = 0;
 
 function animate(timestamp) 
 {
-    requestAnimationFrame(animate);
-	update();
-	render();
-
-	// var delta = Math.min(timestamp - lastRender, 500);
-	// lastRender = timestamp;
-
+ //    requestAnimationFrame(animate);
 	// update();
+	// render();
+
+	var delta = Math.min(timestamp - lastRender, 500);
+	lastRender = timestamp;
+
+	update();
 	
-	// // Render the scene through the manager.
-	// vrmanager.render(scene, camera, timestamp);
+	// Render the scene through the manager.
+	vrmanager.render(scene, camera, timestamp);
 	stats.update();
 
-	// requestAnimationFrame(animate);
+	requestAnimationFrame(animate);
 }
 
 var swingSwitch = 0;
@@ -1130,17 +1146,17 @@ function render()
 }
 
 function onWindowResize() {
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
-	if (devicePixelRatio) {
-		renderer.devicePixelRatio = effect.devicePixelRatio = devicePixelRatio;
-	}
-	renderer.setSize(window.innerWidth, window.innerHeight);
-	effect.setSize(window.innerWidth, window.innerHeight);
-
-	// effect.setSize( window.innerWidth, window.innerHeight );
 	// camera.aspect = window.innerWidth / window.innerHeight;
 	// camera.updateProjectionMatrix();
+	// if (devicePixelRatio) {
+	// 	renderer.devicePixelRatio = effect.devicePixelRatio = devicePixelRatio;
+	// }
+	// renderer.setSize(window.innerWidth, window.innerHeight);
+	// effect.setSize(window.innerWidth, window.innerHeight);
+
+	effect.setSize( window.innerWidth, window.innerHeight );
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
 }
 
 function fullscreen() {
