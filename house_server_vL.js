@@ -11,7 +11,7 @@ var ExpressPeerServer = require('peer').ExpressPeerServer;
 var peerExpress = require('express');
 var peerApp = peerExpress();
 var peerServer = require('http').createServer(peerApp);
-var options = { debug: true }
+var options = { debug: true };
 var peerPort = 5000;
 
 app.get('*', function(req, res){
