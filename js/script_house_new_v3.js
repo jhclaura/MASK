@@ -226,24 +226,9 @@ var textureLoader, jsonLoader;
 	var houseLocal, houseRemote, houseLocalMat, houseRemoteMat;
 
 
-
-//WEB_AUDIO_API
-	window.AudioContext = (window.AudioContext || window.webkitAudioContext || null);
-	if (!AudioContext) {
-	  throw new Error("AudioContext not supported!");
-	} 
-
-	var audioContext = new AudioContext();
-	var sample = new SoundsSample(audioContext);
-
-
 ///////////////////////////////////////////////////////////
-
 superInit();
-
 ///////////////////////////////////////////////////////////
-
-
 
 
 ///////////////////////////////////////////////////////////
@@ -274,9 +259,8 @@ function superInit()
 			alpha: true
 		});
 		renderer.setClearColor(0xf1f1fb, 1);
-		// renderer.setPixelRatio( window.devicePixelRatio );	//add
-		renderer.autoClear = false;
-		// renderer.setSize(window.innerWidth, window.innerHeight);
+		renderer.setSize(window.innerWidth, window.innerHeight);
+		// renderer.autoClear = false;
 		container.appendChild(renderer.domElement);
 
 	// EFFECT
@@ -308,27 +292,27 @@ function superInit()
 	// scene.add(light);
 
 	// light in the room
-	light = new THREE.PointLight( 0xff983c, 1.5, 35 );		//old: 0xff673c
-	light.position.set(0, 20, 0);
-	scene.add(light);
-
-	// light = new THREE.HemisphereLight(0xffffff, 0xf1f1fb, 1);
+	// light = new THREE.PointLight( 0xff983c, 1.5, 35 );		//old: 0xff673c
+	// light.position.set(0, 20, 0);
 	// scene.add(light);
 
-	light = new THREE.DirectionalLight(0xffffff);
-	light.position.set(0, 1, 1);
-	light.intensity = 0.7;
+	light = new THREE.HemisphereLight(0xffffff, 0xf1f1fb, 1);
 	scene.add(light);
 
-	light = new THREE.DirectionalLight(0xffffff);
-	light.position.set(0, 1, -1);
-	light.intensity = 0.7;
-	scene.add(light);
+	// light = new THREE.DirectionalLight(0xffffff);
+	// light.position.set(0, 1, 1);
+	// light.intensity = 0.7;
+	// scene.add(light);
 
-	headLight = new THREE.SpotLight(0xfdf646, 1);
-	headLight.position.set(2.3, 3, 23);
-	headLight.distance = 60;
-	scene.add(headLight);
+	// light = new THREE.DirectionalLight(0xffffff);
+	// light.position.set(0, 1, -1);
+	// light.intensity = 0.7;
+	// scene.add(light);
+
+	// headLight = new THREE.SpotLight(0xfdf646, 1);
+	// headLight.position.set(2.3, 3, 23);
+	// headLight.distance = 60;
+	// scene.add(headLight);
 
 	// CAMERA
 	camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 10000);
@@ -339,19 +323,19 @@ function superInit()
 		scene.add( controls.getObject() );
 		console.log("controls created!");
 
-	// window.addEventListener('click', fullscreen, false);
+	window.addEventListener('click', fullscreen, false);
 
 	jsonLoader = new THREE.JSONLoader();
 	textureLoader = new THREE.TextureLoader();
 
 	//TERRAIN
-		// terrainMat = new THREE.MeshPhongMaterial( {color: 0xf1f1fb, shading: THREE.FlatShading} );
-		// loadModelTerrain("models/terrain.js", terrainMat);
+		terrainMat = new THREE.MeshLambertMaterial( {color: 0xf1f1fb} );
+		loadModelTerrain("models/terrain.js", terrainMat);
 	
 	//TREE
-		// var tex = textureLoader.load('images/tree.png');
-		// treeMat = new THREE.MeshLambertMaterial( {map: tex} );
-		// loadmodelTree("models/trees.js", treeMat);
+		var tex = textureLoader.load('images/tree.png');
+		treeMat = new THREE.MeshLambertMaterial( {map: tex} );
+		loadmodelTree("models/trees.js", treeMat);
 
 	// small houses
 	tex = textureLoader.load('images/smallHouse.png');
@@ -393,7 +377,8 @@ function superInit()
 		meshTemp = new THREE.Mesh(geo, frameMat);
 		lamp.add(meshTemp);
 
-		light = new THREE.PointLight(0xffff00, 1, 15);
+		light = new THREE.PointLight(0xffff00, 0.5, 15);
+		// light = new THREE.Object3D();
 		// geo = new THREE.SphereGeometry(0.2,6,6);
 		// transY(geo, -1);
 			glowTexture = textureLoader.load('images/glow_edit.png');
@@ -414,13 +399,13 @@ function superInit()
 		loadModelGuy("models/GuySitForward.js", "models/GuySitForwardH.js", mat);
 
 	// ANI_GUY
-		guyTexture = textureLoader.load('images/guyW.png');
-		jsonLoader.load( "models/aniGuy.js", function( geometry ) {
-			aniGuy = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { map: guyTexture, morphTargets: true } ) );
-			aniGuy.position.set(3, 0.4, 14.3);
-			aniGuy.rotation.y = Math.PI;
-			scene.add( aniGuy );
-		} );
+		// guyTexture = textureLoader.load('images/guyW.png');
+		// jsonLoader.load( "models/aniGuy.js", function( geometry ) {
+		// 	aniGuy = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { map: guyTexture, morphTargets: true } ) );
+		// 	aniGuy.position.set(3, 0.4, 14.3);
+		// 	aniGuy.rotation.y = Math.PI;
+		// 	scene.add( aniGuy );
+		// } );
 }
 
 function init() 
@@ -566,7 +551,6 @@ function init()
 		// 	// }, 500);
 		// }
 
-
 		// loadModelF("models/window01_uv.js", mat);
 		// windowFrameTexture2 = textureLoader.load('images/window02.png');
 		// mat = new THREE.MeshLambertMaterial({map: windowFrameTexture2});
@@ -583,7 +567,6 @@ function init()
 		loadModelEye("models/eyeLid3.js", "models/eyeLashUp3.js", "models/eyeLashDown3.js", "models/eyeLong2.js", frameMat, tvMat);
 
 	
-
 	stats = new Stats();
 	stats.domElement.style.position = 'absolute';
 	stats.domElement.style.bottom = '5px';
@@ -598,7 +581,6 @@ function init()
 	document.addEventListener( 'keydown', myKeyPressed, false );
 
 	//
-
 	// demo_app(videoImage.width, videoImage.height);
 
 	//
@@ -636,57 +618,6 @@ function scaleGeo(geo, s){
 	geo.__dirtyVertices = true;
 }
 
-function loadModelRig (model, model_B, meshMat) {
-
-	var loader = new THREE.JSONLoader();
-
-	// //CORE
-	// loader.load(model_B, function(geometryB, materialB){
-	// 	bananaCore = new THREE.Mesh(geometryB, new THREE.MeshLambertMaterial({color: 0xffffff}));
-	// 	bananaCore.scale.set(0.5,0.5,0.5);
-	// 	console.log("bananaCore!");
-	// }, "js");
-
-	//PEEL
-	loader.load(model, function(geometry, material){
-
-		for (var i=0; i<material.length; i++) {
-			var m = material[ i ];
-			m.skinning = true;
-		}
-
-		for(var i=0; i<10; i++){
-			// var cubeManMat = new THREE.MeshLambertMaterial ({color: 0xaaaa00, skinning: true});
-			banana = new THREE.SkinnedMesh(geometry, new THREE.MeshFaceMaterial(material));
-
-			banana.scale.set(100,100,100);
-			// banana.add(bananaCore);
-
-			baPeels.push(banana);
-			console.log("banana!");
-
-			baBone = banana.skeleton.bones;
-			baBones.push(baBone);
-		}
-
-		//CORE
-		loader.load(model_B, function(geometryB, materialB){
-
-			for(var i=0; i<10; i++){
-				bananaCore = new THREE.Mesh(geometryB, new THREE.MeshLambertMaterial({color: 0xffffff}));
-				bananaCore.scale.set(0.5,0.5,0.5);
-				bananaCore.position.set(Math.random()*20-10, 0, Math.random()*20-10);
-
-				bananaCore.add(baPeels[i]);
-				scene.add(bananaCore);
-				bananas.push(bananaCore);
-
-				// console.log("bananaCore!");
-			}
-		});
-	});
-}
-
 function loadModelTerrain (model, meshMat) {
 	var loader = new THREE.JSONLoader();
 	loader.load(model, function(geometry){
@@ -714,22 +645,6 @@ function loadmodelHouse (model, modelB, meshMat, meshMatB) {
 		houseRemote = new THREE.Mesh(geometryB, meshMatB);
 		houseRemote.position.z = 50;
 		scene.add(houseRemote);			
-	});
-}
-
-function loadModelR (model, meshMat) {
-
-	var loader = new THREE.JSONLoader();
-	loader.load(model, function(geometry){
-
-		rabbit = new THREE.Mesh(geometry, meshMat);
-		// rabbit.scale.set(rabbitScale,rabbitScale,rabbitScale);
-		// rabbit.position.x = 20+60*(i+1);
-		// rabbit.rotation.x = Math.PI/2;
-		rabbit.rotation.y = Math.PI/2;
-
-		rabbits.push(rabbit);
-		scene.add(rabbit);			
 	});
 }
 
@@ -848,13 +763,6 @@ function loadModelGuy (model, modelB, meshMat) {
 function myKeyPressed (event) {
 
 	switch ( event.keyCode ) {
-		case 79: //O --> right leg
-			sample.trigger(0, 1);
-			break;
-
-		case 80: //P --> left leg
-			sample.trigger(1, 1);
-			break;
 
 		case 49: //O --> aniGuy swing
 			standUp = false;
@@ -881,8 +789,19 @@ function myKeyPressed (event) {
 			for(var i=0; i<windowExploded.length; i++){
 				windowExploded[i] = !windowExploded[i];
 			}
-			var msg = {
-				'type': 'button'
+			// v.1
+			// var msg = {
+			// 	'type': 'button'
+			// };
+
+			// if(ws){
+			// 	sendMessage( JSON.stringify(msg) );
+ 			// }
+
+ 			// v.2
+ 			var msg = {
+				'type': 'touch',
+				'from': whoIamInMask
 			};
 
 			if(ws){
@@ -953,106 +872,106 @@ function update()
 
 	// guy
 	guyPicAnimator.updateLaura( 300*dt );
-	if(guyHead)
-		guyHead.lookAt(camPos);
+
+	// if(guyHead)
+	// 	guyHead.lookAt(camPos);
 
 	// EYELASH
 	if(!eyeMove && eyeLashUp && eyeLashDown){
-		new TWEEN.Tween(eyeLashUp.position).to({y: 0}, 50).start();
-		new TWEEN.Tween(eyeLashDown.position).to({y: 0}, 50).start();
+		new TWEEN.Tween(eyeLashUp.position).to({y: 0}, 50).repeat(1).yoyo(true).start();
+		new TWEEN.Tween(eyeLashDown.position).to({y: 0}, 50).repeat(1).yoyo(true).start();
 
-		timeoutID = setTimeout(function(){
-			new TWEEN.Tween(eyeLashUp.position).to({y: 3}, 50).start();
-			new TWEEN.Tween(eyeLashDown.position).to({y: -1}, 50).start();
-		}, 51);
+		// timeoutID = setTimeout(function(){
+		// 	new TWEEN.Tween(eyeLashUp.position).to({y: 3}, 50).start();
+		// 	new TWEEN.Tween(eyeLashDown.position).to({y: -1}, 50).start();
+		// }, 51);
 
 		if(Math.random()>0.3){
 			timeoutID2 = setTimeout(function(){
 				eyeMove = false;
-			}, 4000);
+			}, 5000);
 		}else{
 			timeoutID2 = setTimeout(function(){
 				eyeMove = false;
 				// console.log("short");
 			}, 2000);
 		}
-
 		eyeMove = true;
 	}
 
 	// ANI_GUY
-		if(standUp) {
-			downInf = false;
-			upInf = false;
-			animOffset = standUpOffset;
+		// if(standUp) {
+		// 	downInf = false;
+		// 	upInf = false;
+		// 	animOffset = standUpOffset;
 
-			if(!downInf && !upInf){
-				if(influcence >= 0)
-					influcence -= 0.1;
-				if(influcence = 0)
-					downInf = true;
-			}
-			if(downInf && !upInf){
-				if(influcence <= 1)
-					influcence += 0.1;
-				if(influcence = 1)
-					upInf = true;
-			}
-			// if(animOffset <= 50)
-			// 	animOffset++;
-		} else if(jump){
+		// 	if(!downInf && !upInf){
+		// 		if(influcence >= 0)
+		// 			influcence -= 0.1;
+		// 		if(influcence = 0)
+		// 			downInf = true;
+		// 	}
+		// 	if(downInf && !upInf){
+		// 		if(influcence <= 1)
+		// 			influcence += 0.1;
+		// 		if(influcence = 1)
+		// 			upInf = true;
+		// 	}
+		// 	// if(animOffset <= 50)
+		// 	// 	animOffset++;
+		// } else if(jump){
 
-			animOffset = jumpOffset;
+		// 	animOffset = jumpOffset;
 
-		} else {
-			downInf = false;
-			upInf = false;
-			animOffset = 0;
+		// } else {
+		// 	downInf = false;
+		// 	upInf = false;
+		// 	animOffset = 0;
 
-			if(!downInf && !upInf){
-				if(influcence >= 0)
-					influcence -= 0.01;
-				if(influcence = 0)
-					downInf = true;
-			}
-			if(downInf && !upInf){
-				if(influcence <= 1)
-					influcence += 0.01;
-				if(influcence = 1)
-					upInf = true;
-			}
+		// 	if(!downInf && !upInf){
+		// 		if(influcence >= 0)
+		// 			influcence -= 0.01;
+		// 		if(influcence = 0)
+		// 			downInf = true;
+		// 	}
+		// 	if(downInf && !upInf){
+		// 		if(influcence <= 1)
+		// 			influcence += 0.01;
+		// 		if(influcence = 1)
+		// 			upInf = true;
+		// 	}
 
-			// if(animOffset >= 0)
-			// 	animOffset--;
-		}
+		// 	// if(animOffset >= 0)
+		// 	// 	animOffset--;
+		// }
 
-		if ( aniGuy ) {
+		// if ( aniGuy ) {
 
-				// Alternate morph targets
+		// 		// Alternate morph targets
 
-				// time = Date.now() % duration + animOffset;
-				// keyframe = Math.floor( time / interpolation ) + 1;
-				time = Date.now() % duration;
-				keyframe = Math.floor( time / interpolation ) + 1 + animOffset;
-				// lastKeyframe = 50;
-				// currentKeyframe = 50;
+		// 		// time = Date.now() % duration + animOffset;
+		// 		// keyframe = Math.floor( time / interpolation ) + 1;
+		// 		time = Date.now() % duration;
+		// 		keyframe = Math.floor( time / interpolation ) + 1 + animOffset;
+		// 		// lastKeyframe = 50;
+		// 		// currentKeyframe = 50;
 
-				if ( keyframe != currentKeyframe ) {
+		// 		if ( keyframe != currentKeyframe ) {
 
-					aniGuy.morphTargetInfluences[ lastKeyframe ] = 0;
-					aniGuy.morphTargetInfluences[ currentKeyframe ] = 1;
-					aniGuy.morphTargetInfluences[ keyframe ] = 0;
+		// 			aniGuy.morphTargetInfluences[ lastKeyframe ] = 0;
+		// 			aniGuy.morphTargetInfluences[ currentKeyframe ] = 1;
+		// 			aniGuy.morphTargetInfluences[ keyframe ] = 0;
 
-					lastKeyframe = currentKeyframe;
-					currentKeyframe = keyframe;
+		// 			lastKeyframe = currentKeyframe;
+		// 			currentKeyframe = keyframe;
 
-					// console.log( mesh.morphTargetInfluences );
+		// 			// console.log( mesh.morphTargetInfluences );
 
-				}
+		// 		}
 
-			// mesh.morphTargetInfluences[ keyframe ] = ( time % interpolation ) / interpolation;
-			// mesh.morphTargetInfluences[ lastKeyframe ] = 1 - mesh.morphTargetInfluences[ keyframe ];
-		}
+		// 	// mesh.morphTargetInfluences[ keyframe ] = ( time % interpolation ) / interpolation;
+		// 	// mesh.morphTargetInfluences[ lastKeyframe ] = 1 - mesh.morphTargetInfluences[ keyframe ];
+		// }
 
 	// explode room
 		for(var i=0; i<flyWindows.length; i++){
@@ -1102,12 +1021,12 @@ function update()
 		// 	myWindow.rotation.set(0,0,0);
 
 	// headLight
-		headLight.position.z = camPos.z + 3*(Math.cos(camRot.y));
-		headLight.target.position.z = camPos.z;
-		headLight.position.x = camPos.x + 3*(Math.sin(camRot.y));
-		headLight.target.position.x = camPos.x;
-		headLight.position.y = camPos.y - 5*(Math.sin(camRot.x));
-		headLight.target.position.y = camPos.y;
+		// headLight.position.z = camPos.z + 3*(Math.cos(camRot.y));
+		// headLight.target.position.z = camPos.z;
+		// headLight.position.x = camPos.x + 3*(Math.sin(camRot.y));
+		// headLight.target.position.x = camPos.x;
+		// headLight.position.y = camPos.y - 5*(Math.sin(camRot.x));
+		// headLight.target.position.y = camPos.y;
 
 	//
 	time = Date.now();

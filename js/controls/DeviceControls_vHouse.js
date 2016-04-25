@@ -384,6 +384,8 @@ THREE.DeviceControls = function ( camera ) {
 			windowExploded[i] = !windowExploded[i];
 		}
 
+		// v.1
+
 		// if(whoIamInMask==1){
 		// 	var msg = {
 		// 		'type': 'touch',
@@ -395,6 +397,15 @@ THREE.DeviceControls = function ( camera ) {
 		// 		// console.log('A msg sent by DeviceControls when updating.');
 		// 	}
 		// }
+
+		//v.2
+		var msg = {
+			'type': 'touch',
+			'from': whoIamInMask
+		};
+		if(ws){
+			sendMessage( JSON.stringify(msg) );
+		}
 
 
 		if(event.touches.length==2){
