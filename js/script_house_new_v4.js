@@ -64,35 +64,35 @@ var element = document.body;
 		element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
 
 		controls.enabled = true;
-		
+
 		fullscreen();
 
-		// if ( /Firefox/i.test( navigator.userAgent ) ) {
+		if ( /Firefox/i.test( navigator.userAgent ) ) {
 
-		// 	var fullscreenchange = function ( event ) {
+			var fullscreenchange = function ( event ) {
 
-		// 		if ( document.fullscreenElement === element || document.mozFullscreenElement === element || document.mozFullScreenElement === element ) {
+				if ( document.fullscreenElement === element || document.mozFullscreenElement === element || document.mozFullScreenElement === element ) {
 
-		// 			document.removeEventListener( 'fullscreenchange', fullscreenchange );
-		// 			document.removeEventListener( 'mozfullscreenchange', fullscreenchange );
+					document.removeEventListener( 'fullscreenchange', fullscreenchange );
+					document.removeEventListener( 'mozfullscreenchange', fullscreenchange );
 
-		// 			element.requestPointerLock();
-		// 		}
+					element.requestPointerLock();
+				}
 
-		// 	}
+			}
 
-		// 	document.addEventListener( 'fullscreenchange', fullscreenchange, false );
-		// 	document.addEventListener( 'mozfullscreenchange', fullscreenchange, false );
+			document.addEventListener( 'fullscreenchange', fullscreenchange, false );
+			document.addEventListener( 'mozfullscreenchange', fullscreenchange, false );
 
-		// 	element.requestFullscreen = element.requestFullscreen || element.mozRequestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen;
+			element.requestFullscreen = element.requestFullscreen || element.mozRequestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen;
 
-		// 	element.requestFullscreen();
+			element.requestFullscreen();
 
-		// } else {
+		} else {
 
-		// 	element.requestPointerLock();
+			element.requestPointerLock();
 
-		// }
+		}
 	}
 
 ////////////////////////////////////////////////////////////	
@@ -265,12 +265,14 @@ function superInit()
 		container.appendChild(renderer.domElement);
 
 	// EFFECT
+	if(isMobile){
 		effect = new THREE.StereoEffect(renderer);
 		effect.separation = 0.2;
 	    effect.targetDistance = 50;
 	    effect.setSize(window.innerWidth, window.innerHeight);
+	}
 	    
-	    // v.2
+	// v.2
 	 //    effect = new THREE.VREffect(renderer);
 		// effect.setSize(window.innerWidth, window.innerHeight);
 
@@ -587,6 +589,10 @@ function init()
 
 	//
 	// scene.add(mansion);
+
+	camPos = controls.position().clone();
+	if(guyHead)
+		guyHead.lookAt(camPos);
 
 	animate();	
 }
@@ -1037,22 +1043,29 @@ function update()
 
 function render() 
 {	
-	// renderer.render( scene, camera );
-	effect.render( scene, camera );
+	if(!isMobile)
+		renderer.render( scene, camera );
+	else
+		effect.render( scene, camera );
 }
 
 function onWindowResize() {
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
-	if (devicePixelRatio) {
-		renderer.devicePixelRatio = effect.devicePixelRatio = devicePixelRatio;
-	}
-	renderer.setSize(window.innerWidth, window.innerHeight);
-	effect.setSize(window.innerWidth, window.innerHeight);
 
-	// effect.setSize( window.innerWidth, window.innerHeight );
 	// camera.aspect = window.innerWidth / window.innerHeight;
 	// camera.updateProjectionMatrix();
+	// if (devicePixelRatio) {
+	// 	renderer.devicePixelRatio = effect.devicePixelRatio = devicePixelRatio;
+	// }
+
+	if(isMobile){
+		effect.setSize( window.innerWidth, window.innerHeight );
+		
+	}else{
+		renderer.setSize(window.innerWidth, window.innerHeight);
+	}
+
+	camera.aspect = window.innerWidth / window.innerHeight;
+	camera.updateProjectionMatrix();
 }
 
 function fullscreen() {
