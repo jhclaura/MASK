@@ -151,7 +151,6 @@ function showError(error){
 ////////////////////////////////////////////////////////////////////////////
 
 
-
 var socketHandlers = function(socket,msg){
 
 	// console.log("entered socketHandlers");

@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<title>MASK - House</title>
+		<link rel="stylesheet" type="text/css" href="css/style_v2.css">
+	</head>
+	<body>		
+			<script type="text/javascript" src="js/lib/three.js"></script>
+			<script type="text/javascript" src="js/lib/peer.js"></script>
+			<script type="text/javascript" src="js/lib/adapter.js"></script>
+			<script type="text/javascript" src="js/lib/common.js"></script>
+			<script type="text/javascript" src="js/Detector.js"></script>
+
+			<div id="render-canvas"></div>
+
+			<!-- indie -->
+			<!-- <div id="blocker" style="display: -webkit-box;">
+				<div id="instructions" >
+					<img width="60" height="60" src="images/click.gif">
+				</div>
+			</d -->iv>
+
+			<!-- cam -->
+			<p id="errorMessage" style="display:none"></p>
+
+			<video id="video" autoplay loop width="480" height="320" style="display:none"></video>
+			<canvas id="videoImage" width="480" height="320" style="display:none"></canvas>
+
+			<video id="remoteVideo" autoplay loop width="480" height="320" style="display:none"></video>
+			<canvas id="remoteVideoImage" width="480" height="320" style="display:none"></canvas>
+
+			<div id="splashPage" style="display:block; position:absolute;">
+				<h1>MASK</h1>
+				<h2>House</h1>
+				<a id="startLink" onclick="ToStart();">Start</a>
+			</div>
+
+			<script type="text/javascript">
+				//device detection
+				//source: http://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device-in-jquery
+				var isMobile = false; //initiate as false
+				var whichMobile = "";
+				if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+					isMobile = true;
+				}
+				console.log("isMobile: " + isMobile);
+
+				// tell android or iOS
+				if( /Android/i.test(navigator.userAgent) ) {
+					console.log("I'm android!");
+					whichMobile = "android";
+				}
+				if( /iPhone|iPad|iPod/i.test(navigator.userAgent) ) {
+					console.log("I'm iOS!");
+					whichMobile = "iOS_mobile";
+				}
+
+				// if it's desktop, create click.gif div for PointerlockAPI
+				if( !isMobile ) {
+					var clickDiv = document.createElement('div');
+					clickDiv.id = "blocker";
+					clickDiv.style = "display: -webkit-box;";
+					document.getElementsByTagName("body")[0].appendChild(clickDiv);
+
+					var fingerImg = document.createElement('img');
+					fingerImg.setAttribute("src", "images/click.gif");
+					fingerImg.setAttribute("width", "60");
+					fingerImg.setAttribute("height", "60");
+					var ins = document.createElement('div');
+					ins.id = "instructions";
+					ins.appendChild(fingerImg);
+					clickDiv.appendChild(ins);
+				}
+
+				// DETECT
+				if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+				function byId(_id) {
+					return document.getElementById(_id);
+				}
+
+				function byClass(_class) {
+					return document.getElementsByClassName(_class);
+				}
+
+				var renderCanvas = byId("render-canvas");
+				var blockerDiv = byId("blocker");
+
+				renderCanvas.style.display = "none";
+				if(blockerDiv) blockerDiv.style.display = "none";
+
+				/* reference on codes of Shawn Van Every*/
+				/* source: http://itp.nyu.edu/~sve204/liveweb_fall2014/week5.html */
+				/* reference on codes of WebRTC samples */
+				/* source: https://github.com/webrtc/samples/blob/gh-pages/src/content/devices/input-output */
+
+				/* Get User Media */
+				var my_stream = null, remote_stream = null;
+
+				/* My WebRTC peer and peer_id */
+				var peer = null;
+				var peer_id = null;			
+			
+				/* Socket Server - WS */
+				var socket = null;
+				var socketOpened = false;
+
+				var host;
+				var ws;
+				var myID, createID = false;
+				var updatePreviousPlayer = false;
+
+				var msgCount = 0;
+				var newPlayerID;
+
+				var camID = 0;
+				var oldPlayerNum = 0, newPlayerNum = 0;
+				var newPlayerJoined = false;
+
+				var whoIamInMask = -1, initEnvironment = false, gotHistory = false;
+
+				//
+				var amITouchDevice = isTouchDevice();
+				var myVideoIsPlayed = false;
+
+				//----------------------------------------------------
+
+				var audioSource = null, videoSource = null, camUserID = null, camEnvironmentID = null;
+				var mediaConstraints = {};
+
+				// DOM
+				var video = document.getElementById('video');
+				var videoImage = document.getElementById('videoImage');
+
+				var remote = document.getElementById('remoteVideo');
+				var remoteImage = document.getElementById('remoteVideoImage');
+
+				var currentVidAmount = 0;
+				//
+				var videoOptions = [];
+
+				var startLinkIsClicked  = false, videoGot = false;
+			   //
+			   window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+				navigator.mediaDevices.enumerateDevices()
+				.then(gotDevices_new)
+				.catch(errorCallback);
+
+				//
+				function gotDevices(deviceInfos) {
+					var camIsKnown = false;
+
+					for(var i=0; i!==deviceInfos.length; ++i){
+						var deviceInfo = deviceInfos[i];
+
+						if (deviceInfo.kind === 'videoinput') {
+							// console.log( deviceInfo );
+
+							// if it's mobile
+							if(isMobile) {
+								console.log("get mobile cam");
+								mediaConstraints = {
+					   				audio: false,
+									video: {  facingMode: "environment" }
+								};
+
+								navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
+								// navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
+								camIsKnown = true;
+								break;
+							} else {
+								console.log("i don't have front or back label");
+								camEnvironmentID = deviceInfo.deviceId;
+								camIsKnown = true;
+
+								mediaConstraints = {
+					   				audio: false,
+									video: true
+								};
+								navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
+								// navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
+								break;
+							}
+						}
+					}
+				}
+
+				function gotDevices_new(deviceInfos) {
+					var camIsKnown = false;
+
+					for(var i=0; i!==deviceInfos.length; ++i){
+						var deviceInfo = deviceInfos[i];
+
+						if (deviceInfo.kind === 'videoinput') {
+							// console.log( deviceInfo );
+
+							var deviceLabels = deviceInfo.label.split(" ");
+							// console.log( deviceLabels );
+
+							// if it's mobile
+							if(deviceLabels[3]==='front') {
+								camUserID = deviceInfo.deviceId;
+							}
+							else if (deviceLabels[3]==='back') {
+								camEnvironmentID = deviceInfo.deviceId;
+								camIsKnown = true;
+
+					   			mediaConstraints = {
+					   				audio: false,
+									video: {deviceId: {exact: camEnvironmentID}}
+								};
+
+								// if (window.stream) {
+								// 	window.stream.getTracks().forEach(function(track) {
+								// 		track.stop();
+								// 	});
+								// };
+
+								navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
+								break;
+								// navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
+							} else {
+								console.log("i don't have front or back label");
+								camEnvironmentID = deviceInfo.deviceId;
+								camIsKnown = true;
+
+								// mediaConstraints = {
+								// 	video: deviceInfo.label,
+								// 	audio: undefined
+								// };
+								mediaConstraints = {
+					   				audio: false,
+									video: {deviceId: {exact: camEnvironmentID}}
+								};
+
+								// if (window.stream) {
+								// 	window.stream.getTracks().forEach(function(track) {
+								// 		track.stop();
+								// 	});
+								// }
+
+								navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
+								break;
+								// navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
+							}
+						}
+					}
+				}
+
+				function gotSources(sourceInfos) {
+				  for (var i = 0; i !== sourceInfos.length; ++i) {
+				    var sourceInfo = sourceInfos[i];
+
+				   	if (sourceInfo.kind === 'video') {
+
+				   		if (sourceInfo.facing === 'user') camUserID = sourceInfo.id;
+				   		else if (sourceInfo.facing === 'environment') {
+
+				   			camEnvironmentID = sourceInfo.id;
+				   			mediaConstraints = {
+								video: {
+									optional: [{sourceId: camEnvironmentID}]
+								}, audio: false
+							};
+							navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
+				   		}
+				   		else {
+				   			camEnvironmentID = sourceInfo.id;
+				   			mediaConstraints = {
+								video: {
+									optional: [{sourceId: camEnvironmentID}]
+								}, audio: false
+							};
+							navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
+				   		}
+				    } 
+				  }
+				}
+
+				// if (typeof MediaStreamTrack.getSources === 'undefined'){
+				//   alert('This browser does not support MediaStreamTrack.\n\nTry Chrome.');
+				// } else {
+				//   MediaStreamTrack.getSources(gotSources);
+				// }
+
+				function ToStart() {
+					if (!videoGot) false;
+
+					video.play();
+					// remote.play();
+					// remote.pause();
+
+					currentVidAmount ++;
+					console.log("me; currentVidAmount: " + currentVidAmount);
+					myVideoIsPlayed = true;
+
+					// Connect to the peer server
+					peerConnect();
+
+					renderCanvas.style.display = "inline";				
+					if(blockerDiv) blockerDiv.style.display = "-webkit-box";
+					splashPage.style.display = "none";
+				}
+
+				function successCallback(stream) {
+					my_stream = stream; // make stream available to console
+					video.src = window.URL.createObjectURL(stream) || stream;
+					// remote.src = window.URL.createObjectURL(stream) || stream;
+					console.log("successCallback!");
+
+					videoGot = true;
+
+					// // if i'm not touch device
+					// if(!amITouchDevice){
+					// 	video.play();
+					// }
+					// 	currentVidAmount ++;
+					// 	console.log("me; currentVidAmount: " + currentVidAmount);
+					// 	myVideoIsPlayed = true;
+
+					// 	// Now we can connect to the peer server
+					// 	peerConnect();
+					// // }
+				}
+
+				function errorCallback(error){
+					// var msg = 'No camera available.';
+					// if (error.code == 1) 
+					// {   msg = 'User denied access to use camera.';   }
+					// document.getElementById('errorMessage').textContent = msg;					
+					console.log('navigator.getUserMedia error: ', error);
+				}
+
+				//
+				var peerConnect = function() {			
+					/* WebRTC - Peer.js */
+						
+					// Register for an API Key for PeerJS cloud server	
+					// peer = new Peer({key: 'k625glo5j67xpqfr'});	//Laura's key
+
+					var idd = ID();
+
+					// peer = new Peer( ID(), { host: '192.168.1.4', port: 5000, path:'/pp'} );
+					// peer = new Peer( ID(), { host: 'liveweb.itp.io', port: 9001, path:'/'} );
+					// peer = new Peer( ID(), { host: 'peer.laurachen.xyz', port: 5000, path:'/api'} );
+
+					peer = new Peer( ID(), { host: 'peer.laurachen.xyz', port: 5000, path:'/'} );
+
+
+					// Get an ID from the PeerJS server		
+					peer.on('open', function(id) {
+						peer_id = id;
+						console.log('My peer ID is: ' + id);
+				  
+				  		// Now we can connect to the socket server						
+						connectSocket();
+					});
+			
+					
+					peer.on('call', function(incoming_call) {
+						console.log("Got a call!");
+
+						incoming_call.answer(my_stream); // Answer the call with an A/V stream.
+
+							incoming_call.on('stream', function(remoteStream) {
+
+								// get the history!
+								// only apply for the second above opened browser
+								// ONLY ONCE
+								if(currentVidAmount==1 && !gotHistory){
+									console.log("get history");
+
+									// v.Normal
+									// remote.pause();
+									// remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+									// remote.play();
+
+									// gotHistory = true
+									// currentVidAmount ++;
+
+									// v_show
+									// if i'm mobile, ignore
+									if(isMobile) {
+										console.log("i'm mobile, ignore coming camera feed");
+									}
+									else {
+										video.pause();
+										video.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+										video.play();
+									}
+									console.log("play remotes: " + ahhhhhhIndex);
+									
+									currentVidAmount ++;
+								}
+							});
+
+							//for three
+							/*
+								incoming_call.on('stream', function(remoteStream) {
+
+									var ahhhhhhIndex = currentVidAmount-1;
+									console.log("history; currentVidAmount: " + currentVidAmount);
+									console.log(ahhhhhhIndex + " log in");
+
+									// v_normal
+										if(ahhhhhhIndex==0){
+											remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+											remote.play();
+										}else if(ahhhhhhIndex==1){
+											video.pause();
+											video.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+											video.play();
+										}
+
+									// v_show
+									// if(whoIamInMask==1) {
+									// 	if(ahhhhhhIndex==0){
+									// 		remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+									// 		remote.play();
+									// 	}
+									// }
+									// if(whoIamInMask==2) {
+									// 	if(ahhhhhhIndex==0){
+									// 		video.pause();
+									// 		video.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+									// 		video.play();
+
+									// 		remote.pause();
+									// 		remote.src = window.URL.createObjectURL(my_stream) || my_stream;
+									// 		remote.play();
+									// 	}
+									// }
+
+									console.log("play remotes: " + ahhhhhhIndex);
+									
+									currentVidAmount ++;
+								});
+							*/	
+						
+					});
+					
+
+				};
+
+
+				var connectSocket = function() {
+
+					host = location.origin.replace(/^http/, 'ws');
+					//
+					console.log(host);
+					//
+					ws = new WebSocket(host);
+
+					newPlayerNum ++;
+
+					ws.onopen = function(){
+						console.log('Our browsers are connected!');
+
+						// ONLY_EXECUTE_ONCE
+						// CREATE_NEW_PLAYER_ONCE_FOR_EACH_BROWSER
+						if(oldPlayerNum != newPlayerNum){	// 0 != 1
+							// my socket is connected, send out my id here
+							var msg = {
+								'type': 'addNewPlayer',
+								'camID': camID,				// 0
+								'peerid': peer_id,
+								'npID': 0,
+								'id': -1
+							};
+
+							sendMessage(JSON.stringify(msg));
+													
+							oldPlayerNum = newPlayerNum;	// 0 -> 1
+
+							console.log("my socket is connected, send out my id here");
+						}
+					}
+
+					ws.onmessage = function(msg){
+
+						msgCount++;
+
+						var data = JSON.parse(msg.data);
+						// console.log("Got msg!");
+						// console.log(data);
+
+						// ID_FOR_EACH_BROWSER
+						// ONLY_EXECUTE_ONCE
+						// if(!createID){
+						// 	myID = data.myID;
+						// 	createID = true;
+						// }
+
+						if(data.type == 'addNewPlayer'){
+							// NEW_PLAYER_JOIN
+							// EVERY_NEW_WINDOW_OPEN
+							// IF NOT ME && PROCESSED BY SERVER
+							if(peer_id!=data.peerid && data.npID>0){
+								console.log("Got a new peer: " + data.peerid);
+
+								// call the peer with my video stream
+								var call = peer.call(data.peerid, my_stream);
+
+								call.on('stream', function(remoteStream) {
+
+									// v.Normal
+									// if(currentVidAmount<2){
+										// remote.pause();
+										// remote.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+										// remote.play();
+
+										// currentVidAmount++;
+										// console.log("Got new remote stream! currentVidAmount: " + currentVidAmount);
+									// }
+
+									// v.Show
+									if(!isMobile){
+										console.log("Got new remote stream! assume it's from mobile, show it!");
+										video.pause();
+										video.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+										video.play();
+									}
+								});												
+							}
+						}
+
+						if(data.type == 'index'){
+
+							if(!initEnvironment) {
+								whoIamInMask = data.index;
+								console.log("I'm " + whoIamInMask + " in House.");
+
+								init();
+								initEnvironment = true;
+							}							
+						}
+
+						// v.Show!
+						if(data.type == 'updatePlayer' && !isMobile){
+
+							// console.log(data.playerQ);
+
+							// var playerLocX = data.playerLocX;
+							// var playerLocZ = data.playerLocZ;
+							// var playerRotY = data.playerRotY;
+							var playerQ = new THREE.Quaternion( data.playerQ._x, data.playerQ._y, data.playerQ._z, data.playerQ._w );
+							controls.setRotationByQ(playerQ);
+
+							// console.log('data.index: ' + data.index);
+							// console.log('playerQ: ' + playerQ);
+						}
+
+						// if(data.type == 'touch' && whoIamInMask!=1){
+
+						// 	for(var i=0; i<roomExploded.length; i++){
+						// 		roomExploded[i] = !roomExploded[i];
+						// 	}
+						// 	for(var i=0; i<windowExploded.length; i++){
+						// 		windowExploded[i] = !windowExploded[i];
+						// 	}
+						// }
+
+						if(data.type == 'touch' && data.from != whoIamInMask){
+
+							for(var i=0; i<roomExploded.length; i++){
+								roomExploded[i] = !roomExploded[i];
+							}
+							for(var i=0; i<windowExploded.length; i++){
+								windowExploded[i] = !windowExploded[i];
+							}
+						}
+
+
+						// if(data.type == 'button' && whoIamInMask==1){
+						// 	for(var i=0; i<roomExploded.length; i++){
+						// 		roomExploded[i] = !roomExploded[i];
+						// 	}
+						// 	for(var i=0; i<windowExploded.length; i++){
+						// 		windowExploded[i] = !windowExploded[i];
+						// 	}
+						// }
+
+					}
+				    socketOpened = true;
+				};
+
+				//SYNCING_ISSUE
+				//http://stackoverflow.com/questions/23898477/tornado-websockets-invalidstateerror-still-in-connecting-state
+				//but has better solution... e.g. promises
+				function sendMessage(msg) {
+			        waitForSocketConnection( ws, function() {
+			            ws.send( msg );
+			        });
+
+			        // console.log('* sendMessage');
+			    };
+
+
+				function waitForSocketConnection(socket, callback){
+			        setTimeout(
+			            function(){
+			                if (socket.readyState === 1) {
+			                    if(callback !== undefined){
+			                        callback();
+
+			                        // console.log('* callback');
+			                    }
+			                    return;
+			                } else {
+			                    waitForSocketConnection(socket,callback);
+			                }
+			            }, 5);
+
+			        // console.log('* waitForSocketConnection');
+			    };
+
+			    // id generator
+			    function ID(){
+			    	return Math.random().toString(36).substr(2, 9);
+			    };
+
+			    function isTouchDevice() { 
+					return 'ontouchstart' in window || !!(navigator.msMaxTouchPoints);
+				}
+			    
+			</script>
+
+			<script src="js/lib/effects/VREffect.js"></script>
+
+			<script src="js/lib/webvr-polyfill.js"></script>
+			<script src="js/lib/webvr-manager.js"></script>
+
+			<script src="js/StereoEffect.js"></script>
+  			<script src="js/controls/DeviceControls_vHouse_momi.js"></script>
+  			<script type="text/javascript" src="js/BufferLoader.js"></script>
+			<script type="text/javascript" src="js/KeyboardState.js"></script>
+			<script type="text/javascript" src="js/lib/tween.min.js"></script>
+			<script type="text/javascript" src="js/stats.min.js"></script>
+			<script type="text/javascript" src="js/wave.js"></script>
+			<script type="text/javascript" src="js/sample.js"></script>
+			<script type="text/javascript" src="js/jsfeat-min.js"></script>
+			<script type="text/javascript" src="js/script_house_new_v4.js"></script>
+	</body>
+</html>
