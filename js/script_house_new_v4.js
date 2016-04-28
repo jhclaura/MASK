@@ -410,6 +410,9 @@ function superInit()
 		// 	aniGuy.rotation.y = Math.PI;
 		// 	scene.add( aniGuy );
 		// } );
+
+	//
+		eyerayCaster = new THREE.Raycaster();
 }
 
 function init() 
@@ -477,6 +480,7 @@ function init()
 
 		jsonLoader.load( "models/room/remoteWindowScreen.js", function( geometry ) {
 			var tmpR = new THREE.Mesh( geometry, remoteMat );
+			tmpR.name = "momWindow";
 			remoteWindow.add(tmpR);
 		} );
 		jsonLoader.load( "models/room/remoteWindowFrame_v2.js", function( geometry ) {
@@ -591,6 +595,7 @@ function init()
 	// scene.add(mansion);
 
 	camPos = controls.position().clone();
+
 	if(guyHead)
 		guyHead.lookAt(camPos);
 
@@ -843,6 +848,9 @@ function animate(timestamp)
 var swingSwitch = 0;
 var camPos, camRot;
 
+//
+var lookAtMom = false, hearMom = false;
+
 function update()
 {	
 
@@ -1035,6 +1043,47 @@ function update()
 		// headLight.target.position.x = camPos.x;
 		// headLight.position.y = camPos.y - 5*(Math.sin(camRot.x));
 		// headLight.target.position.y = camPos.y;
+
+	// console.log( controls.finalQ );
+
+	// EYE_RAYS!!
+		var directionCam = controls.getDirection().clone();
+		eyerayCaster.set( controls.getObject().position.clone(), directionCam );
+		var eyeIntersects = eyerayCaster.intersectObjects( scene.children, true );
+		//console.log(intersects);
+
+		if ( eyeIntersects.length > 0 ) {
+			// console.log('hit');
+			// console.log(eyeIntersects[ 0 ].object);
+
+			// 
+			if(eyeIntersects[ 0 ].object.name == "momWindow"){
+				// console.log('hit');
+
+				lookAtMom = true;
+
+				if(remote.volume<0.9){
+					remote.volume += 0.05;
+				}
+				// toBackStatus = true;
+				// toBackStatusPast = true;
+
+				// if( sound_sweet.gainNode ) {
+				// 	if( sound_sweet.gainNode.gain.value<1 ){
+				// 		sound_sweet.gainNode.gain.value += 0.05;
+				// 	}
+				// 	if( sampleGain.gain.value>0.2 ){
+				// 		sampleGain.gain.value -= 0.05;
+				// 	}
+				// }
+			} else {
+				lookAtMom = false;
+
+				if(remote.volume>0.1){
+					remote.volume -= 0.05;
+				}
+			}
+		}
 
 	//
 	time = Date.now();

@@ -20,7 +20,7 @@
 				<div id="instructions" >
 					<img width="60" height="60" src="images/click.gif">
 				</div>
-			</d -->iv>
+			</div>-->
 
 			<!-- cam -->
 			<p id="errorMessage" style="display:none"></p>
@@ -28,7 +28,9 @@
 			<video id="video" autoplay loop width="480" height="320" style="display:none"></video>
 			<canvas id="videoImage" width="480" height="320" style="display:none"></canvas>
 
-			<video id="remoteVideo" autoplay loop width="480" height="320" style="display:none"></video>
+			<video id="remoteVideo" autoplay loop width="480" height="320" style="display:none">
+				<source src="videos/withmom.mp4" type='video/mp4'>
+			</video>
 			<canvas id="remoteVideoImage" width="480" height="320" style="display:none"></canvas>
 
 			<div id="splashPage" style="display:block; position:absolute;">
@@ -136,14 +138,16 @@
 
 				var remote = document.getElementById('remoteVideo');
 				var remoteImage = document.getElementById('remoteVideoImage');
+				//
+				remote.volume = 0.1;
 
 				var currentVidAmount = 0;
 				//
 				var videoOptions = [];
 
 				var startLinkIsClicked  = false, videoGot = false;
-			   //
-			   window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+			   	//
+			   	window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
 				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
 				navigator.mediaDevices.enumerateDevices()
@@ -167,7 +171,6 @@
 					   				audio: false,
 									video: {  facingMode: "environment" }
 								};
-
 								navigator.mediaDevices.getUserMedia(mediaConstraints).then(successCallback).catch(errorCallback);
 								// navigator.getUserMedia(mediaConstraints, successCallback, errorCallback);
 								camIsKnown = true;

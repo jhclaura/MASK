@@ -511,8 +511,8 @@ THREE.DeviceControls = function ( camera ) {
 	//
 
 	document.addEventListener( 'mousemove', onMouseMove, false );
-	document.addEventListener( 'keydown', onKeyDown, false );
-	document.addEventListener( 'keyup', onKeyUp, false );
+	// document.addEventListener( 'keydown', onKeyDown, false );
+	// document.addEventListener( 'keyup', onKeyUp, false );
 
 	//TOUCH
 	if(thisIsTouchDevice) {
@@ -682,19 +682,19 @@ THREE.DeviceControls = function ( camera ) {
 
 		yawObject.translateY( velocity.y );
 
-		if(room){
-			if(yawObject.position.x<=(roomWidth/2-1) && yawObject.position.x>=-(roomWidth/2-1) && yawObject.position.z<=(roomDepth/2-1) && yawObject.position.z>=-(roomDepth/2-1)){
-				yawObject.translateX( velocity.x );
-				yawObject.translateZ( velocity.z );
-			}
-			if(yawObject.position.x>(roomWidth/2-1)) yawObject.position.x = (roomWidth/2-1);
-			if(yawObject.position.x<-(roomWidth/2-1)) yawObject.position.x = -(roomWidth/2-1);
-			if(yawObject.position.z>(roomDepth/2-1)) yawObject.position.z = (roomDepth/2-1);
-			if(yawObject.position.z<-(roomDepth/2-1)) yawObject.position.z = -(roomDepth/2-1);
-		} else {
-			yawObject.translateX( velocity.x );
-			yawObject.translateZ( velocity.z );
-		}
+		// if(room){
+		// 	if(yawObject.position.x<=(roomWidth/2-1) && yawObject.position.x>=-(roomWidth/2-1) && yawObject.position.z<=(roomDepth/2-1) && yawObject.position.z>=-(roomDepth/2-1)){
+		// 		yawObject.translateX( velocity.x );
+		// 		yawObject.translateZ( velocity.z );
+		// 	}
+		// 	if(yawObject.position.x>(roomWidth/2-1)) yawObject.position.x = (roomWidth/2-1);
+		// 	if(yawObject.position.x<-(roomWidth/2-1)) yawObject.position.x = -(roomWidth/2-1);
+		// 	if(yawObject.position.z>(roomDepth/2-1)) yawObject.position.z = (roomDepth/2-1);
+		// 	if(yawObject.position.z<-(roomDepth/2-1)) yawObject.position.z = -(roomDepth/2-1);
+		// } else {
+		// 	yawObject.translateX( velocity.x );
+		// 	yawObject.translateZ( velocity.z );
+		// }
 
 		yawObject.position.y = 1;
 
