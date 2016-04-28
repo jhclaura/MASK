@@ -403,13 +403,13 @@ function superInit()
 		loadModelGuy("models/GuySitForward.js", "models/GuySitForwardH.js", mat);
 
 	// ANI_GUY
-		// guyTexture = textureLoader.load('images/guyW.png');
-		// jsonLoader.load( "models/aniGuy.js", function( geometry ) {
-		// 	aniGuy = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { map: guyTexture, morphTargets: true } ) );
-		// 	aniGuy.position.set(3, 0.4, 14.3);
-		// 	aniGuy.rotation.y = Math.PI;
-		// 	scene.add( aniGuy );
-		// } );
+		guyTexture = textureLoader.load('images/guyW.png');
+		jsonLoader.load( "models/aniGuy.js", function( geometry ) {
+			aniGuy = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { map: guyTexture, morphTargets: true } ) );
+			aniGuy.position.set(3, 0.4, 14.3);
+			aniGuy.rotation.y = Math.PI;
+			scene.add( aniGuy );
+		} );
 
 	//
 		eyerayCaster = new THREE.Raycaster();
@@ -777,23 +777,23 @@ function myKeyPressed (event) {
 
 	switch ( event.keyCode ) {
 
-		case 49: //O --> aniGuy swing
-			standUp = false;
-			jump = false;
-			aniGuy.lookAt(camPos);
-			break;
+		// case 49: //O --> aniGuy swing
+		// 	standUp = false;
+		// 	jump = false;
+		// 	aniGuy.lookAt(camPos);
+		// 	break;
 
-		case 50: //1 --> standUp
-			standUp = true;
-			jump = false;
-			aniGuy.lookAt(camPos);
-			break;
+		// case 50: //1 --> standUp
+		// 	standUp = true;
+		// 	jump = false;
+		// 	aniGuy.lookAt(camPos);
+		// 	break;
 
-		case 51: //2 --> jump
-			standUp = false;
-			jump = true;
-			aniGuy.lookAt(camPos);
-			break;
+		// case 51: //2 --> jump
+		// 	standUp = false;
+		// 	jump = true;
+		// 	aniGuy.lookAt(camPos);
+		// 	break;
 
 		case 32: //space --> explode ROOM
 			for(var i=0; i<roomExploded.length; i++){
@@ -916,78 +916,78 @@ function update()
 	}
 
 	// ANI_GUY
-		// if(standUp) {
-		// 	downInf = false;
-		// 	upInf = false;
-		// 	animOffset = standUpOffset;
+		if(standUp) {
+			downInf = false;
+			upInf = false;
+			animOffset = standUpOffset;
 
-		// 	if(!downInf && !upInf){
-		// 		if(influcence >= 0)
-		// 			influcence -= 0.1;
-		// 		if(influcence = 0)
-		// 			downInf = true;
-		// 	}
-		// 	if(downInf && !upInf){
-		// 		if(influcence <= 1)
-		// 			influcence += 0.1;
-		// 		if(influcence = 1)
-		// 			upInf = true;
-		// 	}
-		// 	// if(animOffset <= 50)
-		// 	// 	animOffset++;
-		// } else if(jump){
+			if(!downInf && !upInf){
+				if(influcence >= 0)
+					influcence -= 0.1;
+				if(influcence = 0)
+					downInf = true;
+			}
+			if(downInf && !upInf){
+				if(influcence <= 1)
+					influcence += 0.1;
+				if(influcence = 1)
+					upInf = true;
+			}
+			// if(animOffset <= 50)
+			// 	animOffset++;
+		} else if(jump){
 
-		// 	animOffset = jumpOffset;
+			animOffset = jumpOffset;
 
-		// } else {
-		// 	downInf = false;
-		// 	upInf = false;
-		// 	animOffset = 0;
+		} else {
+			downInf = false;
+			upInf = false;
+			animOffset = 0;
 
-		// 	if(!downInf && !upInf){
-		// 		if(influcence >= 0)
-		// 			influcence -= 0.01;
-		// 		if(influcence = 0)
-		// 			downInf = true;
-		// 	}
-		// 	if(downInf && !upInf){
-		// 		if(influcence <= 1)
-		// 			influcence += 0.01;
-		// 		if(influcence = 1)
-		// 			upInf = true;
-		// 	}
+			if(!downInf && !upInf){
+				if(influcence >= 0)
+					influcence -= 0.01;
+				if(influcence = 0)
+					downInf = true;
+			}
+			if(downInf && !upInf){
+				if(influcence <= 1)
+					influcence += 0.01;
+				if(influcence = 1)
+					upInf = true;
+			}
 
-		// 	// if(animOffset >= 0)
-		// 	// 	animOffset--;
-		// }
+			// if(animOffset >= 0)
+			// 	animOffset--;
+		}
 
-		// if ( aniGuy ) {
+		if ( aniGuy ) {
 
-		// 		// Alternate morph targets
+				// Alternate morph targets
 
-		// 		// time = Date.now() % duration + animOffset;
-		// 		// keyframe = Math.floor( time / interpolation ) + 1;
-		// 		time = Date.now() % duration;
-		// 		keyframe = Math.floor( time / interpolation ) + 1 + animOffset;
-		// 		// lastKeyframe = 50;
-		// 		// currentKeyframe = 50;
+				// time = Date.now() % duration + animOffset;
+				// keyframe = Math.floor( time / interpolation ) + 1;
+				time = Date.now() % duration;
+				keyframe = Math.floor( time / interpolation ) + 1 + animOffset;
+				// lastKeyframe = 50;
+				// currentKeyframe = 50;
 
-		// 		if ( keyframe != currentKeyframe ) {
+				if ( keyframe != currentKeyframe ) {
 
-		// 			aniGuy.morphTargetInfluences[ lastKeyframe ] = 0;
-		// 			aniGuy.morphTargetInfluences[ currentKeyframe ] = 1;
-		// 			aniGuy.morphTargetInfluences[ keyframe ] = 0;
+					aniGuy.morphTargetInfluences[ lastKeyframe ] = 0;
+					aniGuy.morphTargetInfluences[ currentKeyframe ] = 1;
+					aniGuy.morphTargetInfluences[ keyframe ] = 0;
 
-		// 			lastKeyframe = currentKeyframe;
-		// 			currentKeyframe = keyframe;
+					lastKeyframe = currentKeyframe;
+					currentKeyframe = keyframe;
 
-		// 			// console.log( mesh.morphTargetInfluences );
+					// console.log( mesh.morphTargetInfluences );
 
-		// 		}
+				}
 
-		// 	// mesh.morphTargetInfluences[ keyframe ] = ( time % interpolation ) / interpolation;
-		// 	// mesh.morphTargetInfluences[ lastKeyframe ] = 1 - mesh.morphTargetInfluences[ keyframe ];
-		// }
+			// mesh.morphTargetInfluences[ keyframe ] = ( time % interpolation ) / interpolation;
+			// mesh.morphTargetInfluences[ lastKeyframe ] = 1 - mesh.morphTargetInfluences[ keyframe ];
+		}
 
 	// explode room
 		for(var i=0; i<flyWindows.length; i++){
