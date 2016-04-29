@@ -255,8 +255,8 @@ THREE.DeviceControls = function ( camera ) {
 		mouseActive = true;
 
 		yawObject.rotation.y -= movementX * 0.001;
-		pitchObject.rotation.x -= movementY * 0.001;
-		pitchObject.rotation.x = Math.max( - PI_2, Math.min( PI_2, pitchObject.rotation.x ) );
+		// pitchObject.rotation.x -= movementY * 0.001;
+		// pitchObject.rotation.x = Math.max( - PI_2, Math.min( PI_2, pitchObject.rotation.x ) );
 
 		if( !thisIsTouchDevice ){
 			var tempEuler = new THREE.Euler();
