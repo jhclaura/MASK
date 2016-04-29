@@ -33,7 +33,25 @@
 			</video>
 			<canvas id="remoteVideoImage" width="480" height="320" style="display:none"></canvas>
 
-			
+			<div id="splashPage" style="display:block; position:absolute;">
+				<h1>MASK</h1>
+				<h2>House</h1>
+				<!-- <img id="loadingImg" src="images/loadingbox.gif" width="60" height="60" style="margin:0 auto; display:block;">
+				<div id="loadingTxt" style="color:yellow">loading</div> -->
+				<img id="houseImg" src="images/logos/house.png" width="150" height="150" style="margin:0 auto; display:block;" onclick="ToStart();">
+				<a id="startLink"  onclick="ToStart();" style="font-size:1.5em;">Start</a> <!-- style="display:none;cursor:pointer" -->
+				<div id="infoStuff">
+					<div id="mobileHide" style="display:none">
+						<img id="hiveImg" src="images/logos/hive.png" width="80" height="80" style="margin:0 .5em;">
+						<img id="puppetImg" src="images/logos/puppet.png" width="80" height="80" style="margin:0 .5em;">
+						<img id="duetImg" src="images/logos/duet.png" width="80" height="80" style="margin:0 .5em;">
+						<p class="desc">A collection of virtual reality masks that explore ways to shift identity.<br/>Each masks has its own VR experience, and copes with different interaction frustration.</p>
+					</div>
+					<p class="desc">More: <a href="http://jhclaura.github.io/MASK/" target='_blank'>jhclaura.github.io/MASK</a>
+						<br>By Laura Juo-Hsin Chen | <a href="http://www.jhclaura.com/" target='_blank'>jhclaura.com</a>
+					</p>
+				</div>
+			</div>
 
 			<script type="text/javascript">
 				//device detection
@@ -74,7 +92,7 @@
 					clickDiv.appendChild(ins);
 
 					//
-					// toHide.style = "display:block";
+					toHide.style = "display:block";
 				}
 
 				// DETECT
@@ -91,8 +109,8 @@
 				var renderCanvas = byId("render-canvas");
 				var blockerDiv = byId("blocker");
 
-				// renderCanvas.style.display = "none";
-				// if(blockerDiv) blockerDiv.style.display = "none";
+				renderCanvas.style.display = "none";
+				if(blockerDiv) blockerDiv.style.display = "none";
 
 				//
 				var loadingImg = byId("loadingImg");
@@ -298,7 +316,7 @@
 				// }
 
 				function ToStart() {
-					// if (!videoGot) false;
+					if (!videoGot) false;
 
 					video.play();
 					// remote.play();
@@ -314,25 +332,6 @@
 					renderCanvas.style.display = "inline";				
 					if(blockerDiv) blockerDiv.style.display = "-webkit-box";
 					splashPage.style.display = "none";
-				}
-
-				function ToStart_v2() {
-					// if (!videoGot) false;
-
-					video.play();
-					// remote.play();
-					// remote.pause();
-
-					currentVidAmount ++;
-					console.log("me; currentVidAmount: " + currentVidAmount);
-					myVideoIsPlayed = true;
-
-					// Connect to the peer server
-					peerConnect();
-
-					renderCanvas.style.display = "inline";				
-					if(blockerDiv) blockerDiv.style.display = "-webkit-box";
-					// splashPage.style.display = "none";
 				}
 
 				function successCallback(stream) {
@@ -354,9 +353,6 @@
 					// 	// Now we can connect to the peer server
 					// 	peerConnect();
 					// // }
-
-					//
-					ToStart_v2();
 				}
 
 				function errorCallback(error){
