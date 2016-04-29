@@ -240,7 +240,7 @@ function superInit()
 	//Prevent scrolling for Mobile
 	document.body.addEventListener('touchmove', function(event) {
 	  event.preventDefault();
-	}, false); 
+	}, false);
 
 	time = Date.now();
 	clock = new THREE.Clock();
