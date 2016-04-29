@@ -1269,14 +1269,14 @@ function update()
 
 	// RELOAD!!!
 	// if(isMobile){
-	// 	if(elapsedTime/60>0.5){
-	// 		// darker the page
-	// 		renderCanvas.style.opacity = 0;
-	// 		// reload
-	// 		setTimeout(function(){
-	// 			location.reload();
-	// 		}, 2000);
-	// 	}
+		if(elapsedTime/60>10){
+			// darker the page
+			renderCanvas.style.opacity = 0;
+			// reload
+			setTimeout(function(){
+				location.reload();
+			}, 2000);
+		}
 	// }
 	
 }
