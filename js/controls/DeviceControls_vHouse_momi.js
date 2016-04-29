@@ -377,12 +377,12 @@ THREE.DeviceControls = function ( camera ) {
 		}
 		*/
 
-		for(var i=0; i<roomExploded.length; i++){
-			roomExploded[i] = !roomExploded[i];
-		}
-		for(var i=0; i<windowExploded.length; i++){
-			windowExploded[i] = !windowExploded[i];
-		}
+		// for(var i=0; i<roomExploded.length; i++){
+		// 	roomExploded[i] = !roomExploded[i];
+		// }
+		// for(var i=0; i<windowExploded.length; i++){
+		// 	windowExploded[i] = !windowExploded[i];
+		// }
 
 		// v.1
 
