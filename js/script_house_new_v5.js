@@ -379,36 +379,36 @@ function superInit()
 
 	// LAMP
 		//v.1
-		woodTexture = textureLoader.load('images/wood.png');
-		frameMat = new THREE.MeshLambertMaterial({map: woodTexture});
-		lamp = new THREE.Object3D();
+		// woodTexture = textureLoader.load('images/wood.png');
+		// frameMat = new THREE.MeshLambertMaterial({map: woodTexture});
+		// lamp = new THREE.Object3D();
 
-		geo = new THREE.TetrahedronGeometry(1.5);
-		var meshTemp = new THREE.Mesh(geo, frameMat);
-		meshTemp.rotation.x = -35 * Math.PI/180;
-		meshTemp.rotation.z = 30 * Math.PI/180;
-		meshTemp.position.y = -29.3;
-		lamp.add(meshTemp);
+		// geo = new THREE.TetrahedronGeometry(1.5);
+		// var meshTemp = new THREE.Mesh(geo, frameMat);
+		// meshTemp.rotation.x = -35 * Math.PI/180;
+		// meshTemp.rotation.z = 30 * Math.PI/180;
+		// meshTemp.position.y = -29.3;
+		// lamp.add(meshTemp);
 
-		geo = new THREE.BoxGeometry(0.2,30,0.2);
-		transY(geo, -14.5);
-		meshTemp = new THREE.Mesh(geo, frameMat);
-		lamp.add(meshTemp);
+		// geo = new THREE.BoxGeometry(0.2,30,0.2);
+		// transY(geo, -14.5);
+		// meshTemp = new THREE.Mesh(geo, frameMat);
+		// lamp.add(meshTemp);
 
-		light = new THREE.PointLight(0xffff00, 0.5, 15);
-		// light = new THREE.Object3D();
-		// geo = new THREE.SphereGeometry(0.2,6,6);
-		// transY(geo, -1);
-			glowTexture = textureLoader.load('images/glow_edit.png');
-			mat = new THREE.SpriteMaterial({map: glowTexture, color: 0xffef3b, transparent: false, blending: THREE.AdditiveBlending});
-			meshTemp = new THREE.Sprite(mat);
-			// meshTemp.position.y = -15;
-			meshTemp.scale.set(2,2,2);	//big
-		light.add(meshTemp);
-		light.position.y = -30;
-		lamp.add(light);
-		lamp.position.set(-6,30,-12);
-		scene.add(lamp);
+		// light = new THREE.PointLight(0xffff00, 0.5, 15);
+		// // light = new THREE.Object3D();
+		// // geo = new THREE.SphereGeometry(0.2,6,6);
+		// // transY(geo, -1);
+		// 	glowTexture = textureLoader.load('images/glow_edit.png');
+		// 	mat = new THREE.SpriteMaterial({map: glowTexture, color: 0xffef3b, transparent: false, blending: THREE.AdditiveBlending});
+		// 	meshTemp = new THREE.Sprite(mat);
+		// 	// meshTemp.position.y = -15;
+		// 	meshTemp.scale.set(2,2,2);	//big
+		// light.add(meshTemp);
+		// light.position.y = -30;
+		// lamp.add(light);
+		// lamp.position.set(-6,30,-12);
+		// scene.add(lamp);
 
 		//v.2
 		var textureLoader = new THREE.TextureLoader();
