@@ -21,6 +21,17 @@ body {
     position: absolute;
     top: 0;
     left: 0;
+
+    -webkit-transition: opacity 2s;
+	-moz-transition: opacity 2s;
+	-o-transition: opacity 2s;
+	-ms-transition: opacity 2s;       
+	transition: opacity 2s;
+	opacity: 1;
+
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
 }
 
 #render-canvas:-webkit-full-screen {

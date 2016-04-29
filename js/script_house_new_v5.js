@@ -326,8 +326,11 @@ function superInit()
 		scene.add( controls.getObject() );
 		console.log("controls created!");
 
-	if(isMobile)
-		window.addEventListener('click', fullscreen, false);
+	if(isMobile){
+		// window.addEventListener('click', fullscreen, false);
+		fullscreen();
+	}
+		
 
 	jsonLoader = new THREE.JSONLoader();
 	textureLoader = new THREE.TextureLoader();
@@ -1050,6 +1053,8 @@ function update()
 
 	// stats.update();
 	var dt = clock.getDelta();
+	var elapsedTime = clock.elapsedTime;
+	// console.log(elapsedTime);
 	TWEEN.update();
 
 	camPos = controls.position().clone();
@@ -1262,6 +1267,18 @@ function update()
 	//
 	time = Date.now();
 
+	// RELOAD!!!
+	if(isMobile){
+		if(elapsedTime/60>10){
+			// darker the page
+			renderCanvas.style.opacity = 0;
+			// reload
+			setTimeout(function(){
+				location.reload();
+			}, 2000);
+		}
+	}
+	
 }
 
 function render() 
