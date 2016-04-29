@@ -287,7 +287,7 @@ function superInit()
 	// SCENE_SETUP
 	scene = new THREE.Scene();
 	if(!isMobile) {
-		scene.fog = new THREE.FogExp2( 0xf1f1fb, 0.006 );
+		scene.fog = new THREE.FogExp2( 0xf1f1fb, 0.004 );
 	}
 
 	// LIGHT
@@ -333,14 +333,14 @@ function superInit()
 	textureLoader = new THREE.TextureLoader();
 
 	//TERRAIN
-		terrainMat = new THREE.MeshLambertMaterial( {color: 0xf1f1fb} );
+		terrainMat = new THREE.MeshLambertMaterial( {color: 0xc9c9f0} );
 		loadModelTerrain("models/terrain.js", terrainMat);
 	
 	//TREE
 		// var tex = textureLoader.load('images/tree.png');
 		// treeMat = new THREE.MeshLambertMaterial( {map: tex} );
 		// loadmodelTree("models/trees.js", treeMat);
-		LoadModelLambertTexture('images/tree.png', "models/trees.js");
+		LoadModelTrees('images/tree.png', "models/trees.js");
 
 	// small houses
 	// v.1
@@ -424,7 +424,9 @@ function superInit()
 
 				geo = new THREE.TetrahedronGeometry(1.5);
 				var meshTemp = new THREE.Mesh(geo, frameMat);
-				meshTemp.rotation.set(-35 * Math.PI/180, 30 * Math.PI/180, -29.3);
+				meshTemp.rotation.x = -35 * Math.PI/180;
+				meshTemp.rotation.z = 30 * Math.PI/180;
+				meshTemp.position.y = -29.3;
 				lamp.add(meshTemp);
 
 				geo = new THREE.BoxGeometry(0.2,30,0.2);
@@ -752,7 +754,7 @@ function loadModelTerrain (model, meshMat) {
 	loader.load(model, function(geometry){
 		terrain = new THREE.Mesh(geometry, meshMat);
 		scene.add(terrain);
-
+		terrain.position.y = -5;
 		loadingCountText("terrain");
 	});
 }
@@ -765,7 +767,7 @@ function loadmodelTree (model, meshMat) {
 	});
 }
 
-function LoadModelLambertTexture (tex, model) {
+function LoadModelTrees (tex, model) {
 	var texLoader = new THREE.TextureLoader();
 	var loader = new THREE.JSONLoader();
 
@@ -774,6 +776,7 @@ function LoadModelLambertTexture (tex, model) {
 
 		loader.load(model, function(geometry){
 			var meeesh = new THREE.Mesh(geometry, mat);
+			meeesh.position.y = -6;
 			scene.add(meeesh);
 		});
 	});	
@@ -1053,7 +1056,8 @@ function update()
 	camRot = controls.rotation().clone();
 
 	// lamp
-	lamp.rotation.z = sinWave.run()/2;
+	if(lamp)
+		lamp.rotation.z = sinWave.run()/2;
 
 	// guy
 	if(guyHead)
