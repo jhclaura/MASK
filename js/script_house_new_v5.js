@@ -330,20 +330,16 @@ function superInit()
 		window.addEventListener('click', fullscreen, false);
 		// fullscreen();
 	}
-		
 
 	jsonLoader = new THREE.JSONLoader();
 	textureLoader = new THREE.TextureLoader();
 
 	//TERRAIN
-		terrainMat = new THREE.MeshLambertMaterial( {color: 0xc9c9f0} );
-		loadModelTerrain("models/terrain.js", terrainMat);
+		// terrainMat = new THREE.MeshLambertMaterial( {color: 0xc9c9f0} );
+		// loadModelTerrain("models/terrain.js", terrainMat);
 	
 	//TREE
-		// var tex = textureLoader.load('images/tree.png');
-		// treeMat = new THREE.MeshLambertMaterial( {map: tex} );
-		// loadmodelTree("models/trees.js", treeMat);
-		LoadModelTrees('images/tree.png', "models/trees.js");
+		// LoadModelTrees('images/tree.png', "models/trees.js");
 
 	// small houses
 	// v.1
@@ -1084,61 +1080,61 @@ function update()
 		if(Math.random()>0.3){
 			timeoutID2 = setTimeout(function(){
 				eyeMove = false;
-			}, 5000);
+			}, 10000);
 		}else{
 			timeoutID2 = setTimeout(function(){
 				eyeMove = false;
 				// console.log("short");
-			}, 2000);
+			}, 4000);
 		}
 		eyeMove = true;
 	}
 
 	// ANI_GUY
-		if(standUp) {
-			downInf = false;
-			upInf = false;
-			animOffset = standUpOffset;
+		// if(standUp) {
+		// 	downInf = false;
+		// 	upInf = false;
+		// 	animOffset = standUpOffset;
 
-			if(!downInf && !upInf){
-				if(influcence >= 0)
-					influcence -= 0.1;
-				if(influcence = 0)
-					downInf = true;
-			}
-			if(downInf && !upInf){
-				if(influcence <= 1)
-					influcence += 0.1;
-				if(influcence = 1)
-					upInf = true;
-			}
-			// if(animOffset <= 50)
-			// 	animOffset++;
-		} else if(jump){
+		// 	if(!downInf && !upInf){
+		// 		if(influcence >= 0)
+		// 			influcence -= 0.1;
+		// 		if(influcence = 0)
+		// 			downInf = true;
+		// 	}
+		// 	if(downInf && !upInf){
+		// 		if(influcence <= 1)
+		// 			influcence += 0.1;
+		// 		if(influcence = 1)
+		// 			upInf = true;
+		// 	}
+		// 	// if(animOffset <= 50)
+		// 	// 	animOffset++;
+		// } else if(jump){
 
-			animOffset = jumpOffset;
+		// 	animOffset = jumpOffset;
 
-		} else {
-			downInf = false;
-			upInf = false;
-			animOffset = 0;
+		// } else {
+		// 	downInf = false;
+		// 	upInf = false;
+		// 	animOffset = 0;
 
-			if(!downInf && !upInf){
-				if(influcence >= 0)
-					influcence -= 0.01;
-				if(influcence = 0)
-					downInf = true;
-			}
-			if(downInf && !upInf){
-				if(influcence <= 1)
-					influcence += 0.01;
-				if(influcence = 1)
-					upInf = true;
-			}
+		// 	if(!downInf && !upInf){
+		// 		if(influcence >= 0)
+		// 			influcence -= 0.01;
+		// 		if(influcence = 0)
+		// 			downInf = true;
+		// 	}
+		// 	if(downInf && !upInf){
+		// 		if(influcence <= 1)
+		// 			influcence += 0.01;
+		// 		if(influcence = 1)
+		// 			upInf = true;
+		// 	}
 
-			// if(animOffset >= 0)
-			// 	animOffset--;
-		}
+		// 	// if(animOffset >= 0)
+		// 	// 	animOffset--;
+		// }
 
 		// if ( aniGuy ) {
 
