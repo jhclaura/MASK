@@ -399,13 +399,13 @@ THREE.DeviceControls = function ( camera ) {
 		// }
 
 		//v.2
-		// var msg = {
-		// 	'type': 'touch',
-		// 	'from': whoIamInMask
-		// };
-		// if(ws){
-		// 	sendMessage( JSON.stringify(msg) );
-		// }
+			// var msg = {
+			// 	'type': 'touch',
+			// 	'from': whoIamInMask
+			// };
+			// if(ws){
+			// 	sendMessage( JSON.stringify(msg) );
+			// }
 
 
 		if(event.touches.length==2){

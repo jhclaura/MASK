@@ -36,7 +36,9 @@
 			<div id="splashPage" style="display:block; position:absolute;">
 				<h1>MASK</h1>
 				<h2>House</h1>
-				<a id="startLink" onclick="ToStart();">Start</a>
+				<!-- <img id="loadingImg" src="images/loadingbox.gif" width="60" height="60" style="margin:0 auto; display:block;">
+				<div id="loadingTxt" style="color:yellow">loading</div> -->
+				<a id="startLink"  onclick="ToStart();">Start</a> <!-- style="display:none;cursor:pointer" -->
 			</div>
 
 			<script type="text/javascript">
@@ -92,6 +94,12 @@
 
 				renderCanvas.style.display = "none";
 				if(blockerDiv) blockerDiv.style.display = "none";
+
+				//
+				var loadingImg = byId("loadingImg");
+				var loadingTxt = byId("loadingTxt");
+				var startLink = byId("startLink");
+				var readyToStart = false;
 
 				/* reference on codes of Shawn Van Every*/
 				/* source: http://itp.nyu.edu/~sve204/liveweb_fall2014/week5.html */
@@ -342,15 +350,15 @@
 				var peerConnect = function() {			
 					/* WebRTC - Peer.js */
 						
-					// Register for an API Key for PeerJS cloud server	
-					// peer = new Peer({key: 'k625glo5j67xpqfr'});	//Laura's key
+					// PeerJS cloud server	
+					// peer = new Peer({key: 'k625glo5j67xpqfr'});	//Laura's API key
 
 					var idd = ID();
-
 					// peer = new Peer( ID(), { host: '192.168.1.4', port: 5000, path:'/pp'} );
 					// peer = new Peer( ID(), { host: 'liveweb.itp.io', port: 9001, path:'/'} );
 					// peer = new Peer( ID(), { host: 'peer.laurachen.xyz', port: 5000, path:'/api'} );
 
+					// LAURA_PEER_SERVER!!
 					peer = new Peer( ID(), { host: 'peer.laurachen.xyz', port: 5000, path:'/'} );
 
 
@@ -646,6 +654,6 @@
 			<script type="text/javascript" src="js/wave.js"></script>
 			<script type="text/javascript" src="js/sample.js"></script>
 			<script type="text/javascript" src="js/jsfeat-min.js"></script>
-			<script type="text/javascript" src="js/script_house_new_v4.js"></script>
+			<script type="text/javascript" src="js/script_house_new_v5.js"></script>
 	</body>
 </html>
