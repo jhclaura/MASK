@@ -67,7 +67,7 @@ wss.on('connection', function(ws){
 
 				socketHandlers(ws, msg);
 
-				thisId--;
+				// thisId--;
 
 				break;
 			}
