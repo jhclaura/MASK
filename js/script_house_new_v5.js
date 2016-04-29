@@ -1265,7 +1265,7 @@ function update()
 
 	// RELOAD!!!
 	if(isMobile){
-		if(clock.elapsedTime/60>0.5){
+		if(clock.elapsedTime/60>10){
 			// darker the page
 			renderCanvas.style.opacity = 0;
 			// reload
