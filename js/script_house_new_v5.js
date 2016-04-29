@@ -328,7 +328,7 @@ function superInit()
 
 	if(isMobile){
 		window.addEventListener('click', fullscreen, false);
-		fullscreen();
+		// fullscreen();
 	}
 		
 
@@ -1053,7 +1053,7 @@ function update()
 
 	// stats.update();
 	var dt = clock.getDelta();
-	var elapsedTime = clock.elapsedTime;
+	// var elapsedTime = clock.elapsedTime;
 	// console.log(elapsedTime);
 	TWEEN.update();
 
