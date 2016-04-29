@@ -41,10 +41,12 @@
 				<img id="houseImg" src="images/logos/house.png" width="150" height="150" style="margin:0 auto; display:block;" onclick="ToStart();">
 				<a id="startLink"  onclick="ToStart();" style="font-size:1.5em;">Start</a> <!-- style="display:none;cursor:pointer" -->
 				<div id="infoStuff">
-					<img id="hiveImg" src="images/logos/hive.png" width="80" height="80" style="margin:0 .5em;">
-					<img id="puppetImg" src="images/logos/puppet.png" width="80" height="80" style="margin:0 .5em;">
-					<img id="duetImg" src="images/logos/duet.png" width="80" height="80" style="margin:0 .5em;">
-					<p class="desc">A collection of virtual reality masks that explore ways to shift identity.<br/>Each masks has its own VR experience, and copes with different interaction frustration.</p>
+					<div id="mobileHide" style="display:none">
+						<img id="hiveImg" src="images/logos/hive.png" width="80" height="80" style="margin:0 .5em;">
+						<img id="puppetImg" src="images/logos/puppet.png" width="80" height="80" style="margin:0 .5em;">
+						<img id="duetImg" src="images/logos/duet.png" width="80" height="80" style="margin:0 .5em;">
+						<p class="desc">A collection of virtual reality masks that explore ways to shift identity.<br/>Each masks has its own VR experience, and copes with different interaction frustration.</p>
+					</div>
 					<p class="desc">More: <a href="http://jhclaura.github.io/MASK/" target='_blank'>jhclaura.github.io/MASK</a>
 						<br>By Laura Juo-Hsin Chen | <a href="http://www.jhclaura.com/" target='_blank'>jhclaura.com</a>
 					</p>
@@ -71,6 +73,8 @@
 					whichMobile = "iOS_mobile";
 				}
 
+				var toHide = byId("mobileHide");
+
 				// if it's desktop, create click.gif div for PointerlockAPI
 				if( !isMobile ) {
 					var clickDiv = document.createElement('div');
@@ -86,6 +90,9 @@
 					ins.id = "instructions";
 					ins.appendChild(fingerImg);
 					clickDiv.appendChild(ins);
+
+					//
+					toHide.style = "display:block";
 				}
 
 				// DETECT
