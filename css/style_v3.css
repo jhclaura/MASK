@@ -1,0 +1,145 @@
+@font-face {
+	font-family: StupidFont;
+		src: url(../font/Stupid.ttf);
+}
+html{
+     background-color: #000000 !important;
+}
+
+body {
+	width: 100%;
+	height: 100%;
+	background-color: #000000;
+	margin: 0;
+	overflow: hidden;
+	font-family: StupidFont;
+}
+
+#render-canvas {
+    width: 100% !important;
+    height: 100% !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#render-canvas:-webkit-full-screen {
+    background-color: black !important;
+}
+
+#insert-data {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #000000;
+    z-index: 100;
+    padding-top: 20%;
+    text-align:center;
+}
+
+#messagesDiv {
+    position: absolute;
+	width: 20%;
+	height: 100%;
+}
+
+#blocker {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+#instructions {
+	width: 100%;
+	height: 100%;
+	color: black;
+
+	-webkit-box-orient: horizontal;
+	-moz-box-orient: horizontal;
+	box-orient: horizontal;
+
+	-webkit-box-pack: center;
+	-moz-box-pack: center;
+	box-pack: center;
+
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	box-align: center;
+
+	text-align: center;
+	cursor: pointer;
+}
+
+#instructions:before {
+  content: ' ';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+#instructions img {
+  vertical-align: middle;
+  display: inline-block;
+  opacity: 0.9;
+}
+
+.select {
+	color: #ffffff;
+	position: absolute;
+	top: 10px;
+	text-align: center;
+	z-index: 10000000000;
+	display:block;
+}
+
+#info {
+	color: #ffffff;
+	position: absolute;
+	top: 10px;
+	width: 100%;
+	text-align: center;
+	z-index: 100;
+	display:block;
+}
+
+a {
+	color: #00ffff;
+}
+
+h1 {
+	font-size: 3em;
+}
+h2 {
+	font-size: 2em;
+}
+
+.desc {
+	font-size: 1.2em;
+	line-height: 1.1em;
+}
+
+#infoStuff {
+	position: absolute;
+	left:0; right:0; bottom:.5em;
+	font-size:19px;
+}
+
+#splashPage {
+	/*position: absolute;*/
+	left:0; right:0; top:0; bottom:0;
+	margin: auto;
+	padding: 2em;	
+	line-height: 26px;
+	text-align:center;
+	color: #ffffff;
+
+	font-size:16pt;
+	background: url("../images/chalkboard.jpg") no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	/*background-repeat: repeat;*/
+}
