@@ -1270,7 +1270,7 @@ function update()
 			renderCanvas.style.opacity = 0;
 			// reload
 			setTimeout(function(){
-				location.reload();
+				location.reload(true);	// page to always be reloaded from the server. 
 			}, 2000);
 		}
 	// }
