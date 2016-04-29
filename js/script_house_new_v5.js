@@ -478,17 +478,17 @@ function superInit()
 		// } );
 
 		//v.2
-		var textureLoader = new THREE.TextureLoader();
-		textureLoader.load('images/guyW.png', function(texture){
-			guyTexture = texture;
-			var loader = new THREE.JSONLoader();
-			loader.load( "models/aniGuy.js", function( geometry ) {
-				aniGuy = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { map: guyTexture, morphTargets: true } ) );
-				aniGuy.position.set(3, 0.4, 14.3);
-				aniGuy.rotation.y = Math.PI;
-				scene.add( aniGuy );
-			} );
-		});
+		// var textureLoader = new THREE.TextureLoader();
+		// textureLoader.load('images/guyW.png', function(texture){
+		// 	guyTexture = texture;
+		// 	var loader = new THREE.JSONLoader();
+		// 	loader.load( "models/aniGuy.js", function( geometry ) {
+		// 		aniGuy = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { map: guyTexture, morphTargets: true } ) );
+		// 		aniGuy.position.set(3, 0.4, 14.3);
+		// 		aniGuy.rotation.y = Math.PI;
+		// 		scene.add( aniGuy );
+		// 	} );
+		// });
 		
 	//
 		eyerayCaster = new THREE.Raycaster();
@@ -1140,33 +1140,33 @@ function update()
 			// 	animOffset--;
 		}
 
-		if ( aniGuy ) {
+		// if ( aniGuy ) {
 
-				// Alternate morph targets
+		// 		// Alternate morph targets
 
-				// time = Date.now() % duration + animOffset;
-				// keyframe = Math.floor( time / interpolation ) + 1;
-				time = Date.now() % duration;
-				keyframe = Math.floor( time / interpolation ) + 1 + animOffset;
-				// lastKeyframe = 50;
-				// currentKeyframe = 50;
+		// 		// time = Date.now() % duration + animOffset;
+		// 		// keyframe = Math.floor( time / interpolation ) + 1;
+		// 		time = Date.now() % duration;
+		// 		keyframe = Math.floor( time / interpolation ) + 1 + animOffset;
+		// 		// lastKeyframe = 50;
+		// 		// currentKeyframe = 50;
 
-				if ( keyframe != currentKeyframe ) {
+		// 		if ( keyframe != currentKeyframe ) {
 
-					aniGuy.morphTargetInfluences[ lastKeyframe ] = 0;
-					aniGuy.morphTargetInfluences[ currentKeyframe ] = 1;
-					aniGuy.morphTargetInfluences[ keyframe ] = 0;
+		// 			aniGuy.morphTargetInfluences[ lastKeyframe ] = 0;
+		// 			aniGuy.morphTargetInfluences[ currentKeyframe ] = 1;
+		// 			aniGuy.morphTargetInfluences[ keyframe ] = 0;
 
-					lastKeyframe = currentKeyframe;
-					currentKeyframe = keyframe;
+		// 			lastKeyframe = currentKeyframe;
+		// 			currentKeyframe = keyframe;
 
-					// console.log( mesh.morphTargetInfluences );
+		// 			// console.log( mesh.morphTargetInfluences );
 
-				}
+		// 		}
 
-			// mesh.morphTargetInfluences[ keyframe ] = ( time % interpolation ) / interpolation;
-			// mesh.morphTargetInfluences[ lastKeyframe ] = 1 - mesh.morphTargetInfluences[ keyframe ];
-		}
+		// 	// mesh.morphTargetInfluences[ keyframe ] = ( time % interpolation ) / interpolation;
+		// 	// mesh.morphTargetInfluences[ lastKeyframe ] = 1 - mesh.morphTargetInfluences[ keyframe ];
+		// }
 
 	// explode room
 		for(var i=0; i<flyWindows.length; i++){
@@ -1269,7 +1269,7 @@ function update()
 
 	// RELOAD!!!
 	// if(isMobile){
-	// 	if(elapsedTime/60>10){
+	// 	if(elapsedTime/60>0.5){
 	// 		// darker the page
 	// 		renderCanvas.style.opacity = 0;
 	// 		// reload
