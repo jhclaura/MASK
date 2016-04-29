@@ -1264,7 +1264,7 @@ function update()
 	time = Date.now();
 
 	// RELOAD!!!
-	if(isMobile){
+	// if(isMobile){
 		if(clock.elapsedTime/60>10){
 			// darker the page
 			renderCanvas.style.opacity = 0;
@@ -1273,7 +1273,7 @@ function update()
 				location.reload();
 			}, 2000);
 		}
-	}
+	// }
 	
 }
 
