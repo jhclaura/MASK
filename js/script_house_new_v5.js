@@ -823,9 +823,9 @@ function loadmodelHouse_v2 (tex, texB, model, modelB) {
 	texLoaderB.load( texB, function(textureB){
 		var mat = new THREE.MeshBasicMaterial( {map: textureB} );
 		loaderB.load(modelB, function(geometryB){
-			houseLocal = new THREE.Mesh(geometryB, mat);
-			houseLocal.position.z = -50;
-			scene.add(houseLocal);			
+			houseRemote = new THREE.Mesh(geometryB, mat);
+			houseRemote.position.z = 50;
+			scene.add(houseRemote);			
 		});
 	});	
 }
