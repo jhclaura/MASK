@@ -327,7 +327,7 @@ function superInit()
 		console.log("controls created!");
 
 	if(isMobile){
-		// window.addEventListener('click', fullscreen, false);
+		window.addEventListener('click', fullscreen, false);
 		fullscreen();
 	}
 		
