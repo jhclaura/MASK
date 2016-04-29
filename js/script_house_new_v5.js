@@ -1056,7 +1056,8 @@ function update()
 	lamp.rotation.z = sinWave.run()/2;
 
 	// guy
-	guyPicAnimator.updateLaura( 300*dt );
+	if(guyPicAnimator)
+		guyPicAnimator.updateLaura( 300*dt );
 
 	// if(guyHead)
 	// 	guyHead.lookAt(camPos);
