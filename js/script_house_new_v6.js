@@ -25,12 +25,12 @@ var element = document.body;
 			if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
 				console.log("enable pointerControls");
 
-				controls.enabled = true;
+				// controls.enabled = true;
 				blocker.style.display = 'none';
 
 			} else {
 
-				controls.enabled = false;
+				// controls.enabled = false;
 				blocker.style.display = '-webkit-box';
 				blocker.style.display = '-moz-box';
 				blocker.style.display = 'box';
@@ -63,7 +63,7 @@ var element = document.body;
 		// Ask the browser to lock the pointer
 		element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
 
-		controls.enabled = true;
+		// controls.enabled = true;
 
 		fullscreen();
 
