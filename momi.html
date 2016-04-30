@@ -530,6 +530,7 @@
 						// }
 
 						if(data.type == 'addNewPlayer'){
+
 							// NEW_PLAYER_JOIN
 							// EVERY_NEW_WINDOW_OPEN
 							// IF NOT ME && PROCESSED BY SERVER
@@ -557,6 +558,8 @@
 										video.pause();
 										video.src = window.URL.createObjectURL(remoteStream) || remoteStream;
 										video.play();
+										
+										currentVidAmount++;
 									}
 								});												
 							}
