@@ -618,6 +618,11 @@
 						// 	}
 						// }
 
+						if(data.type == 'removePlayer' && data.removeID != whoIamInMask){
+							console.log("player #" + data.removeID + " left.");
+							currentVidAmount--;
+						}
+
 					}
 				    socketOpened = true;
 				};
@@ -677,6 +682,6 @@
 			<script type="text/javascript" src="js/wave.js"></script>
 			<script type="text/javascript" src="js/sample.js"></script>
 			<script type="text/javascript" src="js/jsfeat-min.js"></script>
-			<script type="text/javascript" src="js/script_house_new_v5.js"></script>
+			<script type="text/javascript" src="js/script_house_new_v6.js"></script>
 	</body>
 </html>
